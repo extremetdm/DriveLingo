@@ -1,4 +1,9 @@
+[Bb]in/
+[Oo]bj/
+packages/
+
 # VS Code files
+.vs/
 .vscode/
 
 # MacOS system files
