@@ -7,9 +7,9 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
 
-namespace WAPP_Assignment
+namespace DriveLingo
 {
-    public class Global : HttpApplication
+    public partial class Global : HttpApplication
     {
         void Application_Start(object sender, EventArgs e)
         {

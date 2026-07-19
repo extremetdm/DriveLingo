@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace WAPP_Assignment
+namespace DriveLingo
 {
     public partial class Contact : Page
     {

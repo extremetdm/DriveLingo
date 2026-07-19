@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="WAPP_Assignment.Global" Language="C#" %>
+﻿<%@ Application CodeFile="Global.asax.cs" Inherits="DriveLingo.Global" Language="C#" %>

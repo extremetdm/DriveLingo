@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WAPP_Assignment {
+namespace DriveLingo {
     
     
     public partial class ViewSwitcher {
