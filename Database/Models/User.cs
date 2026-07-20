@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DriveLingo.Services;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DriveLingo.Database.Models
 {
@@ -18,16 +20,17 @@ namespace DriveLingo.Database.Models
         [Required]
         public UserRole Role { get; set; }
 
-        [Required]
         [StringLength(100)]
+        [Index(IsUnique = true)]
         public string Username { get; set; }
-        
-        [Required]
+
+        //[Required]
         [EmailAddress]
         [StringLength(256)]
+        [Index(IsUnique = true)]
         public string Email { get; set; }
 
-        [Required]
+        //[Required]
         [StringLength(100)]
         public string Password { get; set; }
 
@@ -39,5 +42,7 @@ namespace DriveLingo.Database.Models
 
         public DateTime RegisteredAt { get; set; }
 
+        [NotMapped]
+        public int CurrentLevel => LevelingService.CalculateCurrentLevel(XP);
     }
 }
