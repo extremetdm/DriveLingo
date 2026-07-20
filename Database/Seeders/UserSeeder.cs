@@ -11,6 +11,7 @@ namespace DriveLingo.Database.Seeders
         public static void Run(AppDbContext context)
         {
             context.Users.AddOrUpdate(
+                u => u.Username,
                 new User
                 {
                     Role = User.UserRole.Admin,

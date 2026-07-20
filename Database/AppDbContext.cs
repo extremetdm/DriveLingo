@@ -10,5 +10,7 @@ namespace DriveLingo.Database
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Module> Modules { get; set; }
+        public DbSet<Lesson> Lessons { get; set; }
     }
 }

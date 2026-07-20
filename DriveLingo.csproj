@@ -230,7 +230,15 @@
     <Compile Include="Database\Migrations\202607201409053_EditRequiredFieldsInUsersTable.Designer.cs">
       <DependentUpon>202607201409053_EditRequiredFieldsInUsersTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\Migrations\202607201423464_AddLearningMaterials.cs" />
+    <Compile Include="Database\Migrations\202607201423464_AddLearningMaterials.Designer.cs">
+      <DependentUpon>202607201423464_AddLearningMaterials.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Models\Lesson.cs" />
+    <Compile Include="Database\Models\Module.cs" />
     <Compile Include="Database\Models\User.cs" />
+    <Compile Include="Database\Seeders\LessonSeeder.cs" />
+    <Compile Include="Database\Seeders\ModuleSeeder.cs" />
     <Compile Include="Database\Seeders\UserSeeder.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -289,6 +297,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202607201409053_EditRequiredFieldsInUsersTable.resx">
       <DependentUpon>202607201409053_EditRequiredFieldsInUsersTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607201423464_AddLearningMaterials.resx">
+      <DependentUpon>202607201423464_AddLearningMaterials.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

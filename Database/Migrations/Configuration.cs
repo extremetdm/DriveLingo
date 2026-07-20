@@ -18,6 +18,8 @@ namespace DriveLingo.Database.Migrations
         protected override void Seed(AppDbContext context)
         {
             UserSeeder.Run(context);
+            ModuleSeeder.Run(context);
+            LessonSeeder.Run(context);
 
             context.SaveChanges();
         }
