@@ -1,4 +1,5 @@
-﻿using DriveLingo.Services;
+﻿using DriveLingo.Database.Models.Traits;
+using DriveLingo.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DriveLingo.Database.Models
 {
-    public class User
+    public class User: Timestamps
     {
         public enum UserRole
         {
@@ -39,11 +40,12 @@ namespace DriveLingo.Database.Models
         public int XP { get; set; } = 0;
 
         [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public int Points { get; set; } = 0;
 
         public DateTime RegisteredAt { get; set; }
 
         public virtual ICollection<ForumPost> ForumPosts { get; set; } = new HashSet<ForumPost> { };
+        public virtual ICollection<ShopRedemption> ShopRedemptions { get; set; } = new HashSet<ShopRedemption> { };
 
         [NotMapped]
         public int CurrentLevel => LevelingService.CalculateCurrentLevel(XP);

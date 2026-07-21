@@ -7,7 +7,8 @@ using System.Web;
 
 namespace DriveLingo.Database.Models
 {
-    public class ForumPost
+    using Traits;
+    public class ForumPost: Timestamps
     {
         public int Id { get; set; }
 
@@ -32,8 +33,5 @@ namespace DriveLingo.Database.Models
         public virtual ForumPost ReplyingPost { get; set; }
 
         public virtual ICollection<ForumPost> Replies { get; set; } = new HashSet<ForumPost>();
-
-        [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }

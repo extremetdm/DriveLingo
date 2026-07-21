@@ -32,5 +32,8 @@ namespace DriveLingo.Database
         public DbSet<QuizAttemptAnswer> QuizAttemptAnswers { get; set; }
 
         public DbSet<ForumPost> ForumPosts { get; set; }
+
+        public DbSet<ShopItem> ShopItems { get; set; }
+        public DbSet<ShopRedemption> ShopRedemptions { get; set; }
     }
 }

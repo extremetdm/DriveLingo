@@ -251,6 +251,10 @@
     <Compile Include="Database\Migrations\202607210255533_AddQuizzes.Designer.cs">
       <DependentUpon>202607210255533_AddQuizzes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\Migrations\202607210323470_AddShop.cs" />
+    <Compile Include="Database\Migrations\202607210323470_AddShop.Designer.cs">
+      <DependentUpon>202607210323470_AddShop.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database\Models\ForumPost.cs" />
     <Compile Include="Database\Models\Lesson.cs" />
     <Compile Include="Database\Models\Module.cs" />
@@ -259,6 +263,9 @@
     <Compile Include="Database\Models\Quiz.cs" />
     <Compile Include="Database\Models\QuizAttempt.cs" />
     <Compile Include="Database\Models\QuizAttemptAnswer.cs" />
+    <Compile Include="Database\Models\ShopItem.cs" />
+    <Compile Include="Database\Models\ShopRedemption.cs" />
+    <Compile Include="Database\Models\Traits\Timestamps.cs" />
     <Compile Include="Database\Models\User.cs" />
     <Compile Include="Database\Seeders\ForumPostSeeder.cs" />
     <Compile Include="Database\Seeders\LessonSeeder.cs" />
@@ -330,6 +337,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202607210255533_AddQuizzes.resx">
       <DependentUpon>202607210255533_AddQuizzes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607210323470_AddShop.resx">
+      <DependentUpon>202607210323470_AddShop.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

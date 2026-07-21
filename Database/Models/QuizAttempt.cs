@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DriveLingo.Database.Models.Traits;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Web;
 
 namespace DriveLingo.Database.Models
 {
-    public class QuizAttempt
+    public class QuizAttempt: Timestamps
     {
         [Key]
         public int Id { get; set; }
@@ -21,9 +22,6 @@ namespace DriveLingo.Database.Models
 
 
         public int Score { get; set; }
-
-        [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public DateTime CompletedAt { get; set; }
 
