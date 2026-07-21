@@ -243,9 +243,24 @@
     <Compile Include="Database\Migrations\202607201423464_AddLearningMaterials.Designer.cs">
       <DependentUpon>202607201423464_AddLearningMaterials.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\Migrations\202607210135289_AddForumPosts.cs" />
+    <Compile Include="Database\Migrations\202607210135289_AddForumPosts.Designer.cs">
+      <DependentUpon>202607210135289_AddForumPosts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\202607210255533_AddQuizzes.cs" />
+    <Compile Include="Database\Migrations\202607210255533_AddQuizzes.Designer.cs">
+      <DependentUpon>202607210255533_AddQuizzes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Models\ForumPost.cs" />
     <Compile Include="Database\Models\Lesson.cs" />
     <Compile Include="Database\Models\Module.cs" />
+    <Compile Include="Database\Models\Question.cs" />
+    <Compile Include="Database\Models\QuestionChoice.cs" />
+    <Compile Include="Database\Models\Quiz.cs" />
+    <Compile Include="Database\Models\QuizAttempt.cs" />
+    <Compile Include="Database\Models\QuizAttemptAnswer.cs" />
     <Compile Include="Database\Models\User.cs" />
+    <Compile Include="Database\Seeders\ForumPostSeeder.cs" />
     <Compile Include="Database\Seeders\LessonSeeder.cs" />
     <Compile Include="Database\Seeders\ModuleSeeder.cs" />
     <Compile Include="Database\Seeders\UserSeeder.cs" />
@@ -309,6 +324,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202607201423464_AddLearningMaterials.resx">
       <DependentUpon>202607201423464_AddLearningMaterials.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607210135289_AddForumPosts.resx">
+      <DependentUpon>202607210135289_AddForumPosts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607210255533_AddQuizzes.resx">
+      <DependentUpon>202607210255533_AddQuizzes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

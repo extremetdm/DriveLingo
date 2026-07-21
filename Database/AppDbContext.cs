@@ -9,9 +9,27 @@ namespace DriveLingo.Database
         {
         }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Disable cascade delete between Quiz and QuizAttempt
+            modelBuilder.Entity<QuizAttempt>()
+                .HasRequired(qa => qa.Quiz)
+                .WithMany(q => q.Attempts)
+                .HasForeignKey(qa => qa.QuizId)
+                .WillCascadeOnDelete(false); 
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
+
+        public DbSet<Quiz> Quizzes { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<QuestionChoice> QuestionChoices { get; set; }
+        public DbSet<QuizAttempt> QuizAttempts { get; set; }
+        public DbSet<QuizAttemptAnswer> QuizAttemptAnswers { get; set; }
 
         public DbSet<ForumPost> ForumPosts { get; set; }
     }
