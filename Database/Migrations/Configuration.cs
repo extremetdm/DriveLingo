@@ -20,6 +20,7 @@ namespace DriveLingo.Database.Migrations
             UserSeeder.Run(context);
             ModuleSeeder.Run(context);
             LessonSeeder.Run(context);
+            ForumPostSeeder.Run(context);
 
             context.SaveChanges();
         }

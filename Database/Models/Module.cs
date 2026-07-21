@@ -18,6 +18,6 @@ namespace DriveLingo.Database.Models
         [StringLength(256)]
         public string Description { get; set; }
 
-        public virtual ICollection<Lesson> Lessons { get; set; }
+        public virtual ICollection<Lesson> Lessons { get; set; } = new HashSet<Lesson>();
     }
 }

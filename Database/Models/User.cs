@@ -43,6 +43,8 @@ namespace DriveLingo.Database.Models
 
         public DateTime RegisteredAt { get; set; }
 
+        public virtual ICollection<ForumPost> ForumPosts { get; set; } = new HashSet<ForumPost> { };
+
         [NotMapped]
         public int CurrentLevel => LevelingService.CalculateCurrentLevel(XP);
     }
