@@ -17,7 +17,6 @@ namespace DriveLingo
         {
             // Code that runs on application startup
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
         protected void Application_PostAuthenticateRequest(object sender, EventArgs e)
