@@ -122,22 +122,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Admin\About.aspx" />
+    <Content Include="Admin.aspx" />
+    <Content Include="css\styles.css" />
     <Content Include="Default.aspx" />
+    <Content Include="Educator.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="Admin\Web.config" />
+    <Content Include="uploads\expressway_sign.svg" />
+    <Content Include="uploads\no_entry.svg" />
+    <Content Include="uploads\sign_20eeac0d.jpg" />
+    <Content Include="uploads\speed_limit_110.svg" />
+    <Content Include="uploads\warning_curve.svg" />
     <Content Include="Web.config" />
+    <Content Include="Register.aspx" />
+    <Content Include="Profile.aspx" />
+    <Content Include="Login.aspx" />
+    <Content Include="Learner.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Admin\About.aspx.cs">
-      <DependentUpon>About.aspx</DependentUpon>
+    <Compile Include="Admin.aspx.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\About.aspx.designer.cs">
-      <DependentUpon>About.aspx</DependentUpon>
+    <Compile Include="Admin.aspx.designer.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
     </Compile>
-    <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Database\Seeders\ShopItemSeeder.cs" />
+    <Compile Include="Data\AppStateRepository.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -145,6 +154,20 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Educator.aspx.cs">
+      <DependentUpon>Educator.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Educator.aspx.designer.cs">
+      <DependentUpon>Educator.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Discussion.cs" />
+    <Compile Include="Models\Material.cs" />
+    <Compile Include="Models\Quiz.cs" />
+    <Compile Include="Models\StoreItem.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Database\Seeders\ShopItemSeeder.cs" />
     <Compile Include="Database\Migrations\202607191207126_AddUsersTable.cs" />
     <Compile Include="Database\Migrations\202607191207126_AddUsersTable.Designer.cs">
       <DependentUpon>202607191207126_AddUsersTable.cs</DependentUpon>
@@ -195,12 +218,48 @@
     <Compile Include="Services\LevelingService.cs" />
     <Compile Include="Services\ServiceStatusOutput.cs" />
     <Compile Include="Services\ShopService.cs" />
+    <Compile Include="Register.aspx.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Register.aspx.designer.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Profile.aspx.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile.aspx.designer.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Site.Master.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.Master.designer.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Learner.aspx.cs">
+      <DependentUpon>Learner.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Learner.aspx.designer.cs">
+      <DependentUpon>Learner.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Site.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

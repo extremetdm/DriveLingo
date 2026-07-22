@@ -1,0 +1,177 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Master.cs" Inherits="DriveLingo.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DriveLingo | JPJ Driving Theory Exam Simulator</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
+</head>
+<body>
+  <form id="form1" runat="server">
+    <div id="divAppContainer" runat="server" class="app-layout">
+      
+      <!-- Collapsible Sidebar Navigation Panel -->
+      <aside class="sidebar" id="appSidebar" runat="server">
+        <div>
+          <div class="brand">
+            <span class="brand-icon">🚗</span>
+            <span>DriveLingo</span>
+          </div>
+          
+          <!-- Role-Based Navigation Menu -->
+          <nav class="nav-menu">
+            <!-- Candidate / Learner Menu -->
+            <asp:PlaceHolder ID="phLearnerNav" runat="server" Visible="false">
+              <asp:HyperLink runat="server" NavigateUrl="~/Learner.aspx?tab=dashboard" CssClass="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+              </asp:HyperLink>
+              <asp:HyperLink runat="server" NavigateUrl="~/Learner.aspx?tab=exam" CssClass="nav-item">
+                <span class="nav-icon">✍️</span>
+                <span>Quiz</span>
+              </asp:HyperLink>
+              <asp:HyperLink runat="server" NavigateUrl="~/Learner.aspx?tab=materials" CssClass="nav-item">
+                <span class="nav-icon">📚</span>
+                <span>Learning Material</span>
+              </asp:HyperLink>
+              <asp:HyperLink runat="server" NavigateUrl="~/Learner.aspx?tab=simulation" CssClass="nav-item">
+                <span class="nav-icon">🏎️</span>
+                <span>Simulation</span>
+              </asp:HyperLink>
+              <asp:HyperLink runat="server" NavigateUrl="~/Learner.aspx?tab=store" CssClass="nav-item">
+                <span class="nav-icon">🛒</span>
+                <span>Store</span>
+              </asp:HyperLink>
+              <asp:HyperLink runat="server" NavigateUrl="~/Learner.aspx?tab=achievements" CssClass="nav-item">
+                <span class="nav-icon">🏆</span>
+                <span>Achievements</span>
+              </asp:HyperLink>
+              <asp:HyperLink runat="server" NavigateUrl="~/Learner.aspx?tab=forum" CssClass="nav-item">
+                <span class="nav-icon">💬</span>
+                <span>Forum</span>
+              </asp:HyperLink>
+            </asp:PlaceHolder>
+
+            <!-- Educator Menu -->
+            <asp:PlaceHolder ID="phEducatorNav" runat="server" Visible="false">
+              <asp:HyperLink runat="server" NavigateUrl="~/Educator.aspx?tab=dashboard" CssClass="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+              </asp:HyperLink>
+              <asp:HyperLink runat="server" NavigateUrl="~/Educator.aspx?tab=quizzes" CssClass="nav-item">
+                <span class="nav-icon">✍️</span>
+                <span>CRUD Quiz</span>
+              </asp:HyperLink>
+              <asp:HyperLink runat="server" NavigateUrl="~/Educator.aspx?tab=forum" CssClass="nav-item">
+                <span class="nav-icon">💬</span>
+                <span>Forum</span>
+              </asp:HyperLink>
+              <asp:HyperLink runat="server" NavigateUrl="~/Educator.aspx?tab=reports" CssClass="nav-item">
+                <span class="nav-icon">📈</span>
+                <span>Learner Report</span>
+              </asp:HyperLink>
+            </asp:PlaceHolder>
+
+            <!-- Admin Menu -->
+            <asp:PlaceHolder ID="phAdminNav" runat="server" Visible="false">
+              <asp:HyperLink runat="server" NavigateUrl="~/Admin.aspx?tab=dashboard" CssClass="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+              </asp:HyperLink>
+              <asp:HyperLink runat="server" NavigateUrl="~/Admin.aspx?tab=users" CssClass="nav-item">
+                <span class="nav-icon">👥</span>
+                <span>CRUD Users</span>
+              </asp:HyperLink>
+              <asp:HyperLink runat="server" NavigateUrl="~/Admin.aspx?tab=materials" CssClass="nav-item">
+                <span class="nav-icon">📚</span>
+                <span>Learning Material</span>
+              </asp:HyperLink>
+              <asp:HyperLink runat="server" NavigateUrl="~/Admin.aspx?tab=simulation" CssClass="nav-item">
+                <span class="nav-icon">🏎️</span>
+                <span>Simulation</span>
+              </asp:HyperLink>
+              <asp:HyperLink runat="server" NavigateUrl="~/Admin.aspx?tab=store" CssClass="nav-item">
+                <span class="nav-icon">🛒</span>
+                <span>Store</span>
+              </asp:HyperLink>
+              <asp:HyperLink runat="server" NavigateUrl="~/Admin.aspx?tab=achievements" CssClass="nav-item">
+                <span class="nav-icon">🏆</span>
+                <span>Achievements</span>
+              </asp:HyperLink>
+            </asp:PlaceHolder>
+
+          </nav>
+        </div>
+
+        <!-- Sidebar User Profile Info & Exit Trigger -->
+        <div class="sidebar-footer">
+          <asp:PlaceHolder ID="phUserFooter" runat="server">
+            <a href="Profile.aspx" style="color: inherit; text-decoration: none;">
+              <div class="user-snippet">
+                <div class="avatar" id="divSidebarAvatar" runat="server"><asp:Literal ID="litAvatar" runat="server" Text="🚗" /></div>
+                <div class="user-snippet-details">
+                  <span class="name"><asp:Literal ID="litUserName" runat="server" Text="Guest Candidate" /></span>
+                  <span class="role"><asp:Literal ID="litUserRole" runat="server" Text="Role: Learner" /></span>
+                </div>
+              </div>
+            </a>
+            <asp:LinkButton ID="btnSignOut" runat="server" OnClick="btnSignOut_Click" style="display: flex; align-items: center; gap: 0.5rem; color: var(--danger); font-size: 0.9rem; font-weight: 600; padding: 0.5rem 1rem; border-radius: var(--radius-sm); background: none; border: none; cursor: pointer; margin-top: 0.5rem;">
+              <span>🚪</span>
+              <span>Sign Out</span>
+            </asp:LinkButton>
+          </asp:PlaceHolder>
+
+          <asp:PlaceHolder ID="phGuestFooter" runat="server" Visible="false">
+            <a href="Login.aspx" class="btn btn-primary" style="width: 100%; text-align: center; margin-top: 0.5rem;">🔑 Sign In / Log In</a>
+          </asp:PlaceHolder>
+        </div>
+      </aside>
+
+      <!-- Main Viewer -->
+      <main class="main-content">
+        
+        <!-- Top header bar for stats & status -->
+        <header class="top-header" id="topHeader" runat="server">
+          <div style="display: flex; align-items: center; gap: 0.85rem;">
+            <div class="header-title">
+              <h2 style="margin: 0; font-family: var(--font-heading);">DriveLingo ASP.NET Engine</h2>
+            </div>
+          </div>
+
+          <div class="header-actions">
+            <!-- Learner Level, Points, and XP Progress Bar -->
+            <asp:PlaceHolder ID="phLearnerBadges" runat="server" Visible="false">
+              <div style="display: flex; gap: 1rem; align-items: center;">
+                <span class="badge" style="background: rgba(99, 102, 241, 0.2); color: var(--primary); font-weight: 700;">
+                  ⭐ Lvl <asp:Literal ID="litHeaderLevel" runat="server" Text="1" />
+                </span>
+                <span class="badge" style="background: rgba(245, 158, 11, 0.2); color: var(--warning); font-weight: 700;">
+                  🪙 <asp:Literal ID="litHeaderPoints" runat="server" Text="0" /> Pts
+                </span>
+                <div style="min-width: 140px;" title="Experience Points to Next Level">
+                  <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.2rem;">
+                    <span>XP Progress</span>
+                    <span><asp:Literal ID="litHeaderXpText" runat="server" Text="180 / 200" /></span>
+                  </div>
+                  <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                    <div id="divHeaderXpBar" runat="server" style="height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); width: 90%;"></div>
+                  </div>
+                </div>
+              </div>
+            </asp:PlaceHolder>
+          </div>
+        </header>
+
+        <!-- Subview Mounting Point -->
+        <div id="main-view-container" style="padding: 2rem;">
+          <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </div>
+
+      </main>
+    </div>
+  </form>
+</body>
+</html>
