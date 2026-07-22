@@ -44,18 +44,28 @@ namespace DriveLingo.Services
             return Register(username, password, email, null);
         }
 
-        public static User Register(string username, string password, string email, User guest)
+        public static User Register(string username, string password, string email, int? guestUserId)
         {
             using (var db = new AppDbContext())
             {
-                if (guest == null) guest = new User();
+                User guest = null;
+
+                if (guestUserId != null)
+                {
+                    guest = db.Users.Find(guestUserId);
+                }
+
+                if (guest == null)
+                {
+                    guest = new User();
+                    db.Users.Add(guest);
+                }
 
                 guest.Role = User.UserRole.Learner;
                 guest.Username = username;
                 guest.Password = BCrypt.Net.BCrypt.HashPassword(password);
                 guest.Email = email;
 
-                db.Users.AddOrUpdate(guest);
                 db.SaveChanges();
                 
                 return guest;
