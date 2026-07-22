@@ -1,4 +1,4 @@
-﻿using DriveLingo.Models;
+using DriveLingo.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +16,7 @@ namespace DriveLingo.Data
         public List<StoreItem> StoreItems { get; set; }
         public List<Achievement> Achievements { get; set; }
         public List<QuizAttempt> Attempts { get; set; }
+        public List<Question> SimulationQuestions { get; set; }
 
         public AppStateRepository()
         {
@@ -26,6 +27,7 @@ namespace DriveLingo.Data
             StoreItems = new List<StoreItem>();
             Achievements = new List<Achievement>();
             Attempts = new List<QuizAttempt>();
+            SimulationQuestions = SimulationQuestionBank.GetAllQuestions();
 
             SeedInitialData();
         }

@@ -25,8 +25,10 @@ namespace DriveLingo
 
         private void LoadProfile(User user)
         {
-            litAvatar.Text = string.IsNullOrEmpty(user.Avatar) ? "🚗" : user.Avatar;
-            litRoleBadge.Text = user.Role.ToUpper();
+            string defaultAvatar = user.Role == "admin" ? "👑" : user.Role == "educator" ? "👨‍✈️" : "🚗";
+            litAvatar.Text = string.IsNullOrEmpty(user.Avatar) ? defaultAvatar : user.Avatar;
+            string roleSymbol = user.Role == "admin" ? "👑 " : user.Role == "educator" ? "👨‍✈️ " : "🚘 ";
+            litRoleBadge.Text = roleSymbol + user.Role.ToUpper();
             litUserName.Text = user.Name;
             litUserEmail.Text = user.Email;
             litJoinedDate.Text = user.JoinedDate;

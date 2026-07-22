@@ -1,4 +1,4 @@
-﻿<%@ Page Title="DriveLingo | System Administration" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Admin.aspx.cs" Inherits="DriveLingo.Admin" %>
+<%@ Page Title="DriveLingo | System Administration" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Admin.aspx.cs" Inherits="DriveLingo.Admin" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
@@ -54,9 +54,12 @@
     </div>
 
     <div class="grid-2-col">
-      <!-- Create User Account Form -->
+      <!-- Create / Edit User Account Form -->
       <div class="glass-card">
-        <h2 style="font-family: var(--font-heading); margin-bottom: 1.5rem;">➕ Create New User Account</h2>
+        <asp:HiddenField ID="hfEditingUserId" runat="server" Value="" />
+        <h2 style="font-family: var(--font-heading); margin-bottom: 1.5rem;">
+          <asp:Literal ID="litUserFormTitle" runat="server" Text="➕ Create New User Account" />
+        </h2>
         <div style="display: flex; flex-direction: column; gap: 1.25rem;">
           <div>
             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Full Name</label>
@@ -69,7 +72,7 @@
           </div>
 
           <div>
-            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Password</label>
+            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Password (leave blank when editing to keep unchanged)</label>
             <asp:TextBox ID="txtNewUserPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="••••••••" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
           </div>
 
@@ -84,49 +87,49 @@
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
             <div>
-              <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.85rem;">Initial Points</label>
+              <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.85rem;">Points</label>
               <asp:TextBox ID="txtNewUserPoints" runat="server" Text="100" CssClass="form-control" style="width: 100%; padding: 0.6rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
             </div>
             <div>
-              <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.85rem;">Initial Level</label>
+              <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.85rem;">Level</label>
               <asp:TextBox ID="txtNewUserLevel" runat="server" Text="1" CssClass="form-control" style="width: 100%; padding: 0.6rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
             </div>
           </div>
 
-          <asp:Button ID="btnAddUserSubmit" runat="server" Text="➕ Create User Account" OnClick="btnAddUserSubmit_Click" CssClass="btn btn-primary" style="padding: 0.85rem; font-weight: 700; margin-top: 0.5rem;" />
+          <div style="display: flex; gap: 0.5rem;">
+            <asp:Button ID="btnAddUserSubmit" runat="server" Text="➕ Create User Account" OnClick="btnAddUserSubmit_Click" CssClass="btn btn-primary" style="flex: 1; padding: 0.85rem; font-weight: 700; margin-top: 0.5rem;" />
+            <asp:Button ID="btnCancelUserEdit" runat="server" Text="❌ Cancel Edit" OnClick="btnCancelUserEdit_Click" Visible="false" CssClass="btn btn-secondary" style="padding: 0.85rem; margin-top: 0.5rem;" />
+          </div>
         </div>
       </div>
 
-      <!-- User Directory Grid with Edit / Update / Delete -->
+      <!-- User Directory Grid with Edit / Delete -->
       <div class="glass-card">
         <h2 style="font-family: var(--font-heading); margin-bottom: 1.5rem;">👥 System User Directory</h2>
         <asp:GridView ID="gvUsers" runat="server" AutoGenerateColumns="false" CssClass="data-table" DataKeyNames="Id" 
-          OnRowEditing="gvUsers_RowEditing" OnRowUpdating="gvUsers_RowUpdating" OnRowCancelingEdit="gvUsers_RowCancelingEdit" OnRowDeleting="gvUsers_RowDeleting">
+          OnRowCommand="gvUsers_RowCommand" OnRowDeleting="gvUsers_RowDeleting" EmptyDataText="No users found.">
           <Columns>
             <asp:BoundField DataField="Id" HeaderText="User ID" ReadOnly="true" ItemStyle-Width="80px" />
             <asp:BoundField DataField="Name" HeaderText="Full Name" />
             <asp:BoundField DataField="Email" HeaderText="Email Address" />
             
-            <asp:TemplateField HeaderText="Role" ItemStyle-Width="110px">
+            <asp:TemplateField HeaderText="Role" ItemStyle-Width="120px">
               <ItemTemplate>
                 <span class='<%# Eval("Role").ToString() == "admin" ? "badge badge-danger" : Eval("Role").ToString() == "educator" ? "badge badge-warning" : "badge badge-success" %>'>
-                  <%# Eval("Role").ToString().ToUpper() %>
+                  <%# Eval("Role").ToString() == "admin" ? "👑 ADMIN" : Eval("Role").ToString() == "educator" ? "👨‍✈️ EDUCATOR" : "🚘 LEARNER" %>
                 </span>
               </ItemTemplate>
-              <EditItemTemplate>
-                <asp:DropDownList ID="ddlEditRole" runat="server" SelectedValue='<%# Bind("Role") %>' CssClass="form-control" style="padding: 0.3rem; font-size: 0.85rem; background: rgba(15, 23, 42, 0.9); color: white;">
-                  <asp:ListItem Value="learner">LEARNER</asp:ListItem>
-                  <asp:ListItem Value="educator">EDUCATOR</asp:ListItem>
-                  <asp:ListItem Value="admin">ADMIN</asp:ListItem>
-                </asp:DropDownList>
-              </EditItemTemplate>
             </asp:TemplateField>
 
             <asp:BoundField DataField="Points" HeaderText="Points" ItemStyle-Width="70px" />
             <asp:BoundField DataField="Level" HeaderText="Lvl" ItemStyle-Width="50px" />
 
-            <asp:CommandField ShowEditButton="true" ShowDeleteButton="true" EditText="✏️ Edit" UpdateText="💾 Save" CancelText="❌ Cancel" DeleteText="🗑️ Delete" 
-              ItemStyle-Width="140px" ItemStyle-HorizontalAlign="Right" ButtonType="Button" ControlStyle-CssClass="btn btn-secondary btn-sm" />
+            <asp:TemplateField HeaderText="Actions" ItemStyle-Width="150px" ItemStyle-HorizontalAlign="Right">
+              <ItemTemplate>
+                <asp:Button ID="btnEditUser" runat="server" Text="✏️ Edit" CommandName="EditUser" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-secondary btn-sm" />
+                <asp:Button ID="btnDeleteUser" runat="server" Text="🗑️" CommandName="DeleteUser" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-secondary btn-sm" OnClientClick="return confirm('Delete this user account?');" />
+              </ItemTemplate>
+            </asp:TemplateField>
           </Columns>
         </asp:GridView>
       </div>
@@ -141,9 +144,12 @@
     </div>
 
     <div class="grid-2-col">
-      <!-- Create Material Form -->
+      <!-- Create / Edit Material Form -->
       <div class="glass-card">
-        <h2 style="font-family: var(--font-heading); margin-bottom: 1rem;">➕ Add Study Guide Material</h2>
+        <asp:HiddenField ID="hfEditingMaterialId" runat="server" Value="" />
+        <h2 style="font-family: var(--font-heading); margin-bottom: 1rem;">
+          <asp:Literal ID="litMaterialFormTitle" runat="server" Text="➕ Add Study Guide Material" />
+        </h2>
         <div style="display: flex; flex-direction: column; gap: 1rem;">
           <div>
             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Material Title</label>
@@ -170,47 +176,129 @@
             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Guide Content</label>
             <asp:TextBox ID="txtMatContent" runat="server" TextMode="MultiLine" Rows="3" CssClass="form-control" placeholder="Full guide text..." style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
           </div>
-          <asp:Button ID="btnAddMaterial" runat="server" Text="➕ Create Material" OnClick="btnAddMaterial_Click" CssClass="btn btn-primary" />
+          <div style="display: flex; gap: 0.5rem;">
+            <asp:Button ID="btnAddMaterial" runat="server" Text="➕ Create Material" OnClick="btnAddMaterial_Click" CssClass="btn btn-primary" style="flex: 1;" />
+            <asp:Button ID="btnCancelMaterialEdit" runat="server" Text="❌ Cancel Edit" OnClick="btnCancelMaterialEdit_Click" Visible="false" CssClass="btn btn-secondary" />
+          </div>
         </div>
       </div>
 
       <!-- Materials List Grid -->
       <div class="glass-card">
         <h2 style="font-family: var(--font-heading); margin-bottom: 1rem;">🗃️ Active Study Guides</h2>
-        <asp:GridView ID="gvMaterials" runat="server" AutoGenerateColumns="false" CssClass="data-table" DataKeyNames="Id" OnRowDeleting="gvMaterials_RowDeleting">
+        <asp:GridView ID="gvMaterials" runat="server" AutoGenerateColumns="false" CssClass="data-table" DataKeyNames="Id" OnRowCommand="gvMaterials_RowCommand" OnRowDeleting="gvMaterials_RowDeleting" EmptyDataText="No materials found.">
           <Columns>
             <asp:BoundField DataField="Category" HeaderText="Category" ItemStyle-Width="120px" />
             <asp:BoundField DataField="Title" HeaderText="Title" />
-            <asp:CommandField ShowDeleteButton="true" DeleteText="🗑️ Delete" ItemStyle-Width="90px" ItemStyle-HorizontalAlign="Center" ButtonType="Button" ControlStyle-CssClass="btn btn-secondary btn-sm" />
+            <asp:TemplateField HeaderText="Actions" ItemStyle-Width="150px" ItemStyle-HorizontalAlign="Right">
+              <ItemTemplate>
+                <asp:Button ID="btnEditMat" runat="server" Text="✏️ Edit" CommandName="EditMaterial" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-secondary btn-sm" />
+                <asp:Button ID="btnDeleteMat" runat="server" Text="🗑️" CommandName="DeleteMaterial" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-secondary btn-sm" OnClientClick="return confirm('Delete this study material?');" />
+              </ItemTemplate>
+            </asp:TemplateField>
           </Columns>
         </asp:GridView>
       </div>
     </div>
   </asp:Panel>
 
-  <!-- PANEL 4: SIMULATION CONTROLS -->
+  <!-- PANEL 4: CRUD SIMULATION QUESTION BANK -->
   <asp:Panel ID="pnlSimulation" runat="server" Visible="false">
     <div class="glass-card" style="margin-bottom: 2rem;">
-      <h1 style="font-family: var(--font-heading); margin-bottom: 0.5rem;">🏎️ Simulation Parameters & Rules</h1>
-      <p style="color: var(--text-secondary); margin: 0;">Configure strict JPJ KPP01 examination criteria, passing threshold percentage, and timer duration.</p>
+      <h1 style="font-family: var(--font-heading); margin-bottom: 0.5rem;">🏎️ CRUD Simulation Question Bank</h1>
+      <p style="color: var(--text-secondary); margin: 0;">Add, edit, or remove questions from the 180+ question pool across Color Blindness, Section A, Section B, and Section C.</p>
     </div>
 
-    <div class="glass-card" style="max-width: 600px;">
-      <h2 style="font-family: var(--font-heading); margin-bottom: 1.5rem;">Exam Simulation Settings</h2>
-      <div style="display: flex; flex-direction: column; gap: 1.25rem;">
-        <div>
-          <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Passing Percentage Threshold (%)</label>
-          <asp:TextBox ID="txtSimPassScore" runat="server" Text="84" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+    <div class="grid-2-col">
+      <!-- Question Form Card -->
+      <div class="glass-card">
+        <asp:HiddenField ID="hfEditingSimQuestionId" runat="server" Value="" />
+        <h2 style="font-family: var(--font-heading); margin-bottom: 1rem;">
+          <asp:Literal ID="litSimFormTitle" runat="server" Text="➕ Add Simulation Question" />
+        </h2>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div>
+            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Target Test Section</label>
+            <asp:DropDownList ID="ddlSimSection" runat="server" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;">
+              <asp:ListItem Value="ColorBlindness">👁️ Color Blindness Test (8 Qs)</asp:ListItem>
+              <asp:ListItem Value="SectionA">🛑 Section A - Road Signs (21 Qs)</asp:ListItem>
+              <asp:ListItem Value="SectionB">🛣️ Section B - Rules of the Road (35 Qs)</asp:ListItem>
+              <asp:ListItem Value="SectionC">⚠️ Section C - KEJARA & Safety (14 Qs)</asp:ListItem>
+            </asp:DropDownList>
+          </div>
+          <div>
+            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Question Text</label>
+            <asp:TextBox ID="txtSimQuestionText" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" placeholder="Enter question description..." style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+          </div>
+          <div>
+            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Option 1 (Index 0)</label>
+            <asp:TextBox ID="txtSimOpt1" runat="server" CssClass="form-control" placeholder="Choice 1" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+          </div>
+          <div>
+            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Option 2 (Index 1)</label>
+            <asp:TextBox ID="txtSimOpt2" runat="server" CssClass="form-control" placeholder="Choice 2" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+          </div>
+          <div>
+            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Option 3 (Index 2)</label>
+            <asp:TextBox ID="txtSimOpt3" runat="server" CssClass="form-control" placeholder="Choice 3" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+          </div>
+          <div>
+            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Option 4 (Index 3)</label>
+            <asp:TextBox ID="txtSimOpt4" runat="server" CssClass="form-control" placeholder="Choice 4" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+          </div>
+          <div>
+            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Correct Answer Index</label>
+            <asp:DropDownList ID="ddlSimCorrect" runat="server" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;">
+              <asp:ListItem Value="0">Option 1 (Index 0)</asp:ListItem>
+              <asp:ListItem Value="1">Option 2 (Index 1)</asp:ListItem>
+              <asp:ListItem Value="2">Option 3 (Index 2)</asp:ListItem>
+              <asp:ListItem Value="3">Option 4 (Index 3)</asp:ListItem>
+            </asp:DropDownList>
+          </div>
+          <div>
+            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Image Visual URL (optional)</label>
+            <asp:TextBox ID="txtSimImageUrl" runat="server" CssClass="form-control" placeholder="uploads/ishihara_12.svg" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+          </div>
+          <div>
+            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Explanation</label>
+            <asp:TextBox ID="txtSimExplanation" runat="server" CssClass="form-control" placeholder="Official answer reasoning..." style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <asp:Button ID="btnAddSimQuestion" runat="server" Text="➕ Create Simulation Question" OnClick="btnAddSimQuestion_Click" CssClass="btn btn-primary" style="flex: 1;" />
+            <asp:Button ID="btnCancelSimEdit" runat="server" Text="❌ Cancel Edit" OnClick="btnCancelSimEdit_Click" Visible="false" CssClass="btn btn-secondary" />
+          </div>
         </div>
-        <div>
-          <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Simulation Time Limit (Minutes)</label>
-          <asp:TextBox ID="txtSimTimeLimit" runat="server" Text="45" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+      </div>
+
+      <!-- Simulation Question Bank Grid Card -->
+      <div class="glass-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+          <h2 style="font-family: var(--font-heading); margin: 0;">🗃️ Simulation Question Pool</h2>
+          <asp:DropDownList ID="ddlFilterSimSection" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlFilterSimSection_SelectedIndexChanged" CssClass="form-control" style="padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white; font-size: 0.85rem;">
+            <asp:ListItem Value="ALL">All Sections</asp:ListItem>
+            <asp:ListItem Value="ColorBlindness">👁️ Color Blindness</asp:ListItem>
+            <asp:ListItem Value="SectionA">🛑 Section A - Signs</asp:ListItem>
+            <asp:ListItem Value="SectionB">🛣️ Section B - Rules</asp:ListItem>
+            <asp:ListItem Value="SectionC">⚠️ Section C - KEJARA</asp:ListItem>
+          </asp:DropDownList>
         </div>
-        <div>
-          <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Total Exam Questions</label>
-          <asp:TextBox ID="txtSimTotalQuestions" runat="server" Text="50" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
-        </div>
-        <asp:Button ID="btnSaveSimSettings" runat="server" Text="💾 Save Simulation Rules" OnClick="btnSaveSimSettings_Click" CssClass="btn btn-primary" style="padding: 0.85rem; font-weight: 700;" />
+
+        <asp:GridView ID="gvSimQuestions" runat="server" AutoGenerateColumns="false" CssClass="data-table" DataKeyNames="Id" OnRowCommand="gvSimQuestions_RowCommand" OnRowDeleting="gvSimQuestions_RowDeleting" EmptyDataText="No simulation questions found.">
+          <Columns>
+            <asp:BoundField DataField="Section" HeaderText="Section" ItemStyle-Width="120px" />
+            <asp:TemplateField HeaderText="Question">
+              <ItemTemplate>
+                <div style="font-weight: 600;"><%# Eval("Text").ToString().Length > 60 ? Eval("Text").ToString().Substring(0, 60) + "..." : Eval("Text") %></div>
+              </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Actions" ItemStyle-Width="150px" ItemStyle-HorizontalAlign="Right">
+              <ItemTemplate>
+                <asp:Button ID="btnEditSimQ" runat="server" Text="✏️ Edit" CommandName="EditSimQuestion" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-secondary btn-sm" />
+                <asp:Button ID="btnDeleteSimQ" runat="server" Text="🗑️" CommandName="DeleteSimQuestion" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-secondary btn-sm" OnClientClick="return confirm('Delete this simulation question?');" />
+              </ItemTemplate>
+            </asp:TemplateField>
+          </Columns>
+        </asp:GridView>
       </div>
     </div>
   </asp:Panel>
@@ -224,7 +312,10 @@
 
     <div class="grid-2-col">
       <div class="glass-card">
-        <h2 style="font-family: var(--font-heading); margin-bottom: 1rem;">➕ Create Store Item</h2>
+        <asp:HiddenField ID="hfEditingStoreItemId" runat="server" Value="" />
+        <h2 style="font-family: var(--font-heading); margin-bottom: 1rem;">
+          <asp:Literal ID="litStoreFormTitle" runat="server" Text="➕ Create Store Item" />
+        </h2>
         <div style="display: flex; flex-direction: column; gap: 1rem;">
           <div>
             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Item Title</label>
@@ -242,18 +333,26 @@
             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Description</label>
             <asp:TextBox ID="txtStoreDesc" runat="server" CssClass="form-control" placeholder="Glowing profile border" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
           </div>
-          <asp:Button ID="btnAddStoreItem" runat="server" Text="➕ Create Store Item" OnClick="btnAddStoreItem_Click" CssClass="btn btn-primary" />
+          <div style="display: flex; gap: 0.5rem;">
+            <asp:Button ID="btnAddStoreItem" runat="server" Text="➕ Create Store Item" OnClick="btnAddStoreItem_Click" CssClass="btn btn-primary" style="flex: 1;" />
+            <asp:Button ID="btnCancelStoreEdit" runat="server" Text="❌ Cancel Edit" OnClick="btnCancelStoreEdit_Click" Visible="false" CssClass="btn btn-secondary" />
+          </div>
         </div>
       </div>
 
       <div class="glass-card">
         <h2 style="font-family: var(--font-heading); margin-bottom: 1rem;">🗃️ Active Store Catalog</h2>
-        <asp:GridView ID="gvStore" runat="server" AutoGenerateColumns="false" CssClass="data-table" DataKeyNames="Id" OnRowDeleting="gvStore_RowDeleting">
+        <asp:GridView ID="gvStore" runat="server" AutoGenerateColumns="false" CssClass="data-table" DataKeyNames="Id" OnRowCommand="gvStore_RowCommand" OnRowDeleting="gvStore_RowDeleting" EmptyDataText="No store items found.">
           <Columns>
             <asp:BoundField DataField="Icon" HeaderText="Icon" ItemStyle-Width="50px" />
             <asp:BoundField DataField="Title" HeaderText="Title" />
             <asp:BoundField DataField="Price" HeaderText="Price (Pts)" ItemStyle-Width="100px" />
-            <asp:CommandField ShowDeleteButton="true" DeleteText="🗑️ Delete" ItemStyle-Width="90px" ItemStyle-HorizontalAlign="Center" ButtonType="Button" ControlStyle-CssClass="btn btn-secondary btn-sm" />
+            <asp:TemplateField HeaderText="Actions" ItemStyle-Width="150px" ItemStyle-HorizontalAlign="Right">
+              <ItemTemplate>
+                <asp:Button ID="btnEditStore" runat="server" Text="✏️ Edit" CommandName="EditStoreItem" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-secondary btn-sm" />
+                <asp:Button ID="btnDeleteStore" runat="server" Text="🗑️" CommandName="DeleteStoreItem" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-secondary btn-sm" OnClientClick="return confirm('Delete this store item?');" />
+              </ItemTemplate>
+            </asp:TemplateField>
           </Columns>
         </asp:GridView>
       </div>
@@ -269,7 +368,10 @@
 
     <div class="grid-2-col">
       <div class="glass-card">
-        <h2 style="font-family: var(--font-heading); margin-bottom: 1rem;">➕ Create Achievement</h2>
+        <asp:HiddenField ID="hfEditingAchId" runat="server" Value="" />
+        <h2 style="font-family: var(--font-heading); margin-bottom: 1rem;">
+          <asp:Literal ID="litAchFormTitle" runat="server" Text="➕ Create Achievement" />
+        </h2>
         <div style="display: flex; flex-direction: column; gap: 1rem;">
           <div>
             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Achievement Title</label>
@@ -287,18 +389,26 @@
             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Description</label>
             <asp:TextBox ID="txtAchDesc" runat="server" CssClass="form-control" placeholder="Complete 5 JPJ practice tests" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
           </div>
-          <asp:Button ID="btnAddAch" runat="server" Text="➕ Create Achievement" OnClick="btnAddAch_Click" CssClass="btn btn-primary" />
+          <div style="display: flex; gap: 0.5rem;">
+            <asp:Button ID="btnAddAch" runat="server" Text="➕ Create Achievement" OnClick="btnAddAch_Click" CssClass="btn btn-primary" style="flex: 1;" />
+            <asp:Button ID="btnCancelAchEdit" runat="server" Text="❌ Cancel Edit" OnClick="btnCancelAchEdit_Click" Visible="false" CssClass="btn btn-secondary" />
+          </div>
         </div>
       </div>
 
       <div class="glass-card">
         <h2 style="font-family: var(--font-heading); margin-bottom: 1rem;">🗃️ Active Achievements</h2>
-        <asp:GridView ID="gvAchievements" runat="server" AutoGenerateColumns="false" CssClass="data-table" DataKeyNames="Id" OnRowDeleting="gvAchievements_RowDeleting">
+        <asp:GridView ID="gvAchievements" runat="server" AutoGenerateColumns="false" CssClass="data-table" DataKeyNames="Id" OnRowCommand="gvAchievements_RowCommand" OnRowDeleting="gvAchievements_RowDeleting" EmptyDataText="No achievements found.">
           <Columns>
             <asp:BoundField DataField="Icon" HeaderText="Icon" ItemStyle-Width="50px" />
             <asp:BoundField DataField="Title" HeaderText="Title" />
             <asp:BoundField DataField="XpBonus" HeaderText="XP Bonus" ItemStyle-Width="90px" />
-            <asp:CommandField ShowDeleteButton="true" DeleteText="🗑️ Delete" ItemStyle-Width="90px" ItemStyle-HorizontalAlign="Center" ButtonType="Button" ControlStyle-CssClass="btn btn-secondary btn-sm" />
+            <asp:TemplateField HeaderText="Actions" ItemStyle-Width="150px" ItemStyle-HorizontalAlign="Right">
+              <ItemTemplate>
+                <asp:Button ID="btnEditAch" runat="server" Text="✏️ Edit" CommandName="EditAchievement" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-secondary btn-sm" />
+                <asp:Button ID="btnDeleteAch" runat="server" Text="🗑️" CommandName="DeleteAchievement" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-secondary btn-sm" OnClientClick="return confirm('Delete this achievement?');" />
+              </ItemTemplate>
+            </asp:TemplateField>
           </Columns>
         </asp:GridView>
       </div>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="DriveLingo | Learner Portal" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Learner.aspx.cs" Inherits="DriveLingo.Learner" %>
+<%@ Page Title="DriveLingo | Learner Portal" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Learner.aspx.cs" Inherits="DriveLingo.Learner" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
@@ -68,16 +68,21 @@
       </div>
 
       <div class="grid-2-col">
-        <asp:Repeater ID="rptQuizzes" runat="server" OnItemCommand="rptQuizzes_ItemCommand">
+        <asp:Repeater ID="rptQuizzes" runat="server" OnItemCommand="rptQuizzes_ItemCommand" OnItemDataBound="rptQuizzes_ItemDataBound">
           <ItemTemplate>
             <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
               <div>
-                <span class="badge" style="background: rgba(99, 102, 241, 0.2); color: var(--primary); margin-bottom: 0.75rem; display: inline-block;">
-                  <%# Eval("Category") %>
-                </span>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+                  <span class="badge" style="background: rgba(99, 102, 241, 0.2); color: var(--primary); display: inline-block;">
+                    <%# Eval("Category") %>
+                  </span>
+                  <asp:PlaceHolder ID="phQuizCompletedBadge" runat="server" Visible="false">
+                    <span class="badge badge-success">Points Claimed ✔</span>
+                  </asp:PlaceHolder>
+                </div>
                 <h3 style="font-family: var(--font-heading); margin-bottom: 0.5rem;"><%# Eval("Title") %></h3>
                 <p style="color: var(--text-secondary); font-size: 0.9rem;">
-                  Reward: <strong><%# Eval("RewardPoints") %> Pts</strong> | Questions: <strong><%# DataBinder.Eval(Container.DataItem, "Questions.Count") %></strong>
+                  Reward: <strong><%# Eval("RewardPoints") %> Pts</strong> (Claimable Once) | Questions: <strong><%# DataBinder.Eval(Container.DataItem, "Questions.Count") %></strong>
                 </p>
               </div>
               <asp:Button ID="btnStartQuiz" runat="server" Text="🚀 Start Practice Exam" CommandName="StartQuiz" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-primary" style="margin-top: 1rem; width: 100%;" />
@@ -138,6 +143,56 @@
         🏆 Awarded +<asp:Literal ID="litAwardedPoints" runat="server" /> Points & +<asp:Literal ID="litAwardedXP" runat="server" /> XP!
       </asp:Panel>
 
+      <!-- Simulation Sectional Score Breakdown Grid -->
+      <asp:Panel ID="pnlSimBreakdown" runat="server" Visible="false" style="margin: 2rem 0; text-align: left;">
+        <h3 style="font-family: var(--font-heading); margin-bottom: 1rem; text-align: center;">📊 Official JPJ Sectional Criteria Performance</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+          <div style="background: rgba(15, 23, 42, 0.6); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.1);">
+            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">👁️ Color Blindness Test</div>
+            <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem;">
+              <asp:Literal ID="litSimCbScore" runat="server" Text="8 / 8" />
+            </div>
+            <div style="font-size: 0.8rem; color: var(--text-secondary);">Required: 8/8 (100%)</div>
+            <div style="margin-top: 0.5rem;">
+              <asp:Label ID="lblSimCbStatus" runat="server" CssClass="badge badge-success" Text="PASS 🟢" />
+            </div>
+          </div>
+
+          <div style="background: rgba(15, 23, 42, 0.6); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.1);">
+            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">🛑 Section A - Road Signs</div>
+            <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem;">
+              <asp:Literal ID="litSimSecAScore" runat="server" Text="19 / 21" />
+            </div>
+            <div style="font-size: 0.8rem; color: var(--text-secondary);">Required: 17/21</div>
+            <div style="margin-top: 0.5rem;">
+              <asp:Label ID="lblSimSecAStatus" runat="server" CssClass="badge badge-success" Text="PASS 🟢" />
+            </div>
+          </div>
+
+          <div style="background: rgba(15, 23, 42, 0.6); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.1);">
+            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">🛣️ Section B - Rules of the Road</div>
+            <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem;">
+              <asp:Literal ID="litSimSecBScore" runat="server" Text="30 / 35" />
+            </div>
+            <div style="font-size: 0.8rem; color: var(--text-secondary);">Required: 28/35</div>
+            <div style="margin-top: 0.5rem;">
+              <asp:Label ID="lblSimSecBStatus" runat="server" CssClass="badge badge-success" Text="PASS 🟢" />
+            </div>
+          </div>
+
+          <div style="background: rgba(15, 23, 42, 0.6); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.1);">
+            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">⚠️ Section C - KEJARA & Safety</div>
+            <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem;">
+              <asp:Literal ID="litSimSecCScore" runat="server" Text="12 / 14" />
+            </div>
+            <div style="font-size: 0.8rem; color: var(--text-secondary);">Required: 11/14</div>
+            <div style="margin-top: 0.5rem;">
+              <asp:Label ID="lblSimSecCStatus" runat="server" CssClass="badge badge-success" Text="PASS 🟢" />
+            </div>
+          </div>
+        </div>
+      </asp:Panel>
+
       <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;">
         <asp:Button ID="btnBackToQuizzes" runat="server" Text="Back to Quiz Directory" OnClick="btnBackToQuizzes_Click" CssClass="btn btn-primary" />
       </div>
@@ -151,33 +206,74 @@
       <p style="color: var(--text-secondary); margin: 0;">Official KPP01 handbook guides, traffic signs diagrams, and RPK/RSM checklists.</p>
     </div>
 
-    <div class="grid-3-col">
-      <asp:Repeater ID="rptMaterials" runat="server" OnItemCommand="rptMaterials_ItemCommand">
-        <ItemTemplate>
-          <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-              <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: var(--success); margin-bottom: 0.75rem; display: inline-block;">
-                <%# Eval("Category") %>
-              </span>
-              <h3 style="font-family: var(--font-heading); margin-bottom: 0.5rem;"><%# Eval("Title") %></h3>
+    <!-- Material Cards Grid View -->
+    <asp:Panel ID="pnlMaterialList" runat="server">
+      <div class="grid-3-col">
+        <asp:Repeater ID="rptMaterials" runat="server" OnItemCommand="rptMaterials_ItemCommand" OnItemDataBound="rptMaterials_ItemDataBound">
+          <ItemTemplate>
+            <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+                  <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: var(--success); display: inline-block;">
+                    <%# Eval("Category") %>
+                  </span>
+                  <asp:PlaceHolder ID="phReadBadge" runat="server" Visible="false">
+                    <span class="badge" style="background: rgba(16, 185, 129, 0.3); color: var(--success); font-weight: 700;">Read ✔</span>
+                  </asp:PlaceHolder>
+                </div>
+                <h3 style="font-family: var(--font-heading); margin-bottom: 0.5rem;"><%# Eval("Title") %></h3>
 
-              <%# Eval("ImageUrl") != null && !string.IsNullOrEmpty(Eval("ImageUrl").ToString()) ? "<div style='text-align: center; margin: 0.75rem 0; padding: 0.75rem; background: rgba(0,0,0,0.3); border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.05);'><img src='" + Eval("ImageUrl") + "' alt='Road Sign Visual' style='max-height: 120px; max-width: 100%; border-radius: 6px;' /></div>" : "" %>
+                <%# Eval("ImageUrl") != null && !string.IsNullOrEmpty(Eval("ImageUrl").ToString()) ? "<div style='text-align: center; margin: 0.75rem 0; padding: 0.75rem; background: rgba(0,0,0,0.3); border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.05);'><img src='" + Eval("ImageUrl") + "' alt='Road Sign Visual' style='max-height: 120px; max-width: 100%; border-radius: 6px;' /></div>" : "" %>
 
-              <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">
-                ⏱️ <%# Eval("ReadTime") %>
-              </p>
-              <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5;">
-                <%# Eval("Content").ToString().Length > 120 ? Eval("Content").ToString().Substring(0, 120) + "..." : Eval("Content") %>
-              </p>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">
+                  ⏱️ <%# Eval("ReadTime") %>
+                </p>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5;">
+                  <%# Eval("Content").ToString().Length > 120 ? Eval("Content").ToString().Substring(0, 120) + "..." : Eval("Content") %>
+                </p>
+              </div>
+              <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem;">
+                <asp:Button ID="btnReadMaterial" runat="server" Text="📖 Read Guide" CommandName="ReadMaterial" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-primary btn-sm" style="flex: 1;" />
+                <%# !string.IsNullOrEmpty(Eval("PdfUrl").ToString()) ? "<a href='" + Eval("PdfUrl") + "' target='_blank' class='btn btn-secondary btn-sm'>📄 PDF</a>" : "" %>
+              </div>
             </div>
-            <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem;">
-              <asp:Button ID="btnReadMaterial" runat="server" Text="📖 Read Guide" CommandName="ReadMaterial" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-primary btn-sm" style="flex: 1;" />
-              <%# !string.IsNullOrEmpty(Eval("PdfUrl").ToString()) ? "<a href='" + Eval("PdfUrl") + "' target='_blank' class='btn btn-secondary btn-sm'>📄 PDF</a>" : "" %>
-            </div>
-          </div>
-        </ItemTemplate>
-      </asp:Repeater>
-    </div>
+          </ItemTemplate>
+        </asp:Repeater>
+      </div>
+    </asp:Panel>
+
+    <!-- Full Material Reader / Expanded Detail View -->
+    <asp:Panel ID="pnlMaterialDetail" runat="server" Visible="false" CssClass="glass-card" style="margin-top: 1rem;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: var(--success); margin-bottom: 0.5rem; display: inline-block;">
+            <asp:Literal ID="litMatCategory" runat="server" />
+          </span>
+          <h2 style="font-family: var(--font-heading); margin: 0.25rem 0;">
+            <asp:Literal ID="litMatTitle" runat="server" />
+          </h2>
+          <span style="color: var(--text-secondary); font-size: 0.85rem;">⏱️ <asp:Literal ID="litMatReadTime" runat="server" /></span>
+        </div>
+        <asp:Button ID="btnCloseMaterialDetail" runat="server" Text="❌ Back to Guides" OnClick="btnCloseMaterialDetail_Click" CssClass="btn btn-secondary" />
+      </div>
+
+      <asp:PlaceHolder ID="phMatImage" runat="server" Visible="false">
+        <div style="text-align: center; margin: 1.5rem 0; padding: 1.5rem; background: rgba(0,0,0,0.3); border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.1);">
+          <asp:Image ID="imgMatDetail" runat="server" style="max-height: 250px; max-width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);" />
+        </div>
+      </asp:PlaceHolder>
+
+      <div style="background: rgba(15, 23, 42, 0.5); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.05); font-size: 1.05rem; line-height: 1.8; color: var(--text-primary); margin-bottom: 1.5rem; white-space: pre-line;">
+        <asp:Literal ID="litMatContent" runat="server" />
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <asp:Panel ID="pnlMatXpNotice" runat="server" CssClass="badge" style="background: rgba(245, 158, 11, 0.2); color: var(--warning); font-size: 0.95rem; padding: 0.6rem 1rem;">
+          ⭐ <asp:Literal ID="litMatXpStatus" runat="server" Text="+15 XP Earned for completing this guide!" />
+        </asp:Panel>
+        <asp:HyperLink ID="hlMatPdf" runat="server" Target="_blank" CssClass="btn btn-primary" Visible="false">📄 Download Official PDF Manual</asp:HyperLink>
+      </div>
+    </asp:Panel>
   </asp:Panel>
 
   <!-- TAB 4: STORE -->
@@ -296,13 +392,46 @@
 
   <!-- TAB 6: SIMULATION -->
   <asp:Panel ID="pnlSimulation" runat="server" Visible="false">
-    <div class="glass-card" style="margin-bottom: 2rem; text-align: center; padding: 3rem 1.5rem;">
-      <span style="font-size: 4rem; display: block; margin-bottom: 1rem;">🏎️</span>
-      <h2 style="font-size: 2.2rem; font-family: var(--font-heading); margin-bottom: 0.5rem;">Official JPJ KPP01 Exam Simulator</h2>
-      <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 2rem auto; line-height: 1.6;">
-        50 Questions | 45 Minutes Time Limit | Passing Score: 42/50 (84%). Full strict examination simulation mode.
-      </p>
-      <asp:Button ID="btnStartFullSim" runat="server" Text="🚀 Launch Full JPJ Exam Simulation" OnClick="btnStartFullSim_Click" CssClass="btn btn-primary" style="font-size: 1.1rem; padding: 0.85rem 2rem; font-weight: 700;" />
+    <div class="glass-card" style="margin-bottom: 2rem; padding: 2.5rem 1.5rem;">
+      <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+        <span style="font-size: 4rem; display: block; margin-bottom: 1rem;">🏎️</span>
+        <h2 style="font-size: 2.2rem; font-family: var(--font-heading); margin-bottom: 0.5rem;">Official JPJ KPP01 Full Simulation Test</h2>
+        <p style="color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 2rem; line-height: 1.6;">
+          Official 75-minute examination simulation. Questions are randomly selected from a dedicated 180+ question bank across all 4 mandatory JPJ test sections.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; text-align: left;">
+          <div style="background: rgba(15, 23, 42, 0.5); padding: 1rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.08);">
+            <div style="font-weight: 700; color: var(--primary); font-size: 0.95rem; margin-bottom: 0.25rem;">👁️ Color Blindness</div>
+            <div style="font-size: 1.1rem; font-weight: 700;">8 Questions</div>
+            <span class="badge" style="background: rgba(239, 68, 68, 0.2); color: var(--danger); font-size: 0.75rem; margin-top: 0.25rem; display: inline-block;">Must get 8/8 (100%)</span>
+          </div>
+
+          <div style="background: rgba(15, 23, 42, 0.5); padding: 1rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.08);">
+            <div style="font-weight: 700; color: var(--warning); font-size: 0.95rem; margin-bottom: 0.25rem;">🛑 Section A: Signs</div>
+            <div style="font-size: 1.1rem; font-weight: 700;">21 Questions</div>
+            <span class="badge" style="background: rgba(245, 158, 11, 0.2); color: var(--warning); font-size: 0.75rem; margin-top: 0.25rem; display: inline-block;">Pass: 17 / 21</span>
+          </div>
+
+          <div style="background: rgba(15, 23, 42, 0.5); padding: 1rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.08);">
+            <div style="font-weight: 700; color: var(--success); font-size: 0.95rem; margin-bottom: 0.25rem;">🛣️ Section B: Rules</div>
+            <div style="font-size: 1.1rem; font-weight: 700;">35 Questions</div>
+            <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: var(--success); font-size: 0.75rem; margin-top: 0.25rem; display: inline-block;">Pass: 28 / 35</span>
+          </div>
+
+          <div style="background: rgba(15, 23, 42, 0.5); padding: 1rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.08);">
+            <div style="font-weight: 700; color: #a855f7; font-size: 0.95rem; margin-bottom: 0.25rem;">⚠️ Section C: KEJARA</div>
+            <div style="font-size: 1.1rem; font-weight: 700;">14 Questions</div>
+            <span class="badge" style="background: rgba(168, 85, 247, 0.2); color: #a855f7; font-size: 0.75rem; margin-top: 0.25rem; display: inline-block;">Pass: 11 / 14</span>
+          </div>
+        </div>
+
+        <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); padding: 1rem 1.5rem; border-radius: var(--radius-md); margin-bottom: 2rem; font-size: 0.95rem; color: var(--text-secondary);">
+          ⏱️ <strong>Total Format:</strong> 78 Questions | 75 Minutes Time Limit | <strong>80% Overall Passing Mark</strong> + All Sectional Criteria Required.
+        </div>
+
+        <asp:Button ID="btnStartFullSim" runat="server" Text="🚀 Launch 78-Question JPJ Simulation Test" OnClick="btnStartFullSim_Click" CssClass="btn btn-primary" style="font-size: 1.1rem; padding: 0.85rem 2.5rem; font-weight: 700;" />
+      </div>
     </div>
   </asp:Panel>
 
