@@ -122,19 +122,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Admin\About.aspx" />
+    <Content Include="Admin.aspx" />
+    <Content Include="css\styles.css" />
     <Content Include="Default.aspx" />
+    <Content Include="Educator.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="Admin\Web.config" />
+    <Content Include="Learner.aspx" />
+    <Content Include="Login.aspx" />
+    <Content Include="Profile.aspx" />
+    <Content Include="Register.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Admin\About.aspx.cs">
-      <DependentUpon>About.aspx</DependentUpon>
+    <Compile Include="Site.Master.cs">
+      <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\About.aspx.designer.cs">
-      <DependentUpon>About.aspx</DependentUpon>
+    <Content Include="App_Code\Data\AppState.cs" />
+    <Content Include="App_Code\Models\Discussion.cs" />
+    <Content Include="App_Code\Models\Material.cs" />
+    <Content Include="App_Code\Models\Quiz.cs" />
+    <Content Include="App_Code\Models\StoreItem.cs" />
+    <Content Include="App_Code\Models\User.cs" />
+    <Compile Include="Admin.aspx.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Default.aspx.cs">
@@ -184,12 +196,32 @@
     <Compile Include="Database\Seeders\LessonSeeder.cs" />
     <Compile Include="Database\Seeders\ModuleSeeder.cs" />
     <Compile Include="Database\Seeders\UserSeeder.cs" />
+    <Compile Include="Educator.aspx.cs">
+      <DependentUpon>Educator.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Database\AppDbContext.cs" />
+    <Compile Include="Learner.aspx.cs">
+      <DependentUpon>Learner.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile.aspx.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Register.aspx.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Services\AuthService.cs" />
     <Compile Include="Services\LevelingService.cs" />
   </ItemGroup>
@@ -198,6 +230,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Site.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
