@@ -21,6 +21,7 @@ namespace DriveLingo.Database.Migrations
             ModuleSeeder.Run(context);
             LessonSeeder.Run(context);
             ForumPostSeeder.Run(context);
+            ShopItemSeeder.Run(context);
 
             context.SaveChanges();
         }
