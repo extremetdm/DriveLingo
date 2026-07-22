@@ -11,61 +11,79 @@ namespace DriveLingo
 {
 
 
-    public partial class Default
+    public partial class Login
     {
 
         /// <summary>
-        /// lnkLearnerPortal control.
+        /// pnlError control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkLearnerPortal;
+        protected global::System.Web.UI.WebControls.Panel pnlError;
 
         /// <summary>
-        /// lnkEducatorHub control.
+        /// litErrorMsg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkEducatorHub;
+        protected global::System.Web.UI.WebControls.Literal litErrorMsg;
 
         /// <summary>
-        /// lnkAdminConsole control.
+        /// txtEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkAdminConsole;
+        protected global::System.Web.UI.WebControls.TextBox txtEmail;
 
         /// <summary>
-        /// btnQuickLearner control.
+        /// txtPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnQuickLearner;
+        protected global::System.Web.UI.WebControls.TextBox txtPassword;
 
         /// <summary>
-        /// btnQuickEducator control.
+        /// btnLoginSubmit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnQuickEducator;
+        protected global::System.Web.UI.WebControls.Button btnLoginSubmit;
 
         /// <summary>
-        /// btnQuickAdmin control.
+        /// btnDemoLearner control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnQuickAdmin;
+        protected global::System.Web.UI.WebControls.Button btnDemoLearner;
+
+        /// <summary>
+        /// btnDemoEducator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnDemoEducator;
+
+        /// <summary>
+        /// btnDemoAdmin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnDemoAdmin;
     }
 }

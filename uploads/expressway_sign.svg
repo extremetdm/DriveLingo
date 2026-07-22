@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 160" width="240" height="160">
+  <rect x="5" y="5" width="230" height="150" fill="#15803d" stroke="#ffffff" stroke-width="6" rx="12"/>
+  <text x="120" y="45" font-family="sans-serif" font-weight="800" font-size="20" fill="#fbbf24" text-anchor="middle">E1 LEBUHRAYA</text>
+  <text x="120" y="85" font-family="sans-serif" font-weight="700" font-size="22" fill="#ffffff" text-anchor="middle">KUALA LUMPUR</text>
+  <text x="120" y="125" font-family="sans-serif" font-weight="700" font-size="18" fill="#ffffff" text-anchor="middle">500m</text>
+</svg>
