@@ -52,7 +52,7 @@
               </span>
             </ItemTemplate>
           </asp:TemplateField>
-          <asp:BoundField DataField="DateTaken" HeaderText="Date" ItemStyle-Width="140px" />
+          <asp:BoundField DataField="CompletedAt" HeaderText="Date" ItemStyle-Width="140px" />
         </Columns>
       </asp:GridView>
     </div>
@@ -193,15 +193,17 @@
           <div class="glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
             <div>
               <span style="font-size: 3.5rem; display: block; margin-bottom: 0.5rem;"><%# Eval("Icon") %></span>
-              <h3 style="font-family: var(--font-heading); margin-bottom: 0.25rem;"><%# Eval("Title") %></h3>
+              <h3 style="font-family: var(--font-heading); margin-bottom: 0.25rem;"><%# Eval("Name") %></h3>
               <span class="badge" style="background: rgba(245, 158, 11, 0.2); color: var(--warning); margin-bottom: 0.75rem; display: inline-block;">
-                🪙 <%# Eval("Price") %> Points
+                🪙 <%# Eval("Cost") %> Points
               </span>
               <p style="color: var(--text-secondary); font-size: 0.9rem;"><%# Eval("Description") %></p>
             </div>
             
             <asp:Panel ID="pnlStoreAction" runat="server" style="margin-top: 1.5rem;">
+              <!-- If unowned -->
               <asp:Button ID="btnBuyItem" runat="server" Text="Redeem Item" CommandName="BuyItem" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-primary" style="width: 100%;" />
+              <!-- If owned -->              
               <asp:Label ID="lblOwnedItem" runat="server" Text="Owned ✔" CssClass="badge badge-success" style="font-size: 1rem; padding: 0.6rem 1.2rem; display: block; width: 100%;" Visible="false" />
             </asp:Panel>
           </div>

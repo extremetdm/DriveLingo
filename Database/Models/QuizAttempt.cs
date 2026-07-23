@@ -23,6 +23,9 @@ namespace DriveLingo.Database.Models
 
         public int Score { get; set; }
 
+        [Required]
+        public bool Passed { get; set; }
+
         public DateTime CompletedAt { get; set; }
 
 

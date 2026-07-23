@@ -17,7 +17,23 @@ namespace DriveLingo.Database.Seeders
                     Role = User.UserRole.Admin,
                     Username = "admin",
                     Email = "admin@drivelingo.com",
-                    Password = BCrypt.Net.BCrypt.HashPassword("password"),
+                    Password = BCrypt.Net.BCrypt.HashPassword("admin"),
+                    RegisteredAt = DateTime.Now
+                },
+                new User
+                {
+                    Role = User.UserRole.Instructor,
+                    Username = "instructor",
+                    Email = "instructor@drivelingo.com",
+                    Password = BCrypt.Net.BCrypt.HashPassword("instructor"),
+                    RegisteredAt = DateTime.Now
+                },
+                new User
+                {
+                    Role = User.UserRole.Learner,
+                    Username = "learner",
+                    Email = "learner@drivelingo.com",
+                    Password = BCrypt.Net.BCrypt.HashPassword("learner"),
                     RegisteredAt = DateTime.Now
                 }
             );

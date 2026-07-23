@@ -146,6 +146,10 @@
     <Compile Include="Admin.aspx.designer.cs">
       <DependentUpon>Admin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Database\Migrations\202607231023398_AddShopItemIconAndQuizPassStatus.cs" />
+    <Compile Include="Database\Migrations\202607231023398_AddShopItemIconAndQuizPassStatus.Designer.cs">
+      <DependentUpon>202607231023398_AddShopItemIconAndQuizPassStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\AppStateRepository.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -285,6 +289,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202607210323470_AddShop.resx">
       <DependentUpon>202607210323470_AddShop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607231023398_AddShopItemIconAndQuizPassStatus.resx">
+      <DependentUpon>202607231023398_AddShopItemIconAndQuizPassStatus.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

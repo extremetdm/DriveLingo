@@ -1,7 +1,5 @@
-﻿using DriveLingo.Data;
-using DriveLingo.Models;
+﻿using DriveLingo.Services;
 using System;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web.UI;
 
@@ -24,8 +22,7 @@ namespace DriveLingo
                 return;
             }
 
-            var repo = AppStateRepository.GetCurrent();
-            var user = repo.Users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase) && u.Password == password);
+            var user = AuthService.Login(email, password, true);
 
             if (user != null)
             {
@@ -40,45 +37,33 @@ namespace DriveLingo
 
         protected void btnDemoLearner_Click(object sender, EventArgs e)
         {
-            SetDemoUserAndRedirect("usr_learner", "~/Learner.aspx");
+            var user = AuthService.Login("learner@drivelingo.com", "learner", true);
+            RedirectUserByRole(user.Role);
         }
 
         protected void btnDemoEducator_Click(object sender, EventArgs e)
         {
-            SetDemoUserAndRedirect("usr_educator", "~/Educator.aspx");
+            var user = AuthService.Login("instructor@drivelingo.com", "instructor", true);
+            RedirectUserByRole(user.Role);
         }
 
         protected void btnDemoAdmin_Click(object sender, EventArgs e)
         {
-            SetDemoUserAndRedirect("usr_admin", "~/Admin.aspx");
+            var user = AuthService.Login("admin@drivelingo.com", "admin", true);
+            RedirectUserByRole(user.Role);
         }
 
-        private void SetDemoUserAndRedirect(string userId, string redirectUrl)
+        private void RedirectUserByRole(Database.Models.User.UserRole role)
         {
-            var repo = AppStateRepository.GetCurrent();
-            var user = repo.Users.FirstOrDefault(u => u.Id == userId);
-            if (user != null)
+            switch (role)
             {
-                if (userId == "usr_admin") user.Role = "admin";
-                else if (userId == "usr_educator") user.Role = "educator";
-                else if (userId == "usr_learner") user.Role = "learner";
-
-                Session["CurrentUser"] = user;
-                Response.Redirect(redirectUrl);
-            }
-        }
-
-        private void RedirectUserByRole(string role)
-        {
-            switch (role.ToLower())
-            {
-                case "admin":
+                case Database.Models.User.UserRole.Admin:
                     Response.Redirect("~/Admin.aspx");
                     break;
-                case "educator":
+                case Database.Models.User.UserRole.Instructor:
                     Response.Redirect("~/Educator.aspx");
                     break;
-                default:
+                case Database.Models.User.UserRole.Learner:
                     Response.Redirect("~/Learner.aspx");
                     break;
             }

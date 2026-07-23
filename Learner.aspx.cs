@@ -1,19 +1,23 @@
-﻿using System;
+﻿using DriveLingo.Data;
+using DriveLingo.Models;
+using DriveLingo.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using DriveLingo.Data;
-using DriveLingo.Models;
+using System.Data.Entity;
+using DriveLingo.Services;
+using System.Web;
 
 namespace DriveLingo
 {
     public partial class Learner : Page
     {
+        private Database.Models.User CurrentUser => HttpContext.Current.Items["CurrentUser"] as Database.Models.User;
         protected void Page_Load(object sender, EventArgs e)
         {
-            User user = Session["CurrentUser"] as User;
-            if (user == null)
+            if (CurrentUser == null)
             {
                 Response.Redirect("~/Login.aspx");
                 return;
@@ -21,7 +25,7 @@ namespace DriveLingo
 
             if (!IsPostBack)
             {
-                BindDashboardData(user);
+                BindDashboardData(CurrentUser);
                 BindQuizzes();
                 BindMaterials();
                 BindStore();
@@ -53,28 +57,53 @@ namespace DriveLingo
             pnlForum.Visible = (tab == "forum");
         }
 
-        private void BindDashboardData(User user)
+        struct QuizAttemptSummary
         {
-            var repo = AppStateRepository.GetCurrent();
-            var userAttempts = repo.Attempts.Where(a => a.UserId == user.Id).OrderByDescending(a => a.DateTaken).ToList();
+            public string QuizTitle { get; set; }
+            public double Percentage { get; set; }
+            public int Score { get; set; }
+            public bool Passed { get; set; }
+            public DateTime CompletedAt { get; set; }
 
-            litLevel.Text = user.Level.ToString();
-            litPoints.Text = user.Points.ToString();
-
-            if (userAttempts.Count > 0)
-            {
-                int passedCount = userAttempts.Count(a => a.Passed);
-                int rate = (int)Math.Round((double)passedCount / userAttempts.Count * 100);
-                litPassRate.Text = rate + "%";
-            }
-            else
-            {
-                litPassRate.Text = "100%";
-            }
-
-            gvAttempts.DataSource = userAttempts;
-            gvAttempts.DataBind();
         }
+
+        private void BindDashboardData(Database.Models.User user)
+        {
+            using (var db = new AppDbContext())
+            {
+                var attempts = db.QuizAttempts.Where(a => a.UserId == user.Id)
+                    .Where(a => a.CompletedAt != null)
+                    .Include(a => a.Quiz)
+                    .Include(a => a.Answers)
+                    .ToList()
+                    .Select(a => new QuizAttemptSummary
+                    {
+                        QuizTitle = a.Quiz.Title,
+                        Score = a.Score,
+                        Percentage = (double)a.Score / a.Answers.Count,
+                        Passed = a.Passed,
+                        CompletedAt = a.CompletedAt
+                    })
+                    .ToList();
+
+                if (attempts.Count > 0)
+                {
+                    int passedCount = attempts.Count(a => a.Passed);
+                    int rate = (int)Math.Round((double)passedCount / attempts.Count * 100);
+                    litPassRate.Text = rate + "%";
+                }
+                else
+                {
+                    litPassRate.Text = "100%";
+                }
+
+                gvAttempts.DataSource = attempts;
+                gvAttempts.DataBind();
+            }
+
+            litLevel.Text = user.CurrentLevel.ToString();
+            litPoints.Text = user.Points.ToString();
+        }   
 
         private void BindQuizzes()
         {
@@ -88,13 +117,6 @@ namespace DriveLingo
             var repo = AppStateRepository.GetCurrent();
             rptMaterials.DataSource = repo.Materials;
             rptMaterials.DataBind();
-        }
-
-        private void BindStore()
-        {
-            var repo = AppStateRepository.GetCurrent();
-            rptStore.DataSource = repo.StoreItems;
-            rptStore.DataBind();
         }
 
         private void BindForum()
@@ -148,9 +170,8 @@ namespace DriveLingo
         protected void btnSubmitExam_Click(object sender, EventArgs e)
         {
             Quiz activeQuiz = Session["ActiveQuiz"] as Quiz;
-            User currentUser = Session["CurrentUser"] as User;
 
-            if (activeQuiz == null || currentUser == null) return;
+            if (activeQuiz == null || CurrentUser == null) return;
 
             int correctCount = 0;
             int total = activeQuiz.Questions.Count;
@@ -180,14 +201,13 @@ namespace DriveLingo
             int awardedPoints = passed ? activeQuiz.RewardPoints : 20;
             int awardedXP = correctCount * 50;
 
-            currentUser.Points += awardedPoints;
-            currentUser.XP += awardedXP;
-            currentUser.Level = 1 + (currentUser.XP / 200);
+            CurrentUser.Points += awardedPoints;
+            CurrentUser.XP += awardedXP;
 
             var attempt = new QuizAttempt
             {
                 Id = "att_" + Guid.NewGuid().ToString("N").Substring(0, 8),
-                UserId = currentUser.Id,
+                UserId = CurrentUser.Id.ToString(),
                 QuizId = activeQuiz.Id,
                 QuizTitle = activeQuiz.Title,
                 Score = correctCount,
@@ -210,7 +230,7 @@ namespace DriveLingo
             pnlActiveExam.Visible = false;
             pnlExamResult.Visible = true;
 
-            BindDashboardData(currentUser);
+            BindDashboardData(CurrentUser);
             ((SiteMaster)Master).UpdateUserHeaderAndNavigation();
         }
 
@@ -234,74 +254,76 @@ namespace DriveLingo
             if (e.CommandName == "ReadMaterial")
             {
                 ShowNotification("Reading guide logged! You earned +15 XP for studying JPJ guidelines.");
-                User currentUser = Session["CurrentUser"] as User;
-                if (currentUser != null)
+                if (CurrentUser != null)
                 {
-                    currentUser.XP += 15;
+                    CurrentUser.XP += 15;
                     ((SiteMaster)Master).UpdateUserHeaderAndNavigation();
                 }
             }
         }
 
         // --- Store Handlers ---
+        struct ShopAvailableItem
+        {
+            public int Id { get; set; }
+            public string Icon { get; set; }
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public int Cost { get; set; }
+            public bool Owned { get; set; }
+
+        }
+        private void BindStore()
+        {
+            using (var db = new AppDbContext())
+            {
+                rptStore.DataSource = db.ShopItems
+                    .Include(i => i.Redemptions)
+                    .ToList()
+                    .Select(i => new ShopAvailableItem
+                    {
+                        Id = i.Id,
+                        Icon = i.Icon,
+                        Name = i.Name,
+                        Description = i.Description,
+                        Cost = i.Cost,
+                        Owned = i.Redemptions.Any(r => r.UserId == CurrentUser.Id)
+                    })
+                    .ToList();
+                rptStore.DataBind();
+            }
+        }
+
         protected void rptStore_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             if (e.CommandName == "BuyItem")
             {
-                string itemId = e.CommandArgument.ToString();
-                var repo = AppStateRepository.GetCurrent();
-                var item = repo.StoreItems.FirstOrDefault(i => i.Id == itemId);
-                User currentUser = Session["CurrentUser"] as User;
+                int itemId = (int) e.CommandArgument;
 
-                if (item != null && currentUser != null)
+                var output = ShopService.HandleRedeem(CurrentUser.Id, itemId);
+                ShowNotification(output.Message);
+
+                if (output.Success)
                 {
-                    if (currentUser.Inventory.Contains(item.Title))
-                    {
-                        ShowNotification("You already own " + item.Title + "!");
-                        return;
-                    }
-
-                    if (currentUser.Points >= item.Price)
-                    {
-                        currentUser.Points -= item.Price;
-                        currentUser.Inventory.Add(item.Title);
-                        ShowNotification("Successfully redeemed: " + item.Title + "! Check your profile inventory.");
-                        BindDashboardData(currentUser);
-                        BindStore();
-                        ((SiteMaster)Master).UpdateUserHeaderAndNavigation();
-                    }
-                    else
-                    {
-                        ShowNotification("Insufficient points to purchase this item.");
-                    }
+                    BindDashboardData(CurrentUser);
+                    BindStore();
+                    ((SiteMaster)Master).UpdateUserHeaderAndNavigation();
                 }
             }
         }
 
         protected void rptStore_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-            {
-                StoreItem item = (StoreItem)e.Item.DataItem;
-                User currentUser = Session["CurrentUser"] as User;
-                Button btnBuyItem = (Button)e.Item.FindControl("btnBuyItem");
-                Label lblOwnedItem = (Label)e.Item.FindControl("lblOwnedItem");
-
-                if (item != null && currentUser != null && btnBuyItem != null && lblOwnedItem != null)
-                {
-                    bool isOwned = currentUser.Inventory.Contains(item.Title);
-                    if (isOwned)
-                    {
-                        btnBuyItem.Visible = false;
-                        lblOwnedItem.Visible = true;
-                    }
-                    else
-                    {
-                        btnBuyItem.Visible = true;
-                        lblOwnedItem.Visible = false;
-                    }
-                }
-            }
+            if (e.Item.ItemType != ListItemType.Item 
+                && e.Item.ItemType != ListItemType.AlternatingItem
+            ) return;
+            
+            var item = (ShopAvailableItem) e.Item.DataItem;
+            Button btnBuyItem = (Button)e.Item.FindControl("btnBuyItem");
+            Label lblOwnedItem = (Label)e.Item.FindControl("lblOwnedItem");
+                
+            btnBuyItem.Visible = !item.Owned;
+            lblOwnedItem.Visible = item.Owned;
         }
 
         // --- Forum Handlers ---

@@ -1,4 +1,6 @@
-﻿using DriveLingo.Database.Models;
+﻿using DriveLingo.Database;
+using DriveLingo.Database.Models;
+using DriveLingo.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,17 +23,7 @@ namespace DriveLingo
 
         protected void Application_PostAuthenticateRequest(object sender, EventArgs e)
         {
-            if (Request.IsAuthenticated && Context.User != null)
-            {
-                if (Session != null && Session["CurrentUser"] is User)
-                {
-                    User currentUser = Session["CurrentUser"] as User;
-
-                    string[] roles = new[] { currentUser.Role.ToString() };
-
-                    Context.User = new GenericPrincipal(Context.User.Identity, roles);
-                }
-            }
+            AuthService.AuthenticateRequest(HttpContext.Current);
         }
     }
 }

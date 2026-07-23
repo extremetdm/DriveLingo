@@ -16,6 +16,7 @@ namespace DriveLingo.Database.Seeders
                 new ShopItem
                 {
                     Id = 1,
+                    Icon = "✨", // change to img
                     Name = "Diamond",
                     Description = "Shiny",
                     Cost = 100
