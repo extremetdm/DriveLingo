@@ -1,4 +1,4 @@
-﻿<%@ Page Title="DriveLingo | Learner Portal" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Quizzes.aspx.cs" Inherits="DriveLingo.Quizzes" %>
+﻿<%@ Page Title="DriveLingo | Quizzes" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Quizzes.aspx.cs" Inherits="DriveLingo.Quizzes" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
   <style>

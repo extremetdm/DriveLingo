@@ -99,7 +99,7 @@ namespace DriveLingo
 
         //    litLevel.Text = user.CurrentLevel.ToString();
         //    litPoints.Text = user.Points.ToString();
-        //}   
+        //}
 
         //private void BindQuizzes()
         //{
@@ -148,7 +148,7 @@ namespace DriveLingo
         //    public string Title { get; set; }
         //    public int Points { get; set; }
         //    public int TotalQuestions { get; set; }
-            
+
         //}
 
         ////private void BindQuizzes()
@@ -548,14 +548,14 @@ namespace DriveLingo
 
         //protected void rptStore_ItemDataBound(object sender, RepeaterItemEventArgs e)
         //{
-        //    if (e.Item.ItemType != ListItemType.Item 
+        //    if (e.Item.ItemType != ListItemType.Item
         //        && e.Item.ItemType != ListItemType.AlternatingItem
         //    ) return;
-            
-        //    var item = (ShopAvailableItem) e.Item.DataItem;
+
+        //    var item = (ShopAvailableItem)e.Item.DataItem;
         //    Button btnBuyItem = (Button)e.Item.FindControl("btnBuyItem");
         //    Label lblOwnedItem = (Label)e.Item.FindControl("lblOwnedItem");
-                
+
         //    btnBuyItem.Visible = !item.Owned;
         //    lblOwnedItem.Visible = item.Owned;
         //}

@@ -11,196 +11,151 @@ namespace DriveLingo
 {
 
 
-    public partial class SiteMaster
+    public partial class Lessons
     {
 
         /// <summary>
-        /// HeadContent control.
+        /// pnlNotification control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder HeadContent;
+        protected global::System.Web.UI.WebControls.Panel pnlNotification;
 
         /// <summary>
-        /// form1 control.
+        /// litNotificationText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Literal litNotificationText;
 
         /// <summary>
-        /// divAppContainer control.
+        /// pnlMaterials control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAppContainer;
+        protected global::System.Web.UI.WebControls.Panel pnlMaterials;
 
         /// <summary>
-        /// appSidebar control.
+        /// pnlMaterialList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl appSidebar;
+        protected global::System.Web.UI.WebControls.Panel pnlMaterialList;
 
         /// <summary>
-        /// phLearnerNav control.
+        /// rptMaterials control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phLearnerNav;
+        protected global::System.Web.UI.WebControls.Repeater rptMaterials;
 
         /// <summary>
-        /// phEducatorNav control.
+        /// pnlMaterialDetail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phEducatorNav;
+        protected global::System.Web.UI.WebControls.Panel pnlMaterialDetail;
 
         /// <summary>
-        /// phAdminNav control.
+        /// litMatCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phAdminNav;
+        protected global::System.Web.UI.WebControls.Literal litMatCategory;
 
         /// <summary>
-        /// phUserFooter control.
+        /// litMatTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phUserFooter;
+        protected global::System.Web.UI.WebControls.Literal litMatTitle;
 
         /// <summary>
-        /// divSidebarAvatar control.
+        /// litMatReadTime control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSidebarAvatar;
+        protected global::System.Web.UI.WebControls.Literal litMatReadTime;
 
         /// <summary>
-        /// litAvatar control.
+        /// btnCloseMaterialDetail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litAvatar;
+        protected global::System.Web.UI.WebControls.Button btnCloseMaterialDetail;
 
         /// <summary>
-        /// litUserName control.
+        /// phMatImage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litUserName;
+        protected global::System.Web.UI.WebControls.PlaceHolder phMatImage;
 
         /// <summary>
-        /// litUserRole control.
+        /// imgMatDetail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litUserRole;
+        protected global::System.Web.UI.WebControls.Image imgMatDetail;
 
         /// <summary>
-        /// btnSignOut control.
+        /// litMatContent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnSignOut;
+        protected global::System.Web.UI.WebControls.Literal litMatContent;
 
         /// <summary>
-        /// phGuestFooter control.
+        /// pnlMatXpNotice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phGuestFooter;
+        protected global::System.Web.UI.WebControls.Panel pnlMatXpNotice;
 
         /// <summary>
-        /// topHeader control.
+        /// litMatXpStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl topHeader;
+        protected global::System.Web.UI.WebControls.Literal litMatXpStatus;
 
         /// <summary>
-        /// phLearnerBadges control.
+        /// hlMatPdf control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phLearnerBadges;
-
-        /// <summary>
-        /// litHeaderLevel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litHeaderLevel;
-
-        /// <summary>
-        /// litHeaderXpText control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litHeaderXpText;
-
-        /// <summary>
-        /// divHeaderXpBar control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divHeaderXpBar;
-
-        /// <summary>
-        /// litHeaderPoints control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litHeaderPoints;
-
-        /// <summary>
-        /// MainContent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::System.Web.UI.WebControls.HyperLink hlMatPdf;
     }
 }

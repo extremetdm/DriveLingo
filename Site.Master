@@ -33,7 +33,7 @@
                 <span class="nav-icon">✍️</span>
                 <span>Quiz</span>
               </asp:HyperLink>
-              <asp:HyperLink runat="server" NavigateUrl="~/Learner.aspx?tab=materials" CssClass="nav-item">
+              <asp:HyperLink runat="server" NavigateUrl="~/Lessons" CssClass="nav-item">
                 <span class="nav-icon">📚</span>
                 <span>Learning Material</span>
               </asp:HyperLink>

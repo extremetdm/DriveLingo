@@ -12,7 +12,7 @@ namespace DriveLingo.Database.Seeders
         {
             var quiz1 = new Quiz
             {
-                // Required foreign key to Lesson model
+                Id = 1,
                 LessonId = 1,
                 Title = "JPJ Road Signs Quiz",
                 Questions = new List<Question>

@@ -56,6 +56,6 @@ namespace DriveLingo.Database.Models
         public int XpProgress => LevelingService.CalculateXpProgress(XP);
 
         [NotMapped]
-        public int NextLevelXpRequired => LevelingService.CalculateRequiredXP(XP);
+        public int NextLevelXpRequired => LevelingService.CalculateRequiredXP(CurrentLevel);
     }
 }

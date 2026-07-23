@@ -45,7 +45,7 @@ namespace DriveLingo
                     {
                         QuizTitle = a.Quiz.Title,
                         Score = a.Score,
-                        Percentage = (double)a.Score / a.Answers.Count,
+                        Percentage = Math.Round(100.0 * (double)a.Score / a.Answers.Count, 1),
                         Passed = a.Passed,
                         CompletedAt = a.CompletedAt
                     })

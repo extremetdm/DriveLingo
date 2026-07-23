@@ -128,6 +128,7 @@
     <Content Include="Default.aspx" />
     <Content Include="Educator.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Lessons.aspx" />
     <Content Include="Quizzes.aspx" />
     <Content Include="Shop.aspx" />
     <Content Include="uploads\expressway_sign.svg" />
@@ -168,6 +169,10 @@
     <Compile Include="Database\Migrations\202607231418296_EditQuiz.Designer.cs">
       <DependentUpon>202607231418296_EditQuiz.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\Migrations\202607231519112_EditModule.cs" />
+    <Compile Include="Database\Migrations\202607231519112_EditModule.Designer.cs">
+      <DependentUpon>202607231519112_EditModule.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database\Seeders\QuizSeeder.cs" />
     <Compile Include="Data\AppStateRepository.cs" />
     <Compile Include="Data\SimulationQuestionBank.cs" />
@@ -184,6 +189,13 @@
     </Compile>
     <Compile Include="Educator.aspx.designer.cs">
       <DependentUpon>Educator.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Lessons.aspx.cs">
+      <DependentUpon>Lessons.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Lessons.aspx.designer.cs">
+      <DependentUpon>Lessons.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\Discussion.cs" />
     <Compile Include="Models\Material.cs" />
@@ -229,7 +241,6 @@
     <Compile Include="Database\Models\Traits\Timestamps.cs" />
     <Compile Include="Database\Models\User.cs" />
     <Compile Include="Database\Seeders\ForumPostSeeder.cs" />
-    <Compile Include="Database\Seeders\LessonSeeder.cs" />
     <Compile Include="Database\Seeders\ModuleSeeder.cs" />
     <Compile Include="Database\Seeders\UserSeeder.cs" />
     <Compile Include="Global.asax.cs">
@@ -335,6 +346,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202607231418296_EditQuiz.resx">
       <DependentUpon>202607231418296_EditQuiz.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607231519112_EditModule.resx">
+      <DependentUpon>202607231519112_EditModule.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

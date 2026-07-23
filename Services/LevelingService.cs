@@ -12,7 +12,7 @@ namespace DriveLingo.Services
         /// Total XP needed from 0 to reach a specific level threshold.
         /// Level 1 = 0 XP, Level 2 = 100 XP, Level 3 = 282 XP, etc.
         /// </summary>
-        public static int TotalXpForLevel(int level)
+        public static int TotalRequiredXpForLevel(int level)
         {
             if (level <= 1) return 0;
             return (int)Math.Round(100.0 * Math.Pow(level - 1, 1.5));
@@ -27,6 +27,7 @@ namespace DriveLingo.Services
             if (xp <= 0) return 1;
 
             int level = (int)Math.Floor(Math.Pow((double)xp / 100.0, 2.0 / 3.0)) + 1;
+
             return level;
         }
 
@@ -37,7 +38,7 @@ namespace DriveLingo.Services
         {
             if (currentLevel < 1) currentLevel = 1;
 
-            return TotalXpForLevel(currentLevel + 1) - TotalXpForLevel(currentLevel);
+            return TotalRequiredXpForLevel(currentLevel + 1) - TotalRequiredXpForLevel(currentLevel);
         }
 
         /// <summary>
@@ -46,7 +47,7 @@ namespace DriveLingo.Services
         public static int CalculateXpProgress(int xp)
         {
             int currentLevel = CalculateCurrentLevel(xp);
-            int xpAtStartOfLevel = TotalXpForLevel(currentLevel);
+            int xpAtStartOfLevel = TotalRequiredXpForLevel(currentLevel);
 
             return Math.Max(0, xp - xpAtStartOfLevel);
         }
