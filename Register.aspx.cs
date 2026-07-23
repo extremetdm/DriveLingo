@@ -17,7 +17,7 @@ namespace DriveLingo
             string name = txtName.Text.Trim();
             string email = txtEmail.Text.Trim();
             string password = txtPassword.Text.Trim();
-            string role = ddlRole.SelectedValue;
+            string role = "learner";
 
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
             {
@@ -40,7 +40,7 @@ namespace DriveLingo
                 Email = email,
                 Password = password,
                 Role = role,
-                Avatar = role == "educator" ? "👨‍✈️" : "🚗",
+                Avatar = "🚗",
                 Points = 100, // Welcome bonus
                 Level = 1,
                 XP = 0,
@@ -50,10 +50,7 @@ namespace DriveLingo
             repo.Users.Add(newUser);
             Session["CurrentUser"] = newUser;
 
-            if (role == "educator")
-                Response.Redirect("~/Educator.aspx");
-            else
-                Response.Redirect("~/Learner.aspx");
+            Response.Redirect("~/Learner.aspx");
         }
 
         private void ShowError(string message)

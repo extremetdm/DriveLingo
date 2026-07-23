@@ -122,13 +122,7 @@
           <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-input" placeholder="••••••••" />
         </div>
 
-        <div class="form-group">
-          <label>Account Type</label>
-          <asp:DropDownList ID="ddlRole" runat="server" CssClass="form-input">
-            <asp:ListItem Value="learner" Text="🚘 Candidate / Learner" Selected="True" />
-            <asp:ListItem Value="educator" Text="👨‍✈️ Driving Instructor / Educator" />
-          </asp:DropDownList>
-        </div>
+
 
         <asp:Button ID="btnRegisterSubmit" runat="server" Text="Create Account 🚀" OnClick="btnRegisterSubmit_Click" CssClass="btn btn-primary btn-auth-submit" />
       </div>

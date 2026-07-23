@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Master.cs" Inherits="DriveLingo.SiteMaster" %>
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Master.cs" Inherits="DriveLingo.SiteMaster" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -142,14 +142,11 @@
           </div>
 
           <div class="header-actions">
-            <!-- Learner Level, Points, and XP Progress Bar -->
+            <!-- Learner Level, XP Progress Bar, and Points -->
             <asp:PlaceHolder ID="phLearnerBadges" runat="server" Visible="false">
               <div style="display: flex; gap: 1rem; align-items: center;">
                 <span class="badge" style="background: rgba(99, 102, 241, 0.2); color: var(--primary); font-weight: 700;">
                   ⭐ Lvl <asp:Literal ID="litHeaderLevel" runat="server" Text="1" />
-                </span>
-                <span class="badge" style="background: rgba(245, 158, 11, 0.2); color: var(--warning); font-weight: 700;">
-                  🪙 <asp:Literal ID="litHeaderPoints" runat="server" Text="0" /> Pts
                 </span>
                 <div style="min-width: 140px;" title="Experience Points to Next Level">
                   <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.2rem;">
@@ -160,6 +157,9 @@
                     <div id="divHeaderXpBar" runat="server" style="height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); width: 90%;"></div>
                   </div>
                 </div>
+                <span class="badge" style="background: rgba(245, 158, 11, 0.2); color: var(--warning); font-weight: 700;">
+                  🪙 <asp:Literal ID="litHeaderPoints" runat="server" Text="0" /> Pts
+                </span>
               </div>
             </asp:PlaceHolder>
           </div>

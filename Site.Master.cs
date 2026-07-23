@@ -31,9 +31,11 @@ namespace DriveLingo
                 phUserFooter.Visible = true;
                 phGuestFooter.Visible = false;
 
-                litAvatar.Text = string.IsNullOrEmpty(currentUser.Avatar) ? "🚗" : currentUser.Avatar;
+                string defaultAvatar = currentUser.Role == "admin" ? "👑" : currentUser.Role == "educator" ? "👨‍✈️" : "🚗";
+                litAvatar.Text = string.IsNullOrEmpty(currentUser.Avatar) ? defaultAvatar : currentUser.Avatar;
                 litUserName.Text = currentUser.Name;
-                litUserRole.Text = "Role: " + currentUser.Role.ToUpper();
+                string roleSymbol = currentUser.Role == "admin" ? "👑 " : currentUser.Role == "educator" ? "👨‍✈️ " : "🚘 ";
+                litUserRole.Text = "Role: " + roleSymbol + currentUser.Role.ToUpper();
 
                 // Apply equipped cosmetic border glow if any
                 if (!string.IsNullOrEmpty(currentUser.EquippedBorder) && currentUser.EquippedBorder.Contains("Glowing Neon"))

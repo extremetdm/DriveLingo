@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace DriveLingo.Models
@@ -16,6 +16,8 @@ namespace DriveLingo.Models
         public int XP { get; set; }
         public List<string> Achievements { get; set; }
         public List<string> Inventory { get; set; }
+        public List<string> ReadMaterials { get; set; }
+        public List<string> CompletedQuizzes { get; set; }
         public string EquippedBorder { get; set; }
         public string JoinedDate { get; set; }
 
@@ -23,6 +25,8 @@ namespace DriveLingo.Models
         {
             Achievements = new List<string>();
             Inventory = new List<string>();
+            ReadMaterials = new List<string>();
+            CompletedQuizzes = new List<string>();
         }
     }
 }

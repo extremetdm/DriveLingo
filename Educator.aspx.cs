@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI;
@@ -91,7 +91,7 @@ namespace DriveLingo
         private void BindLearnerReports()
         {
             var repo = AppStateRepository.GetCurrent();
-            gvLearnerReports.DataSource = repo.Attempts.OrderByDescending(a => a.DateTaken).ToList();
+            gvLearnerReports.DataSource = repo.Attempts.AsEnumerable().Reverse().ToList();
             gvLearnerReports.DataBind();
         }
 

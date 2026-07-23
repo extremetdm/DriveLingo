@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace DriveLingo.Models
@@ -12,6 +12,7 @@ namespace DriveLingo.Models
         public int CorrectIndex { get; set; }
         public string Explanation { get; set; }
         public string ImageUrl { get; set; }
+        public string Section { get; set; } // "ColorBlindness", "SectionA", "SectionB", "SectionC"
 
         public Question()
         {
@@ -44,5 +45,10 @@ namespace DriveLingo.Models
         public int Percentage { get; set; }
         public bool Passed { get; set; }
         public string DateTaken { get; set; }
+        public bool IsSimulation { get; set; }
+        public int ColorBlindScore { get; set; }
+        public int SectionAScore { get; set; }
+        public int SectionBScore { get; set; }
+        public int SectionCScore { get; set; }
     }
 }
