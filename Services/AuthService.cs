@@ -100,6 +100,25 @@ namespace DriveLingo.Services
             }
         }
 
+        public static void Logout(HttpContext context)
+        {
+            FormsAuthentication.SignOut();
+            
+            context.Session?.Clear();
+            context.Session?.Abandon();
+
+            HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, "")
+            {
+                Expires = DateTime.Now.AddDays(-1),
+                HttpOnly = true,
+                Secure = FormsAuthentication.RequireSSL
+            };
+
+            context.Response.Cookies.Add(authCookie);
+
+            FormsAuthentication.RedirectToLoginPage();
+        }
+
         public static User CreateGuest()
         {
             var guest = new User

@@ -64,7 +64,7 @@ namespace DriveLingo
                     Response.Redirect("~/Educator.aspx");
                     break;
                 case Database.Models.User.UserRole.Learner:
-                    Response.Redirect("~/Learner.aspx");
+                    Response.Redirect("~/Dashboard.aspx");
                     break;
             }
         }

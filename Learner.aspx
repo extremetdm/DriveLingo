@@ -299,7 +299,7 @@
             <asp:Panel ID="pnlStoreAction" runat="server" style="margin-top: 1.5rem;">
               <!-- If unowned -->
               <asp:Button ID="btnBuyItem" runat="server" Text="Redeem Item" CommandName="BuyItem" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-primary" style="width: 100%;" />
-              <!-- If owned -->              
+              <!-- If owned -->
               <asp:Label ID="lblOwnedItem" runat="server" Text="Owned ✔" CssClass="badge badge-success" style="font-size: 1rem; padding: 0.6rem 1.2rem; display: block; width: 100%;" Visible="false" />
             </asp:Panel>
           </div>

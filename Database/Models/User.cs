@@ -46,8 +46,16 @@ namespace DriveLingo.Database.Models
 
         public virtual ICollection<ForumPost> ForumPosts { get; set; } = new HashSet<ForumPost> { };
         public virtual ICollection<ShopRedemption> ShopRedemptions { get; set; } = new HashSet<ShopRedemption> { };
+        public virtual ICollection<QuizAttempt> QuizAttempts { get; set; } = new HashSet<QuizAttempt> { };
+
 
         [NotMapped]
         public int CurrentLevel => LevelingService.CalculateCurrentLevel(XP);
+
+        [NotMapped]
+        public int XpProgress => LevelingService.CalculateXpProgress(XP);
+
+        [NotMapped]
+        public int NextLevelXpRequired => LevelingService.CalculateRequiredXP(XP);
     }
 }

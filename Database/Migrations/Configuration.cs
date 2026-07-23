@@ -22,6 +22,7 @@ namespace DriveLingo.Database.Migrations
             LessonSeeder.Run(context);
             ForumPostSeeder.Run(context);
             ShopItemSeeder.Run(context);
+            QuizSeeder.Run(context);
 
             context.SaveChanges();
         }

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Web;
 using System.Web.UI;
-using DriveLingo.Data;
-using DriveLingo.Models;
+using DriveLingo.Database.Models;
 
 namespace DriveLingo
 {
+    using Services;
     public partial class SiteMaster : System.Web.UI.MasterPage
     {
         protected void Page_Load(object sender, EventArgs e)
@@ -18,7 +18,7 @@ namespace DriveLingo
 
         public void UpdateUserHeaderAndNavigation()
         {
-            User currentUser = Session["CurrentUser"] as User;
+            var currentUser = Context.Items["CurrentUser"] as User;
             string currentPage = Page.AppRelativeVirtualPath.ToLower();
 
             bool isAuthPage = currentPage.EndsWith("login.aspx") || currentPage.EndsWith("register.aspx");
@@ -31,35 +31,55 @@ namespace DriveLingo
                 phUserFooter.Visible = true;
                 phGuestFooter.Visible = false;
 
-                string defaultAvatar = currentUser.Role == "admin" ? "👑" : currentUser.Role == "educator" ? "👨‍✈️" : "🚗";
-                litAvatar.Text = string.IsNullOrEmpty(currentUser.Avatar) ? defaultAvatar : currentUser.Avatar;
-                litUserName.Text = currentUser.Name;
-                string roleSymbol = currentUser.Role == "admin" ? "👑 " : currentUser.Role == "educator" ? "👨‍✈️ " : "🚘 ";
-                litUserRole.Text = "Role: " + roleSymbol + currentUser.Role.ToUpper();
+                string defaultAvatar;
+                string roleSymbol;
+                switch (currentUser.Role)
+                {
+                    case User.UserRole.Admin:
+                        defaultAvatar = "👑";
+                        roleSymbol = "👑 ";
+                        break;
+                    case User.UserRole.Instructor:
+                        defaultAvatar = "👨‍✈️";
+                        roleSymbol = "👨‍✈️ ";
+                        break;
+                    case User.UserRole.Learner:
+                        defaultAvatar = "🚗";
+                        roleSymbol = "🚘 ";
+                        break;
+                    default:
+                        defaultAvatar = "";
+                        roleSymbol = "";
+                        break;
+                }
+
+                litAvatar.Text = defaultAvatar;
+                //litAvatar.Text = string.IsNullOrEmpty(currentUser.Avatar) ? defaultAvatar : currentUser.Avatar;
+                litUserName.Text = currentUser.Username;
+                litUserRole.Text = "Role: " + roleSymbol + currentUser.Role.ToString().ToUpper();
 
                 // Apply equipped cosmetic border glow if any
-                if (!string.IsNullOrEmpty(currentUser.EquippedBorder) && currentUser.EquippedBorder.Contains("Glowing Neon"))
-                {
-                    divSidebarAvatar.Style["box-shadow"] = "0 0 12px var(--primary), 0 0 24px var(--secondary)";
-                    divSidebarAvatar.Style["border"] = "2px solid var(--primary)";
-                }
-                else
-                {
+                
+                //if (!string.IsNullOrEmpty(currentUser.EquippedBorder) && currentUser.EquippedBorder.Contains("Glowing Neon"))
+                //{
+                //    divSidebarAvatar.Style["box-shadow"] = "0 0 12px var(--primary), 0 0 24px var(--secondary)";
+                //    divSidebarAvatar.Style["border"] = "2px solid var(--primary)";
+                //}
+                //else
+                //{
                     divSidebarAvatar.Style.Remove("box-shadow");
                     divSidebarAvatar.Style.Remove("border");
-                }
+                //}
 
                 // Show badges & level/XP progress strictly for Candidate / Learner
-                if (currentUser.Role == "learner")
+                if (currentUser.Role == User.UserRole.Learner)
                 {
                     phLearnerBadges.Visible = true;
-                    litHeaderLevel.Text = currentUser.Level.ToString();
+                    litHeaderLevel.Text = currentUser.CurrentLevel.ToString();
                     litHeaderPoints.Text = currentUser.Points.ToString();
 
-                    int currentLevelXp = currentUser.XP % 200;
-                    int targetLevelXp = 200;
-                    int percent = (int)Math.Round((double)currentLevelXp / targetLevelXp * 100);
-                    litHeaderXpText.Text = currentLevelXp + " / " + targetLevelXp + " XP";
+                    int percent = (int)Math.Round((double)currentUser.XpProgress / currentUser.NextLevelXpRequired * 100);
+                    litHeaderXpText.Text = currentUser.XpProgress + " / " + currentUser.NextLevelXpRequired + " XP";
                     divHeaderXpBar.Style["width"] = percent + "%";
                 }
                 else
@@ -68,9 +88,9 @@ namespace DriveLingo
                 }
 
                 // Role based navigation links - strictly show role specific sidebar section
-                phLearnerNav.Visible = (currentUser.Role == "learner");
-                phEducatorNav.Visible = (currentUser.Role == "educator");
-                phAdminNav.Visible = (currentUser.Role == "admin");
+                phLearnerNav.Visible = (currentUser.Role == User.UserRole.Learner);
+                phEducatorNav.Visible = (currentUser.Role == User.UserRole.Instructor);
+                phAdminNav.Visible = (currentUser.Role == User.UserRole.Admin);
             }
             else
             {
@@ -90,7 +110,7 @@ namespace DriveLingo
 
         protected void btnSignOut_Click(object sender, EventArgs e)
         {
-            Session["CurrentUser"] = null;
+            AuthService.Logout(Context);
             Response.Redirect("~/Login.aspx");
         }
     }

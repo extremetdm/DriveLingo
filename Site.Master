@@ -25,11 +25,11 @@
           <nav class="nav-menu">
             <!-- Candidate / Learner Menu -->
             <asp:PlaceHolder ID="phLearnerNav" runat="server" Visible="false">
-              <asp:HyperLink runat="server" NavigateUrl="~/Learner.aspx?tab=dashboard" CssClass="nav-item">
+              <asp:HyperLink runat="server" NavigateUrl="~/Dashboard" CssClass="nav-item">
                 <span class="nav-icon">📊</span>
                 <span>Dashboard</span>
               </asp:HyperLink>
-              <asp:HyperLink runat="server" NavigateUrl="~/Learner.aspx?tab=exam" CssClass="nav-item">
+              <asp:HyperLink runat="server" NavigateUrl="~/Quizzes" CssClass="nav-item">
                 <span class="nav-icon">✍️</span>
                 <span>Quiz</span>
               </asp:HyperLink>
@@ -41,7 +41,7 @@
                 <span class="nav-icon">🏎️</span>
                 <span>Simulation</span>
               </asp:HyperLink>
-              <asp:HyperLink runat="server" NavigateUrl="~/Learner.aspx?tab=store" CssClass="nav-item">
+              <asp:HyperLink runat="server" NavigateUrl="~/Shop" CssClass="nav-item">
                 <span class="nav-icon">🛒</span>
                 <span>Store</span>
               </asp:HyperLink>

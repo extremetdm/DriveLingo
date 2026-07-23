@@ -124,9 +124,12 @@
   <ItemGroup>
     <Content Include="Admin.aspx" />
     <Content Include="css\styles.css" />
+    <Content Include="Dashboard.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Educator.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Quizzes.aspx" />
+    <Content Include="Shop.aspx" />
     <Content Include="uploads\expressway_sign.svg" />
     <Content Include="uploads\no_entry.svg" />
     <Content Include="uploads\sign_20eeac0d.jpg" />
@@ -146,10 +149,26 @@
     <Compile Include="Admin.aspx.designer.cs">
       <DependentUpon>Admin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Dashboard.aspx.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Dashboard.aspx.designer.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Database\Migrations\202607231023398_AddShopItemIconAndQuizPassStatus.cs" />
     <Compile Include="Database\Migrations\202607231023398_AddShopItemIconAndQuizPassStatus.Designer.cs">
       <DependentUpon>202607231023398_AddShopItemIconAndQuizPassStatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\Migrations\202607231204527_AddForeignKeyToQuiz.cs" />
+    <Compile Include="Database\Migrations\202607231204527_AddForeignKeyToQuiz.Designer.cs">
+      <DependentUpon>202607231204527_AddForeignKeyToQuiz.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\202607231418296_EditQuiz.cs" />
+    <Compile Include="Database\Migrations\202607231418296_EditQuiz.Designer.cs">
+      <DependentUpon>202607231418296_EditQuiz.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Seeders\QuizSeeder.cs" />
     <Compile Include="Data\AppStateRepository.cs" />
     <Compile Include="Data\SimulationQuestionBank.cs" />
     <Compile Include="Default.aspx.cs">
@@ -219,6 +238,13 @@
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Database\AppDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Quizzes.aspx.cs">
+      <DependentUpon>Quizzes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Quizzes.aspx.designer.cs">
+      <DependentUpon>Quizzes.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Services\AuthService.cs" />
     <Compile Include="Services\LevelingService.cs" />
     <Compile Include="Services\ServiceStatusOutput.cs" />
@@ -236,6 +262,13 @@
     </Compile>
     <Compile Include="Profile.aspx.designer.cs">
       <DependentUpon>Profile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Shop.aspx.cs">
+      <DependentUpon>Shop.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Shop.aspx.designer.cs">
+      <DependentUpon>Shop.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
@@ -257,6 +290,9 @@
     </Compile>
     <Compile Include="Learner.aspx.designer.cs">
       <DependentUpon>Learner.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AuthPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -293,6 +329,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202607231023398_AddShopItemIconAndQuizPassStatus.resx">
       <DependentUpon>202607231023398_AddShopItemIconAndQuizPassStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607231204527_AddForeignKeyToQuiz.resx">
+      <DependentUpon>202607231204527_AddForeignKeyToQuiz.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607231418296_EditQuiz.resx">
+      <DependentUpon>202607231418296_EditQuiz.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
