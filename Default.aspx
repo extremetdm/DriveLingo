@@ -15,7 +15,7 @@
 
     <!-- Navigation Shortcuts -->
     <div style="display: flex; justify-content: center; gap: 1.25rem; flex-wrap: wrap;">
-      <asp:HyperLink ID="lnkLearnerPortal" runat="server" NavigateUrl="~/Learner.aspx" CssClass="btn btn-primary" style="font-size: 1.1rem; padding: 0.85rem 2rem;">
+      <asp:HyperLink ID="lnkLearnerPortal" runat="server" NavigateUrl="~/Dashboard" CssClass="btn btn-primary" style="font-size: 1.1rem; padding: 0.85rem 2rem;">
         🚘 Launch Learner Portal
       </asp:HyperLink>
 

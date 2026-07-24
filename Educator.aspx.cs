@@ -12,12 +12,12 @@ namespace DriveLingo
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            User user = Session["CurrentUser"] as User;
-            if (user == null || (user.Role != "educator" && user.Role != "admin"))
-            {
-                Response.Redirect("~/Login.aspx");
-                return;
-            }
+            //User user = Session["CurrentUser"] as User;
+            //if (user == null || (user.Role != "educator" && user.Role != "admin"))
+            //{
+            //    Response.Redirect("~/Login.aspx");
+            //    return;
+            //}
 
             if (!IsPostBack)
             {

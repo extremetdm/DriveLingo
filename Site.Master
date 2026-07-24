@@ -57,11 +57,11 @@
 
             <!-- Educator Menu -->
             <asp:PlaceHolder ID="phEducatorNav" runat="server" Visible="false">
-              <asp:HyperLink runat="server" NavigateUrl="~/Educator.aspx?tab=dashboard" CssClass="nav-item">
+              <asp:HyperLink runat="server" NavigateUrl="~/Instructor/Dashboard" CssClass="nav-item">
                 <span class="nav-icon">📊</span>
                 <span>Dashboard</span>
               </asp:HyperLink>
-              <asp:HyperLink runat="server" NavigateUrl="~/Educator.aspx?tab=quizzes" CssClass="nav-item">
+              <asp:HyperLink runat="server" NavigateUrl="~/Instructor/Quizzes" CssClass="nav-item">
                 <span class="nav-icon">✍️</span>
                 <span>CRUD Quiz</span>
               </asp:HyperLink>

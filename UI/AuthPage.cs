@@ -35,7 +35,7 @@ namespace DriveLingo.UI
         protected void RequireAuth(Database.Models.User.UserRole? role)
         {
             bool shouldRedirect = !IsLoggedIn;
-            shouldRedirect |= role != null && CurrentUser.Role == role;
+            shouldRedirect |= role != null && CurrentUser.Role != role;
 
             if (shouldRedirect)
             {
