@@ -30,6 +30,7 @@ namespace DriveLingo
             if (!output.Success)
             {
                 ShowError(output.Message);
+                return;
             }
 
             Response.Redirect("~/Dashboard");
