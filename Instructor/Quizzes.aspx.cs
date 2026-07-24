@@ -1,6 +1,7 @@
 ﻿using DriveLingo.Data;
 using DriveLingo.Database;
 using DriveLingo.Database.Models;
+using DriveLingo.Services;
 using DriveLingo.UI;
 using Microsoft.Ajax.Utilities;
 using System;
@@ -94,47 +95,13 @@ namespace DriveLingo.Instructor
 
             if (fileQuestionImage.HasFile && fileQuestionImage.FileContent.Length > 0)
             {
-                try
+                var output = UploadService.UploadImage(fileQuestionImage);
+                if (!output.Success)
                 {
-                    string[] allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp", ".svg" };
-
-                    string originalFileName = Path.GetFileName(fileQuestionImage.FileName); // Strip client path info
-                    string extension = Path.GetExtension(originalFileName).ToLowerInvariant();
-
-                    if (!allowedExtensions.Contains(extension))
-                    {
-                        throw new InvalidOperationException("Invalid file type uploaded.");
-                    }
-
-                    string uploadsDir = Server.MapPath("~/uploads/");
-                    if (!Directory.Exists(uploadsDir))
-                    {
-                        Directory.CreateDirectory(uploadsDir);
-                    }
-
-                    string safeFileName = "sign_" + Guid.NewGuid().ToString("N").Substring(0, 8) + extension;
-
-                    string fullPath = Path.GetFullPath(Path.Combine(uploadsDir, safeFileName));
-
-                    string canonicalUploadsDir = Path.GetFullPath(uploadsDir);
-                    if (!canonicalUploadsDir.EndsWith(Path.DirectorySeparatorChar.ToString()))
-                    {
-                        canonicalUploadsDir += Path.DirectorySeparatorChar;
-                    }
-
-                    if (!fullPath.StartsWith(canonicalUploadsDir, StringComparison.OrdinalIgnoreCase))
-                    {
-                        throw new System.Security.SecurityException("Path traversal attempt detected!");
-                    }
-
-                    // 7. Save file safely
-                    fileQuestionImage.SaveAs(fullPath);
-                    imageUrl = "uploads/" + safeFileName;
+                    ShowNotification(output.Message);
+                    return;
                 }
-                catch (Exception ex)
-                {
-                    ShowNotification("Image upload error: " + ex.Message);
-                }
+                imageUrl = output.FilePath;
             }
 
 

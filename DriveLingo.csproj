@@ -124,6 +124,7 @@
   <ItemGroup>
     <Content Include="Admin.aspx" />
     <Content Include="Admin\Default.aspx" />
+    <Content Include="Admin\Lessons.aspx" />
     <Content Include="Admin\Users.aspx" />
     <Content Include="css\styles.css" />
     <Content Include="Dashboard.aspx" />
@@ -162,6 +163,13 @@
     </Compile>
     <Compile Include="Admin\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Lessons.aspx.cs">
+      <DependentUpon>Lessons.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Lessons.aspx.designer.cs">
+      <DependentUpon>Lessons.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Users.aspx.cs">
       <DependentUpon>Users.aspx</DependentUpon>
@@ -327,6 +335,7 @@
     <Compile Include="Profile.aspx.designer.cs">
       <DependentUpon>Profile.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Services\UploadService.cs" />
     <Compile Include="Shop.aspx.cs">
       <DependentUpon>Shop.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

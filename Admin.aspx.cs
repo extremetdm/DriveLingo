@@ -5,19 +5,15 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using DriveLingo.Data;
 using DriveLingo.Models;
+using DriveLingo.UI;
 
 namespace DriveLingo
 {
-    public partial class Administrator : Page
+    public partial class Administrator : AuthPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            User user = Session["CurrentUser"] as User;
-            if (user == null || user.Role != "admin")
-            {
-                Response.Redirect("~/Login.aspx");
-                return;
-            }
+            RequireAuth(Database.Models.User.UserRole.Admin);
 
             if (!IsPostBack)
             {
