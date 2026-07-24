@@ -59,7 +59,7 @@ namespace DriveLingo
                 }
                 else
                 {
-                    litPassRate.Text = "100%";
+                    litPassRate.Text = "0%";
                 }
 
                 gvAttempts.DataSource = attempts;

@@ -15,5 +15,15 @@ namespace DriveLingo.Services
             Success = success;
             Message = message;
         }
+
+        public static ServiceStatusOutput error(string message)
+        {
+            return new ServiceStatusOutput(false, message);
+        }
+
+        public static ServiceStatusOutput success(string message)
+        {
+            return new ServiceStatusOutput(true, message);
+        }
     }
 }

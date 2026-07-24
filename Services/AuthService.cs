@@ -29,6 +29,10 @@ namespace DriveLingo.Services
                 return user;
             }
         }
+        private static void IssueAuthCookie(User user)
+        {
+            IssueAuthCookie(user, true);
+        }
 
         private static void IssueAuthCookie(User user, bool rememberMe)
         {
@@ -134,15 +138,31 @@ namespace DriveLingo.Services
             return guest;
         }
 
-        public static User Register(string username, string password, string email)
+        public static ServiceStatusOutput Register(string username, string password, string email)
         {
             return Register(username, password, email, null);
         }
 
-        public static User Register(string username, string password, string email, int? guestUserId)
+        public static ServiceStatusOutput Register(string username, string password, string email, int? guestUserId)
         {
             using (var db = new AppDbContext())
             {
+                var sameUsernameUser = db.Users
+                    .Where(u => u.Username == username)
+                    .FirstOrDefault();
+                if (sameUsernameUser != null)
+                {
+                    return ServiceStatusOutput.error("Username has been taken.");
+                }
+
+                var sameEmailUser = db.Users
+                    .Where(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase))
+                    .FirstOrDefault();
+                if (sameEmailUser != null)
+                {
+                    return ServiceStatusOutput.error("Email has been taken.");
+                }
+
                 User guest = null;
 
                 if (guestUserId != null)
@@ -160,10 +180,13 @@ namespace DriveLingo.Services
                 guest.Username = username;
                 guest.Password = BCrypt.Net.BCrypt.HashPassword(password);
                 guest.Email = email;
+                guest.RegisteredAt = DateTime.Now;
 
                 db.SaveChanges();
+
+                IssueAuthCookie(guest);
                 
-                return guest;
+                return ServiceStatusOutput.success("Register Successful");
             }
         }
     }
