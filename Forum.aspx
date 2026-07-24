@@ -69,12 +69,12 @@
               </HeaderTemplate>
               <ItemTemplate>
     
-                <%-- 1. Educator State Markup --%>
+                <%-- 1. Instructor State Markup --%>
                 <asp:PlaceHolder ID="phEducatorReply" runat="server" Visible="false">
                   <div style="margin-bottom: 1rem; padding: 0.75rem; background: rgba(16, 185, 129, 0.1); border-radius: var(--radius-sm); border: 1px solid var(--success);">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
                       <span style="font-weight: 700; font-size: 0.85rem; color: var(--success);">
-                        <%# Eval("AuthorAvatar") %> <%# Eval("AuthorName") %> ✔ (Educator Verified Answer)
+                        <%# Eval("AuthorAvatar") %> <%# Eval("AuthorName") %> ✔ (Instructor Verified Answer)
                       </span>
                       <span style="font-size: 0.75rem; color: var(--text-secondary);"><%# Eval("CreatedAt", "{0:g}") %></span>
                     </div>

@@ -65,7 +65,7 @@
                 <span class="nav-icon">✍️</span>
                 <span>CRUD Quiz</span>
               </asp:HyperLink>
-              <asp:HyperLink runat="server" NavigateUrl="~/Educator.aspx?tab=forum" CssClass="nav-item">
+              <asp:HyperLink runat="server" NavigateUrl="~/Instructor/Forum" CssClass="nav-item">
                 <span class="nav-icon">💬</span>
                 <span>Forum</span>
               </asp:HyperLink>
@@ -137,7 +137,7 @@
         <header class="top-header" id="topHeader" runat="server">
           <div style="display: flex; align-items: center; gap: 0.85rem;">
             <div class="header-title">
-              <h2 style="margin: 0; font-family: var(--font-heading);">DriveLingo ASP.NET Engine</h2>
+              <h2 style="margin: 0; font-family: var(--font-heading);">DriveLingo Portal</h2>
             </div>
           </div>
 

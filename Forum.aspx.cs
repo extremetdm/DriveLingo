@@ -25,77 +25,28 @@ namespace DriveLingo
             }
         }
 
-        struct ForumThread
-        {
-            public int Id { get; set; } 
-            public string Title { get; set; }
-            public string Content { get; set; }
-            public DateTime CreatedAt { get; set; }
-            public string AuthorName { get; set; }
-            public UserRole AuthorRole { get; set; }
-            public string AuthorAvatar { get; set; }
-            public ICollection<ForumThread> Replies { get; set; }
-            public int Likes { get; set; }
-
-        }
-
         private void BindForum()
         {
-            using (var db = new AppDbContext())
-            {
-                rptForum.DataSource = db.ForumPosts
-                    .Include(p => p.User)
-                    .Include(p => p.Replies.Select(r => r.User))
-                    .Where(p => p.ReplyingPostId == null)
-                    .OrderByDescending(p => p.CreatedAt)
-                    .Select(p => new
-                    {
-                        p.Id,
-                        p.Title,
-                        p.Content,
-                        p.CreatedAt,
-                        Author = p.User,
-                        Replies = p.Replies
-                            .OrderBy(r => r.CreatedAt)
-                            .Select(r => new
-                            {
-                                r.Id,
-                                r.Title,
-                                r.Content,
-                                r.CreatedAt,
-                                Author = r.User,
-                                Likes = 0
-                            }),
-                            Likes = 0 // TODO CHANGE THIS
-                    })
-                    .ToList()
-                    .Select(p => new ForumThread
-                    {
-                        Id = p.Id,
-                        Title = p.Title,
-                        Content = p.Content,
-                        CreatedAt = p.CreatedAt,
-                        AuthorName = p.Author.Username,
-                        AuthorRole = p.Author.Role,
-                        AuthorAvatar = p.Author.Avatar,
-                        Replies = p.Replies.Select(r => new ForumThread
-                        {
-                            Id = r.Id,
-                            Title = r.Title,
-                            Content = r.Content,
-                            CreatedAt = r.CreatedAt,
-                            AuthorName = r.Author.Username,
-                            AuthorRole = r.Author.Role,
-                            AuthorAvatar = r.Author.Avatar,
-                            Likes = 0
-                        }).ToList(),
-                        Likes = 0
-                    })
-                    .ToList();
-
-            }
+            rptForum.DataSource = ForumService.GetForumThreads();
             rptForum.DataBind();
         }
+
+        protected void rptForum_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType != ListItemType.Item
+                && e.Item.ItemType != ListItemType.AlternatingItem)
+                return;
+
+            var thread = (ForumThread)e.Item.DataItem;
+            var rptReplies = (Repeater)e.Item.FindControl("rptReplies");
+
+            if (rptReplies != null)
+            {
+                rptReplies.DataSource = thread.Replies;
+                rptReplies.DataBind();
+            }
+        }
+
         protected void rptReplies_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
@@ -178,48 +129,20 @@ namespace DriveLingo
         {
             if (CurrentUser == null) return;
 
+            int postId = int.Parse(e.CommandArgument.ToString());
             TextBox txtCandidateReply = (TextBox)e.Item.FindControl("txtCandidateReply");
 
+            var output = ForumService.AddReply(CurrentUser.Id, postId, txtCandidateReply.Text);
 
-            if (txtCandidateReply == null || string.IsNullOrEmpty(txtCandidateReply.Text.Trim()))
-                return;
-
-            int postId = int.Parse(e.CommandArgument.ToString());
-
-            using (var db = new AppDbContext())
+            if (output.Success)
             {
-                var post = db.ForumPosts.Find(postId);
-                if (post == null) return;
-
-                post.Replies.Add(new ForumPost
-                {
-                    UserId = CurrentUser.Id,
-                    Title = null,
-                    Content = txtCandidateReply.Text.Trim(),
-                });
-
-                db.SaveChanges();
-
                 ShowNotification("Your comment reply has been added!");
                 txtCandidateReply.Text = "";
                 BindForum();
             }
-            
-        }
-
-        protected void rptForum_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType != ListItemType.Item
-                && e.Item.ItemType != ListItemType.AlternatingItem)
-                return;
-
-            var thread = (ForumThread)e.Item.DataItem;
-            Repeater rptReplies = (Repeater)e.Item.FindControl("rptReplies");
-
-            if (rptReplies != null)
+            else
             {
-                rptReplies.DataSource = thread.Replies;
-                rptReplies.DataBind();
+                ShowNotification(output.Message);
             }
         }
 

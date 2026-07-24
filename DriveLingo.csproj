@@ -130,6 +130,7 @@
     <Content Include="Instructor\Dashboard.aspx" />
     <Content Include="Forum.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Instructor\Forum.aspx" />
     <Content Include="Instructor\Quizzes.aspx" />
     <Content Include="Lessons.aspx" />
     <Content Include="Quizzes.aspx" />
@@ -207,6 +208,13 @@
     <Compile Include="Forum.aspx.designer.cs">
       <DependentUpon>Forum.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Instructor\Forum.aspx.cs">
+      <DependentUpon>Forum.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Instructor\Forum.aspx.designer.cs">
+      <DependentUpon>Forum.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Instructor\Quizzes.aspx.cs">
       <DependentUpon>Quizzes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -281,6 +289,7 @@
       <DependentUpon>Quizzes.aspx</DependentUpon>
     </Compile>
     <Compile Include="Services\AuthService.cs" />
+    <Compile Include="Services\ForumService.cs" />
     <Compile Include="Services\LevelingService.cs" />
     <Compile Include="Services\ServiceStatusOutput.cs" />
     <Compile Include="Services\ShopService.cs" />
