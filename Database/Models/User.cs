@@ -42,7 +42,7 @@ namespace DriveLingo.Database.Models
         [Required]
         public int Points { get; set; } = 0;
 
-        public DateTime RegisteredAt { get; set; }
+        public DateTime? RegisteredAt { get; set; }
 
         public virtual ICollection<ForumPost> ForumPosts { get; set; } = new HashSet<ForumPost> { };
         public virtual ICollection<ShopRedemption> ShopRedemptions { get; set; } = new HashSet<ShopRedemption> { };

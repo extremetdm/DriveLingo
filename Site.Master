@@ -81,7 +81,7 @@
                 <span class="nav-icon">📊</span>
                 <span>Dashboard</span>
               </asp:HyperLink>
-              <asp:HyperLink runat="server" NavigateUrl="~/Admin.aspx?tab=users" CssClass="nav-item">
+              <asp:HyperLink runat="server" NavigateUrl="~/Admin/Users" CssClass="nav-item">
                 <span class="nav-icon">👥</span>
                 <span>CRUD Users</span>
               </asp:HyperLink>

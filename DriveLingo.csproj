@@ -124,6 +124,7 @@
   <ItemGroup>
     <Content Include="Admin.aspx" />
     <Content Include="Admin\Default.aspx" />
+    <Content Include="Admin\Users.aspx" />
     <Content Include="css\styles.css" />
     <Content Include="Dashboard.aspx" />
     <Content Include="Default.aspx" />
@@ -162,6 +163,13 @@
     <Compile Include="Admin\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Users.aspx.cs">
+      <DependentUpon>Users.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Users.aspx.designer.cs">
+      <DependentUpon>Users.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Dashboard.aspx.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -184,6 +192,10 @@
     <Compile Include="Database\Migrations\202607231519112_EditModule.cs" />
     <Compile Include="Database\Migrations\202607231519112_EditModule.Designer.cs">
       <DependentUpon>202607231519112_EditModule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\202607240934020_EditUserRegisteredAt.cs" />
+    <Compile Include="Database\Migrations\202607240934020_EditUserRegisteredAt.Designer.cs">
+      <DependentUpon>202607240934020_EditUserRegisteredAt.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Seeders\QuizSeeder.cs" />
     <Compile Include="Data\AppStateRepository.cs" />
@@ -390,6 +402,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202607231519112_EditModule.resx">
       <DependentUpon>202607231519112_EditModule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607240934020_EditUserRegisteredAt.resx">
+      <DependentUpon>202607240934020_EditUserRegisteredAt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
