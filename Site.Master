@@ -69,7 +69,7 @@
                 <span class="nav-icon">💬</span>
                 <span>Forum</span>
               </asp:HyperLink>
-              <asp:HyperLink runat="server" NavigateUrl="~/Educator.aspx?tab=reports" CssClass="nav-item">
+              <asp:HyperLink runat="server" NavigateUrl="~/Instructor/LearnerPerformance" CssClass="nav-item">
                 <span class="nav-icon">📈</span>
                 <span>Learner Report</span>
               </asp:HyperLink>

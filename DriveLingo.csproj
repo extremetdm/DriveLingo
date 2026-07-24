@@ -131,6 +131,7 @@
     <Content Include="Forum.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Instructor\Forum.aspx" />
+    <Content Include="Instructor\LearnerPerformance.aspx" />
     <Content Include="Instructor\Quizzes.aspx" />
     <Content Include="Lessons.aspx" />
     <Content Include="Quizzes.aspx" />
@@ -214,6 +215,13 @@
     </Compile>
     <Compile Include="Instructor\Forum.aspx.designer.cs">
       <DependentUpon>Forum.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Instructor\LearnerPerformance.aspx.cs">
+      <DependentUpon>LearnerPerformance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Instructor\LearnerPerformance.aspx.designer.cs">
+      <DependentUpon>LearnerPerformance.aspx</DependentUpon>
     </Compile>
     <Compile Include="Instructor\Quizzes.aspx.cs">
       <DependentUpon>Quizzes.aspx</DependentUpon>
