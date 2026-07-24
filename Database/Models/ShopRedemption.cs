@@ -24,6 +24,6 @@ namespace DriveLingo.Database.Models
         public virtual User User { get; set; }
 
         [ForeignKey(nameof(ItemId))]
-        public virtual ShopItem ShopItem { get; set; }
+        public virtual ShopItem Item { get; set; }
     }
 }

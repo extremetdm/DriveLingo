@@ -1,96 +1,160 @@
-﻿using DriveLingo.Data;
+﻿using DriveLingo.Database;
+using DriveLingo.Database.Models;
 using DriveLingo.Models;
+using DriveLingo.UI;
 using System;
+using System.Data.Entity;
+using System.Linq;
 using System.Web.UI;
 using System.Xml.Linq;
 
 namespace DriveLingo
 {
-    public partial class UserProfilePage : Page
+    public partial class UserProfilePage : AuthPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            User user = Session["CurrentUser"] as User;
-            if (user == null)
-            {
-                Response.Redirect("~/Login.aspx");
-                return;
-            }
+            RequireAuth();
 
             if (!IsPostBack)
             {
-                LoadProfile(user);
+                LoadProfile();
             }
         }
 
-        private void LoadProfile(User user)
+        struct OwnedItem
         {
-            string defaultAvatar = user.Role == "admin" ? "👑" : user.Role == "educator" ? "👨‍✈️" : "🚗";
-            litAvatar.Text = string.IsNullOrEmpty(user.Avatar) ? defaultAvatar : user.Avatar;
-            string roleSymbol = user.Role == "admin" ? "👑 " : user.Role == "educator" ? "👨‍✈️ " : "🚘 ";
-            litRoleBadge.Text = roleSymbol + user.Role.ToUpper();
-            litUserName.Text = user.Name;
-            litUserEmail.Text = user.Email;
-            litJoinedDate.Text = user.JoinedDate;
+            public int Id {  get; set; }
+            public string Icon { get; set; }
+            public string Name { get; set; }
+        }
 
-            txtName.Text = user.Name;
-            if (ddlAvatar.Items.FindByValue(user.Avatar) != null)
+        private void LoadProfile()
+        {
+            litAvatar.Text = CurrentUser.Avatar;
+            string roleSymbol;
+            switch (CurrentUser.Role)
             {
-                ddlAvatar.SelectedValue = user.Avatar;
+                case Database.Models.User.UserRole.Admin:
+                    roleSymbol = "👑 ";
+                    break;
+                case Database.Models.User.UserRole.Instructor:
+                    roleSymbol = "👨‍✈️ ";
+                    break;
+                case Database.Models.User.UserRole.Learner:
+                    roleSymbol = "🚘 ";
+                    break;
+                default:
+                    roleSymbol = "";
+                    break;
             }
 
-            if (user.Inventory.Count > 0)
+            litRoleBadge.Text = roleSymbol + CurrentUser.Role.ToString().ToUpper();
+            litUserName.Text = CurrentUser.Username;
+            litUserEmail.Text = CurrentUser.Email;
+            litJoinedDate.Text = CurrentUser.RegisteredAt.ToString();
+
+            txtName.Text = CurrentUser.Username;
+            if (ddlAvatar.Items.FindByValue(CurrentUser.Avatar) != null)
             {
-                rptInventory.DataSource = user.Inventory;
-                rptInventory.DataBind();
-                lblNoInventory.Visible = false;
+                ddlAvatar.SelectedValue = CurrentUser.Avatar;
             }
-            else
+
+            using (var db = new AppDbContext())
             {
-                lblNoInventory.Visible = true;
+                var items = db.ShopRedemptions
+                    .Where(r => r.UserId == CurrentUser.Id)
+                    .Select(r => new
+                    {
+                        r.Id,
+                        r.Item.Icon,
+                        r.Item.Name
+                    })
+                    .ToList()
+                    .Select(i => new OwnedItem
+                    {
+                        Id = i.Id,
+                        Icon = i.Icon,
+                        Name = i.Name,
+                    })
+                    .ToList();
+                if (items.Count > 0)
+                {
+                    rptInventory.DataSource = items;
+                    rptInventory.DataBind();
+                    lblNoInventory.Visible = false;
+                }
+                else
+                {
+                    lblNoInventory.Visible = true;
+                }
             }
         }
 
         protected void btnSaveProfile_Click(object sender, EventArgs e)
         {
-            User user = Session["CurrentUser"] as User;
-            if (user == null) return;
 
-            string name = txtName.Text.Trim();
-            string avatar = ddlAvatar.SelectedValue;
-            string newPassword = txtNewPassword.Text.Trim();
+            //string avatar = ddlAvatar.SelectedValue;
+            //user.Avatar = avatar;
 
-            if (!string.IsNullOrEmpty(name))
+            //TODO ALLOW EDIT EMAIL & REMOVE AVATAR
+
+            string username = txtName.Text.Trim();
+            if (!string.IsNullOrEmpty(username))
             {
-                user.Name = name;
+                ShowNotification("Username cannot be empty.");
+                return;
             }
 
-            user.Avatar = avatar;
-
-            if (!string.IsNullOrEmpty(newPassword))
+            using (var db = new AppDbContext())
             {
-                user.Password = newPassword;
-            }
+                var user = db.Users.Find(CurrentUser.Id);
+                if (user == null)
+                {
+                    ShowNotification("User not found.");
+                    return;
+                }
 
-            LoadProfile(user);
-            ((SiteMaster)Master).UpdateUserHeaderAndNavigation();
-            ShowNotification("Profile preferences updated successfully!");
+                var sameUsernameUser = db.Users
+                    .Where(u => u.Id != CurrentUser.Id &&  u.Username == username)
+                    .FirstOrDefault();
+                if (sameUsernameUser != null)
+                {
+                    ShowNotification("Username already taken.");
+                    return;
+                }
+
+                user.Username = username;
+                string newPassword = txtNewPassword.Text.Trim();
+                if (!string.IsNullOrEmpty(newPassword))
+                {
+                    user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+                }
+
+                db.SaveChanges();
+                LoadProfile();
+                ((SiteMaster)Master).UpdateUserHeaderAndNavigation();
+                ShowNotification("Profile preferences updated successfully!");
+            }
         }
 
         protected void rptInventory_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e)
         {
-            if (e.Item.ItemType == System.Web.UI.WebControls.ListItemType.Item || e.Item.ItemType == System.Web.UI.WebControls.ListItemType.AlternatingItem)
-            {
-                string item = (string)e.Item.DataItem;
-                User currentUser = Session["CurrentUser"] as User;
-                System.Web.UI.WebControls.Button btnEquipItem = (System.Web.UI.WebControls.Button)e.Item.FindControl("btnEquipItem");
+            if (e.Item.ItemType != System.Web.UI.WebControls.ListItemType.Item
+                && e.Item.ItemType != System.Web.UI.WebControls.ListItemType.AlternatingItem
+            ) return;
+            
+            var item = (OwnedItem)e.Item.DataItem;
 
-                if (item != null && currentUser != null && btnEquipItem != null)
-                {
-                    bool isEquipped = (currentUser.EquippedBorder == item);
-                    btnEquipItem.Text = isEquipped ? "Equipped ✔" : "Equip Item";
-                    btnEquipItem.CssClass = isEquipped ? "btn btn-secondary btn-sm" : "btn btn-primary btn-sm";
-                }
+            var btnEquipItem = (System.Web.UI.WebControls.Button)e.Item.FindControl("btnEquipItem");
+
+            if (btnEquipItem != null)
+            {
+                //bool isEquipped = (currentUser.EquippedBorder == item);
+                bool isEquipped = false;
+
+                btnEquipItem.Text = isEquipped ? "Equipped ✔" : "Equip Item";
+                btnEquipItem.CssClass = isEquipped ? "btn btn-secondary btn-sm" : "btn btn-primary btn-sm";
             }
         }
 
@@ -98,25 +162,22 @@ namespace DriveLingo
         {
             if (e.CommandName == "EquipItem")
             {
-                string itemName = e.CommandArgument.ToString();
-                User user = Session["CurrentUser"] as User;
+                //TODO IMPLEMENT THIS SOMEHOW
+                string itemId = e.CommandArgument.ToString();
 
-                if (user != null)
-                {
-                    if (user.EquippedBorder == itemName)
-                    {
-                        user.EquippedBorder = "";
-                        ShowNotification("Unequipped: " + itemName);
-                    }
-                    else
-                    {
-                        user.EquippedBorder = itemName;
-                        ShowNotification("Equipped: " + itemName + "!");
-                    }
+                //if (user.EquippedBorder == itemName)
+                //{
+                //    user.EquippedBorder = "";
+                //    ShowNotification("Unequipped: " + itemName);
+                //}
+                //else
+                //{
+                //    user.EquippedBorder = itemName;
+                //    ShowNotification("Equipped: " + itemName + "!");
+                //}
 
-                    LoadProfile(user);
-                    ((SiteMaster)Master).UpdateUserHeaderAndNavigation();
-                }
+                LoadProfile();
+                ((SiteMaster)Master).UpdateUserHeaderAndNavigation();
             }
         }
 

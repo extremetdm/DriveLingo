@@ -109,7 +109,7 @@
         <!-- Sidebar User Profile Info & Exit Trigger -->
         <div class="sidebar-footer">
           <asp:PlaceHolder ID="phUserFooter" runat="server">
-            <a href="Profile.aspx" style="color: inherit; text-decoration: none;">
+            <a href="/Profile" style="color: inherit; text-decoration: none;">
               <div class="user-snippet">
                 <div class="avatar" id="divSidebarAvatar" runat="server"><asp:Literal ID="litAvatar" runat="server" Text="🚗" /></div>
                 <div class="user-snippet-details">

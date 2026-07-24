@@ -68,10 +68,10 @@
         <ItemTemplate>
           <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: rgba(15, 23, 42, 0.4); border-radius: var(--radius-sm); width: 100%; border: 1px solid rgba(255,255,255,0.05);">
             <span style="font-weight: 600; font-size: 0.95rem;">
-              ✨ <%# Container.DataItem %>
+              <%# Eval("Icon") %> <%# Eval("Name") %>
             </span>
             <asp:Button ID="btnEquipItem" runat="server" 
-              CommandName="EquipItem" CommandArgument='<%# Container.DataItem %>' />
+              CommandName="EquipItem" CommandArgument='<%# Eval("Id") %>' />
           </div>
         </ItemTemplate>
         <FooterTemplate>
