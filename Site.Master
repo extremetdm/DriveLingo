@@ -49,7 +49,7 @@
                 <span class="nav-icon">🏆</span>
                 <span>Achievements</span>
               </asp:HyperLink>
-              <asp:HyperLink runat="server" NavigateUrl="~/Learner.aspx?tab=forum" CssClass="nav-item">
+              <asp:HyperLink runat="server" NavigateUrl="~/Forum" CssClass="nav-item">
                 <span class="nav-icon">💬</span>
                 <span>Forum</span>
               </asp:HyperLink>

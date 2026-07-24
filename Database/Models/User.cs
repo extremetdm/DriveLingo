@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DriveLingo.Database.Models
 {
-    public class User: Timestamps
+    public class User : Timestamps
     {
         public enum UserRole
         {
@@ -57,5 +57,23 @@ namespace DriveLingo.Database.Models
 
         [NotMapped]
         public int NextLevelXpRequired => LevelingService.CalculateRequiredXP(CurrentLevel);
+
+        [NotMapped]
+        public string Avatar {
+            get
+            {
+                switch (Role)
+                {
+                    case UserRole.Admin:
+                        return "👑";
+                    case UserRole.Instructor:
+                        return "👨‍✈️";
+                    case UserRole.Learner:
+                        return "🚗";
+                    default:
+                        return string.Empty;
+                }
+            }
+        }
     }
 }

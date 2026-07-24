@@ -31,29 +31,24 @@ namespace DriveLingo
                 phUserFooter.Visible = true;
                 phGuestFooter.Visible = false;
 
-                string defaultAvatar;
                 string roleSymbol;
                 switch (currentUser.Role)
                 {
                     case User.UserRole.Admin:
-                        defaultAvatar = "👑";
                         roleSymbol = "👑 ";
                         break;
                     case User.UserRole.Instructor:
-                        defaultAvatar = "👨‍✈️";
                         roleSymbol = "👨‍✈️ ";
                         break;
                     case User.UserRole.Learner:
-                        defaultAvatar = "🚗";
                         roleSymbol = "🚘 ";
                         break;
                     default:
-                        defaultAvatar = "";
                         roleSymbol = "";
                         break;
                 }
 
-                litAvatar.Text = defaultAvatar;
+                litAvatar.Text = currentUser.Avatar;
                 //litAvatar.Text = string.IsNullOrEmpty(currentUser.Avatar) ? defaultAvatar : currentUser.Avatar;
                 litUserName.Text = currentUser.Username;
                 litUserRole.Text = "Role: " + roleSymbol + currentUser.Role.ToString().ToUpper();
