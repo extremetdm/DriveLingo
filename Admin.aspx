@@ -1,4 +1,4 @@
-<%@ Page Title="DriveLingo | System Administration" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Admin.aspx.cs" Inherits="DriveLingo.Admin" %>
+<%@ Page Title="DriveLingo | System Administration" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Admin.aspx.cs" Inherits="DriveLingo.Administrator" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>

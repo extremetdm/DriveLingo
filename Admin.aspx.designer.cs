@@ -11,7 +11,7 @@ namespace DriveLingo
 {
 
 
-    public partial class Admin
+    public partial class Administrator
     {
 
         /// <summary>

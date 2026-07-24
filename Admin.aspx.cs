@@ -8,7 +8,7 @@ using DriveLingo.Models;
 
 namespace DriveLingo
 {
-    public partial class Admin : Page
+    public partial class Administrator : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
