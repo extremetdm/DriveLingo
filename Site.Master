@@ -57,7 +57,7 @@
 
             <!-- Educator Menu -->
             <asp:PlaceHolder ID="phEducatorNav" runat="server" Visible="false">
-              <asp:HyperLink runat="server" NavigateUrl="~/Instructor/Dashboard" CssClass="nav-item">
+              <asp:HyperLink runat="server" NavigateUrl="~/Instructor" CssClass="nav-item">
                 <span class="nav-icon">📊</span>
                 <span>Dashboard</span>
               </asp:HyperLink>

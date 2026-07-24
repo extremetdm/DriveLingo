@@ -1,4 +1,4 @@
-﻿<%@ Page Title="DriveLingo | Educator Hub" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="DriveLingo.Instructor.Dashboard" %>
+﻿<%@ Page Title="DriveLingo | Educator Hub" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="DriveLingo.Instructor.Dashboard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>

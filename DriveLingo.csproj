@@ -126,8 +126,7 @@
     <Content Include="css\styles.css" />
     <Content Include="Dashboard.aspx" />
     <Content Include="Default.aspx" />
-    <Content Include="Educator.aspx" />
-    <Content Include="Instructor\Dashboard.aspx" />
+    <Content Include="Instructor\Default.aspx" />
     <Content Include="Forum.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Instructor\Forum.aspx" />
@@ -188,19 +187,12 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Educator.aspx.cs">
-      <DependentUpon>Educator.aspx</DependentUpon>
+    <Compile Include="Instructor\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Educator.aspx.designer.cs">
-      <DependentUpon>Educator.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Instructor\Dashboard.aspx.cs">
-      <DependentUpon>Dashboard.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Instructor\Dashboard.aspx.designer.cs">
-      <DependentUpon>Dashboard.aspx</DependentUpon>
+    <Compile Include="Instructor\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Forum.aspx.cs">
       <DependentUpon>Forum.aspx</DependentUpon>

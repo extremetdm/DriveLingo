@@ -19,7 +19,7 @@
         🚘 Launch Learner Portal
       </asp:HyperLink>
 
-      <asp:HyperLink ID="lnkEducatorHub" runat="server" NavigateUrl="~/Educator.aspx" CssClass="btn btn-secondary" style="font-size: 1.1rem; padding: 0.85rem 2rem;">
+      <asp:HyperLink ID="lnkEducatorHub" runat="server" NavigateUrl="~/Instructor" CssClass="btn btn-secondary" style="font-size: 1.1rem; padding: 0.85rem 2rem;">
         👨‍✈️ Open Educator Hub
       </asp:HyperLink>
 
