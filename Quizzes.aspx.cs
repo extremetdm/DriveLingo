@@ -162,6 +162,7 @@ namespace DriveLingo
             if (!output.Success)
             {
                 ShowNotification(output.Message);
+                return;
             }
 
             litResultIcon.Text = output.Passed ?? false ? "🎉" : "⚠️";

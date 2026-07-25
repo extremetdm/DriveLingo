@@ -1,6 +1,7 @@
 ﻿using DriveLingo.Database;
 using DriveLingo.Database.Models;
 using DriveLingo.Models;
+using DriveLingo.Services;
 using DriveLingo.UI;
 using System;
 using System.Data.Entity;
@@ -132,6 +133,9 @@ namespace DriveLingo
                 }
 
                 db.SaveChanges();
+
+                AuthService.RefreshCurrentUser(user);
+
                 LoadProfile();
                 ((SiteMaster)Master).UpdateUserHeaderAndNavigation();
                 ShowNotification("Profile preferences updated successfully!");
