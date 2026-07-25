@@ -48,6 +48,7 @@ namespace DriveLingo.Admin
             int.TryParse(txtTargetCount.Text.Trim(), out targetCount);
             if (targetCount <= 0) targetCount = 1;
 
+            string metricType = ddlMetricType.SelectedValue;
             string description = txtAchDesc.Text.Trim();
 
             var state = AppStateRepository.GetCurrent();
@@ -62,6 +63,7 @@ namespace DriveLingo.Admin
                     achToEdit.Icon = icon;
                     achToEdit.XpBonus = xpBonus;
                     achToEdit.TargetCount = targetCount;
+                    achToEdit.MetricType = metricType;
                     achToEdit.Description = description;
 
                     ShowNotification("Achievement '" + title + "' updated successfully!");
@@ -76,7 +78,7 @@ namespace DriveLingo.Admin
                     Icon = icon,
                     XpBonus = xpBonus,
                     TargetCount = targetCount,
-                    MetricType = "quiz_count",
+                    MetricType = metricType,
                     Description = description
                 };
                 state.Achievements.Add(newAch);
@@ -99,6 +101,7 @@ namespace DriveLingo.Admin
             txtAchIcon.Text = "🏆";
             txtAchXp.Text = "100";
             txtTargetCount.Text = "5";
+            ddlMetricType.SelectedValue = "quiz_count";
             txtAchDesc.Text = "";
             litAchFormTitle.Text = "➕ Create Achievement";
             btnAddAch.Text = "➕ Create Achievement";
@@ -120,6 +123,10 @@ namespace DriveLingo.Admin
                     txtAchIcon.Text = achievement.Icon;
                     txtAchXp.Text = achievement.XpBonus.ToString();
                     txtTargetCount.Text = achievement.TargetCount.ToString();
+                    if (ddlMetricType.Items.FindByValue(achievement.MetricType) != null)
+                    {
+                        ddlMetricType.SelectedValue = achievement.MetricType;
+                    }
                     txtAchDesc.Text = achievement.Description;
 
                     litAchFormTitle.Text = "✏️ Edit Achievement";
