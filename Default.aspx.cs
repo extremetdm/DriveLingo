@@ -46,7 +46,7 @@ namespace DriveLingo
             if (user != null)
             {
                 Session["CurrentUser"] = user;
-                Response.Redirect("~/Admin.aspx");
+                Response.Redirect("~/Admin");
             }
         }
     }

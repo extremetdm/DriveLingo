@@ -37,7 +37,7 @@
                 <span class="nav-icon">📚</span>
                 <span>Learning Material</span>
               </asp:HyperLink>
-              <asp:HyperLink runat="server" NavigateUrl="~/Learner.aspx?tab=simulation" CssClass="nav-item">
+              <asp:HyperLink runat="server" NavigateUrl="~/Simulation" CssClass="nav-item">
                 <span class="nav-icon">🏎️</span>
                 <span>Simulation</span>
               </asp:HyperLink>
@@ -45,7 +45,7 @@
                 <span class="nav-icon">🛒</span>
                 <span>Store</span>
               </asp:HyperLink>
-              <asp:HyperLink runat="server" NavigateUrl="~/Learner.aspx?tab=achievements" CssClass="nav-item">
+              <asp:HyperLink runat="server" NavigateUrl="~/Achievements" CssClass="nav-item">
                 <span class="nav-icon">🏆</span>
                 <span>Achievements</span>
               </asp:HyperLink>
@@ -89,7 +89,7 @@
                 <span class="nav-icon">📚</span>
                 <span>Learning Material</span>
               </asp:HyperLink>
-              <asp:HyperLink runat="server" NavigateUrl="~/Admin.aspx?tab=simulation" CssClass="nav-item">
+              <asp:HyperLink runat="server" NavigateUrl="~/Admin/Simulation" CssClass="nav-item">
                 <span class="nav-icon">🏎️</span>
                 <span>Simulation</span>
               </asp:HyperLink>
@@ -97,7 +97,7 @@
                 <span class="nav-icon">🛒</span>
                 <span>Store</span>
               </asp:HyperLink>
-              <asp:HyperLink runat="server" NavigateUrl="~/Admin.aspx?tab=achievements" CssClass="nav-item">
+              <asp:HyperLink runat="server" NavigateUrl="~/Admin/Achievements" CssClass="nav-item">
                 <span class="nav-icon">🏆</span>
                 <span>Achievements</span>
               </asp:HyperLink>

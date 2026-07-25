@@ -58,7 +58,7 @@ namespace DriveLingo
             switch (role)
             {
                 case Database.Models.User.UserRole.Admin:
-                    Response.Redirect("~/Admin.aspx");
+                    Response.Redirect("~/Admin");
                     break;
                 case Database.Models.User.UserRole.Instructor:
                     Response.Redirect("~/Instructor");

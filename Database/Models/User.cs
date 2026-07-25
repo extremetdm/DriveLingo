@@ -47,6 +47,9 @@ namespace DriveLingo.Database.Models
         public virtual ICollection<ForumPost> ForumPosts { get; set; } = new HashSet<ForumPost> { };
         public virtual ICollection<ShopRedemption> ShopRedemptions { get; set; } = new HashSet<ShopRedemption> { };
         public virtual ICollection<QuizAttempt> QuizAttempts { get; set; } = new HashSet<QuizAttempt> { };
+        public virtual ICollection<CompletedAchievement> Achievements { get; set; } = new HashSet<CompletedAchievement> { };
+        public virtual ICollection<AchievementProgress> AchievementProgress { get; set; } = new HashSet<AchievementProgress> { };
+
 
 
         [NotMapped]

@@ -23,7 +23,7 @@
         👨‍✈️ Open Educator Hub
       </asp:HyperLink>
 
-      <asp:HyperLink ID="lnkAdminConsole" runat="server" NavigateUrl="~/Admin.aspx" CssClass="btn btn-secondary" style="font-size: 1.1rem; padding: 0.85rem 2rem;">
+      <asp:HyperLink ID="lnkAdminConsole" runat="server" NavigateUrl="~/Admin" CssClass="btn btn-secondary" style="font-size: 1.1rem; padding: 0.85rem 2rem;">
         👑 Open Admin Console
       </asp:HyperLink>
     </div>

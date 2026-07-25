@@ -88,27 +88,15 @@ namespace DriveLingo.Services
             {
                 content = content?.Trim();
                 if (content == null || string.IsNullOrEmpty(content))
-                    return new ServiceStatusOutput
-                    {
-                        Success = false,
-                        Message = "Content cannot be empty."
-                    };
+                    return ServiceStatusOutput.error("Content cannot be empty.");
 
                 var user = db.Users.Find(userId);
                 if (user == null)
-                    return new ServiceStatusOutput
-                    {
-                        Success = false,
-                        Message = "User not found."
-                    };
+                    return ServiceStatusOutput.error("User not found.");
 
                 var post = db.ForumPosts.Find(postId);
                 if (post == null)
-                    return new ServiceStatusOutput
-                    {
-                        Success = false,
-                        Message = "Post not found."
-                    };
+                    return ServiceStatusOutput.error("Post not found.");
 
                 var reply = new ForumPost
                 {
@@ -121,11 +109,41 @@ namespace DriveLingo.Services
 
                 db.SaveChanges();
 
-                return new ServiceStatusOutput
+                return ServiceStatusOutput.success("Your comment reply has been added!");
+            }
+        }
+
+        // todo potentially add category
+        public static ServiceStatusOutput AddPost(int userId, string title, string content)
+        {
+            if (string.IsNullOrEmpty(title))
+                return ServiceStatusOutput.error("Title cannot be empty.");
+
+            if (string.IsNullOrEmpty(content))
+                return ServiceStatusOutput.error("Content cannot be empty.");
+
+            using (var db = new AppDbContext())
+            {
+                var user = db.Users.Find(userId);
+                if (user == null) return ServiceStatusOutput.error("User not found.");
+
+                user.ForumPosts.Add(new ForumPost
                 {
-                    Success = true,
-                    Message = "Your comment reply has been added!"
-                };
+                    Title = title,
+                    Content = content,
+                    //Category = category,
+                });
+
+                var output = AchievementService.IncrementProgress(db, user, Achievement.TaskType.PostInForum);
+
+                if (!output.Success)
+                {
+                    return output;
+                }
+
+                db.SaveChanges();
+
+                return ServiceStatusOutput.success("Successfully posted in forum.", output.UnlockedAchievements);
             }
         }
     }

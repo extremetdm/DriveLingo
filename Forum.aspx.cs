@@ -69,26 +69,20 @@ namespace DriveLingo
             pnlNewQuestionForm.Visible = !pnlNewQuestionForm.Visible;
         }
 
+        // TODO HANDLE ACHIEVEMENT UNLOCKS
         protected void btnPostQuestion_Click(object sender, EventArgs e)
         {
             if (CurrentUser == null) return;
 
             string title = txtForumTitle.Text.Trim();
-            //string category = ddlForumCategory.SelectedValue;
             string content = txtForumContent.Text.Trim();
 
-            if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(content)) return;
+            var output = ForumService.AddPost(CurrentUser.Id, title, content);
 
-            using (var db = new AppDbContext())
+            if (!output.Success)
             {
-
-                db.ForumPosts.Add(new ForumPost
-                {
-                    UserId = CurrentUser.Id,
-                    Title = title,
-                    Content = content,
-                    //Category = category,
-                });
+                ShowNotification(output.Message);
+                return;
             }
 
             txtForumTitle.Text = "";
