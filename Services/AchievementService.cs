@@ -42,6 +42,8 @@ namespace DriveLingo.Services
                 user.Points += achievement.Points;
             }
 
+            AuthService.RefreshCurrentUser(user);
+
             return ServiceStatusOutput.success("Successfully updated achievements.", newAchievements);
         }
 

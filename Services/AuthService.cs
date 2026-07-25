@@ -104,6 +104,14 @@ namespace DriveLingo.Services
             }
         }
 
+        public static void RefreshCurrentUser(User user)
+        {
+            if (HttpContext.Current != null)
+            {
+                HttpContext.Current.Items["CurrentUser"] = user;
+            }
+        }
+
         public static void Logout(HttpContext context)
         {
             FormsAuthentication.SignOut();

@@ -36,7 +36,7 @@ namespace DriveLingo.Services
 
         public static ServiceStatusOutput success(string message, ICollection<Achievement> unlockedAchievements)
         {
-            return new ServiceStatusOutput(false, message, unlockedAchievements);
+            return new ServiceStatusOutput(true, message, unlockedAchievements);
         }
     }
 }
