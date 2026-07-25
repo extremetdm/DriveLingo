@@ -122,11 +122,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Admin.aspx" />
+    <Content Include="Achievements.aspx" />
+    <Content Include="Admin\Achievements.aspx" />
+    <Content Include="Admin\Default.aspx" />
+    <Content Include="Admin\Lessons.aspx" />
+    <Content Include="Admin\Modules.aspx" />
+    <Content Include="Admin\Shop.aspx" />
+    <Content Include="Admin\Simulation.aspx" />
+    <Content Include="Admin\Users.aspx" />
     <Content Include="css\styles.css" />
+    <Content Include="Dashboard.aspx" />
     <Content Include="Default.aspx" />
-    <Content Include="Educator.aspx" />
+    <Content Include="Instructor\Default.aspx" />
+    <Content Include="Forum.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Instructor\Forum.aspx" />
+    <Content Include="Instructor\LearnerPerformance.aspx" />
+    <Content Include="Instructor\Quizzes.aspx" />
+    <Content Include="Lessons.aspx" />
+    <Content Include="Quizzes.aspx" />
+    <Content Include="Shop.aspx" />
+    <Content Include="Simulation.aspx" />
     <Content Include="uploads\expressway_sign.svg" />
     <Content Include="uploads\no_entry.svg" />
     <Content Include="uploads\sign_20eeac0d.jpg" />
@@ -136,16 +152,102 @@
     <Content Include="Register.aspx" />
     <Content Include="Profile.aspx" />
     <Content Include="Login.aspx" />
-    <Content Include="Learner.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Admin.aspx.cs">
-      <DependentUpon>Admin.aspx</DependentUpon>
+    <Compile Include="Achievements.aspx.cs">
+      <DependentUpon>Achievements.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin.aspx.designer.cs">
-      <DependentUpon>Admin.aspx</DependentUpon>
+    <Compile Include="Achievements.aspx.designer.cs">
+      <DependentUpon>Achievements.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Achievements.aspx.cs">
+      <DependentUpon>Achievements.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Achievements.aspx.designer.cs">
+      <DependentUpon>Achievements.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Lessons.aspx.cs">
+      <DependentUpon>Lessons.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Lessons.aspx.designer.cs">
+      <DependentUpon>Lessons.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Modules.aspx.cs">
+      <DependentUpon>Modules.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Modules.aspx.designer.cs">
+      <DependentUpon>Modules.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Shop.aspx.cs">
+      <DependentUpon>Shop.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Shop.aspx.designer.cs">
+      <DependentUpon>Shop.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Simulation.aspx.cs">
+      <DependentUpon>Simulation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Simulation.aspx.designer.cs">
+      <DependentUpon>Simulation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Users.aspx.cs">
+      <DependentUpon>Users.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Users.aspx.designer.cs">
+      <DependentUpon>Users.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Dashboard.aspx.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Dashboard.aspx.designer.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\202607231023398_AddShopItemIconAndQuizPassStatus.cs" />
+    <Compile Include="Database\Migrations\202607231023398_AddShopItemIconAndQuizPassStatus.Designer.cs">
+      <DependentUpon>202607231023398_AddShopItemIconAndQuizPassStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\202607231204527_AddForeignKeyToQuiz.cs" />
+    <Compile Include="Database\Migrations\202607231204527_AddForeignKeyToQuiz.Designer.cs">
+      <DependentUpon>202607231204527_AddForeignKeyToQuiz.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\202607231418296_EditQuiz.cs" />
+    <Compile Include="Database\Migrations\202607231418296_EditQuiz.Designer.cs">
+      <DependentUpon>202607231418296_EditQuiz.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\202607231519112_EditModule.cs" />
+    <Compile Include="Database\Migrations\202607231519112_EditModule.Designer.cs">
+      <DependentUpon>202607231519112_EditModule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\202607240934020_EditUserRegisteredAt.cs" />
+    <Compile Include="Database\Migrations\202607240934020_EditUserRegisteredAt.Designer.cs">
+      <DependentUpon>202607240934020_EditUserRegisteredAt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\202607250414521_AddAchievements.cs" />
+    <Compile Include="Database\Migrations\202607250414521_AddAchievements.Designer.cs">
+      <DependentUpon>202607250414521_AddAchievements.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\202607251350250_EditQuizToUseModule.cs" />
+    <Compile Include="Database\Migrations\202607251350250_EditQuizToUseModule.Designer.cs">
+      <DependentUpon>202607251350250_EditQuizToUseModule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Models\Achievement.cs" />
+    <Compile Include="Models\ModuleItem.cs" />
+    <Compile Include="Database\Seeders\QuizSeeder.cs" />
     <Compile Include="Data\AppStateRepository.cs" />
     <Compile Include="Data\SimulationQuestionBank.cs" />
     <Compile Include="Default.aspx.cs">
@@ -155,12 +257,47 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Educator.aspx.cs">
-      <DependentUpon>Educator.aspx</DependentUpon>
+    <Compile Include="Instructor\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Educator.aspx.designer.cs">
-      <DependentUpon>Educator.aspx</DependentUpon>
+    <Compile Include="Instructor\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forum.aspx.cs">
+      <DependentUpon>Forum.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forum.aspx.designer.cs">
+      <DependentUpon>Forum.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Instructor\Forum.aspx.cs">
+      <DependentUpon>Forum.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Instructor\Forum.aspx.designer.cs">
+      <DependentUpon>Forum.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Instructor\LearnerPerformance.aspx.cs">
+      <DependentUpon>LearnerPerformance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Instructor\LearnerPerformance.aspx.designer.cs">
+      <DependentUpon>LearnerPerformance.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Instructor\Quizzes.aspx.cs">
+      <DependentUpon>Quizzes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Instructor\Quizzes.aspx.designer.cs">
+      <DependentUpon>Quizzes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Lessons.aspx.cs">
+      <DependentUpon>Lessons.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Lessons.aspx.designer.cs">
+      <DependentUpon>Lessons.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\Discussion.cs" />
     <Compile Include="Models\Material.cs" />
@@ -206,7 +343,6 @@
     <Compile Include="Database\Models\Traits\Timestamps.cs" />
     <Compile Include="Database\Models\User.cs" />
     <Compile Include="Database\Seeders\ForumPostSeeder.cs" />
-    <Compile Include="Database\Seeders\LessonSeeder.cs" />
     <Compile Include="Database\Seeders\ModuleSeeder.cs" />
     <Compile Include="Database\Seeders\UserSeeder.cs" />
     <Compile Include="Global.asax.cs">
@@ -215,8 +351,20 @@
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Database\AppDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Quizzes.aspx.cs">
+      <DependentUpon>Quizzes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Quizzes.aspx.designer.cs">
+      <DependentUpon>Quizzes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Services\AchievementService.cs" />
     <Compile Include="Services\AuthService.cs" />
+    <Compile Include="Services\ForumService.cs" />
     <Compile Include="Services\LevelingService.cs" />
+    <Compile Include="Services\ModuleService.cs" />
+    <Compile Include="Services\PointService.cs" />
+    <Compile Include="Services\QuizAttemptService.cs" />
     <Compile Include="Services\ServiceStatusOutput.cs" />
     <Compile Include="Services\ShopService.cs" />
     <Compile Include="Register.aspx.cs">
@@ -233,6 +381,21 @@
     <Compile Include="Profile.aspx.designer.cs">
       <DependentUpon>Profile.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Services\UploadService.cs" />
+    <Compile Include="Shop.aspx.cs">
+      <DependentUpon>Shop.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Shop.aspx.designer.cs">
+      <DependentUpon>Shop.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Simulation.aspx.cs">
+      <DependentUpon>Simulation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Simulation.aspx.designer.cs">
+      <DependentUpon>Simulation.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -247,12 +410,8 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Learner.aspx.cs">
-      <DependentUpon>Learner.aspx</DependentUpon>
+    <Compile Include="UI\AuthPage.cs">
       <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Learner.aspx.designer.cs">
-      <DependentUpon>Learner.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -286,6 +445,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202607210323470_AddShop.resx">
       <DependentUpon>202607210323470_AddShop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607231023398_AddShopItemIconAndQuizPassStatus.resx">
+      <DependentUpon>202607231023398_AddShopItemIconAndQuizPassStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607231204527_AddForeignKeyToQuiz.resx">
+      <DependentUpon>202607231204527_AddForeignKeyToQuiz.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607231418296_EditQuiz.resx">
+      <DependentUpon>202607231418296_EditQuiz.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607231519112_EditModule.resx">
+      <DependentUpon>202607231519112_EditModule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607240934020_EditUserRegisteredAt.resx">
+      <DependentUpon>202607240934020_EditUserRegisteredAt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607250414521_AddAchievements.resx">
+      <DependentUpon>202607250414521_AddAchievements.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607251350250_EditQuizToUseModule.resx">
+      <DependentUpon>202607251350250_EditQuizToUseModule.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

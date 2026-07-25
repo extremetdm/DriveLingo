@@ -19,10 +19,12 @@ namespace DriveLingo.Database.Migrations
         {
             UserSeeder.Run(context);
             ModuleSeeder.Run(context);
-            LessonSeeder.Run(context);
-            ForumPostSeeder.Run(context);
             ShopItemSeeder.Run(context);
+            QuizSeeder.Run(context);
 
+            context.SaveChanges();
+
+            ForumPostSeeder.Run(context);
             context.SaveChanges();
         }
     }

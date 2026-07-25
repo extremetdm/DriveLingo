@@ -23,16 +23,16 @@ namespace DriveLingo.Database.Models
 
         public int Score { get; set; }
 
+        public bool Passed { get; set; }
+
         public DateTime CompletedAt { get; set; }
 
 
-        // Navigation Properties
         [ForeignKey(nameof(QuizId))]
         public virtual Quiz Quiz { get; set; }
 
-        // If you have a User model, un-comment the line below:
-        // [ForeignKey(nameof(UserID))]
-        // public virtual User User { get; set; }
+        [ForeignKey(nameof(UserId))]
+        public virtual User User { get; set; }
 
         public virtual ICollection<QuizAttemptAnswer> Answers { get; set; } = new HashSet<QuizAttemptAnswer>();
     }

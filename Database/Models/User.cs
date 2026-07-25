@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DriveLingo.Database.Models
 {
-    public class User: Timestamps
+    public class User : Timestamps
     {
         public enum UserRole
         {
@@ -42,12 +42,41 @@ namespace DriveLingo.Database.Models
         [Required]
         public int Points { get; set; } = 0;
 
-        public DateTime RegisteredAt { get; set; }
+        public DateTime? RegisteredAt { get; set; }
 
         public virtual ICollection<ForumPost> ForumPosts { get; set; } = new HashSet<ForumPost> { };
         public virtual ICollection<ShopRedemption> ShopRedemptions { get; set; } = new HashSet<ShopRedemption> { };
+        public virtual ICollection<QuizAttempt> QuizAttempts { get; set; } = new HashSet<QuizAttempt> { };
+        public virtual ICollection<CompletedAchievement> Achievements { get; set; } = new HashSet<CompletedAchievement> { };
+        public virtual ICollection<AchievementProgress> AchievementProgress { get; set; } = new HashSet<AchievementProgress> { };
+
+
 
         [NotMapped]
         public int CurrentLevel => LevelingService.CalculateCurrentLevel(XP);
+
+        [NotMapped]
+        public int XpProgress => LevelingService.CalculateXpProgress(XP);
+
+        [NotMapped]
+        public int NextLevelXpRequired => LevelingService.CalculateRequiredXP(CurrentLevel);
+
+        [NotMapped]
+        public string Avatar {
+            get
+            {
+                switch (Role)
+                {
+                    case UserRole.Admin:
+                        return "👑";
+                    case UserRole.Instructor:
+                        return "👨‍✈️";
+                    case UserRole.Learner:
+                        return "🚗";
+                    default:
+                        return string.Empty;
+                }
+            }
+        }
     }
 }

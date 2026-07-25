@@ -35,5 +35,10 @@ namespace DriveLingo.Database
 
         public DbSet<ShopItem> ShopItems { get; set; }
         public DbSet<ShopRedemption> ShopRedemptions { get; set; }
+
+        public DbSet<Achievement> Achievements { get; set; }
+        public DbSet<AchievementProgress> AchievementProgresses { get; set; }
+        public DbSet<CompletedAchievement> CompletedAchievements { get; set; }
+
     }
 }

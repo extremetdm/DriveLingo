@@ -16,8 +16,17 @@ namespace DriveLingo.Database.Models
         public string Title { get; set; }
 
         [Required]
-        [StringLength(256)]
+        [StringLength(500)]
         public string Content { get; set; }
+
+
+        public int? EstimatedTime { get; set; }
+
+        [StringLength(500)]
+        public string Image { get; set; }
+
+        [StringLength(500)]
+        public string Pdf { get; set; }
 
         [Required]
         public int ModuleId { get; set; }

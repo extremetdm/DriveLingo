@@ -39,6 +39,9 @@ packages/
 # Ignore node_modules if you use frontend build tools
 node_modules/
 
+# Ignore uploads
+uploads/
+
 ## ==========================================
 ## Operating System / Generic Files
 ## ==========================================

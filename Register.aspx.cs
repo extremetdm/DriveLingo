@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.UI;
 using DriveLingo.Data;
 using DriveLingo.Models;
+using DriveLingo.Services;
 
 namespace DriveLingo
 {
@@ -17,7 +18,6 @@ namespace DriveLingo
             string name = txtName.Text.Trim();
             string email = txtEmail.Text.Trim();
             string password = txtPassword.Text.Trim();
-            string role = "learner";
 
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
             {
@@ -25,32 +25,15 @@ namespace DriveLingo
                 return;
             }
 
-            var repo = AppStateRepository.GetCurrent();
+            var output = AuthService.Register(name, password, email);
 
-            if (repo.Users.Any(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase)))
+            if (!output.Success)
             {
-                ShowError("An account with this email address already exists.");
+                ShowError(output.Message);
                 return;
             }
 
-            var newUser = new User
-            {
-                Id = "usr_" + Guid.NewGuid().ToString("N").Substring(0, 8),
-                Name = name,
-                Email = email,
-                Password = password,
-                Role = role,
-                Avatar = "🚗",
-                Points = 100, // Welcome bonus
-                Level = 1,
-                XP = 0,
-                JoinedDate = DateTime.Now.ToString("yyyy-MM-dd")
-            };
-
-            repo.Users.Add(newUser);
-            Session["CurrentUser"] = newUser;
-
-            Response.Redirect("~/Learner.aspx");
+            Response.Redirect("~/Dashboard");
         }
 
         private void ShowError(string message)

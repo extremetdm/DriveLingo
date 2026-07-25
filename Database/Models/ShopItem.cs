@@ -12,6 +12,10 @@ namespace DriveLingo.Database.Models
         public int Id { get; set; }
 
         [Required]
+        [StringLength(256)]
+        public string Icon { get; set; }
+
+        [Required]
         [StringLength(100)]
         public string Name { get; set; }
 

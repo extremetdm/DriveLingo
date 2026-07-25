@@ -8,14 +8,48 @@ namespace DriveLingo.Services
     // XP = 100 * L^1.5
     public static class LevelingService
     {
-        public static int CalculateRequiredXP(int currentLevel)
+        /// <summary>
+        /// Total XP needed from 0 to reach a specific level threshold.
+        /// Level 1 = 0 XP, Level 2 = 100 XP, Level 3 = 282 XP, etc.
+        /// </summary>
+        public static int TotalRequiredXpForLevel(int level)
         {
-            return (int)(100 * Math.Pow(currentLevel + 1, 1.5) - Math.Pow(currentLevel, 1.5));
+            if (level <= 1) return 0;
+            return (int)Math.Round(100.0 * Math.Pow(level - 1, 1.5));
         }
 
+        /// <summary>
+        /// Calculates player level from current total XP.
+        /// Inverse formula: Level = floor((XP / 100) ^ (2/3)) + 1
+        /// </summary>
         public static int CalculateCurrentLevel(int xp)
         {
-            return (int)Math.Pow((double)xp / 100, 2 / 3);
+            if (xp <= 0) return 1;
+
+            int level = (int)Math.Floor(Math.Pow((double)xp / 100.0, 2.0 / 3.0)) + 1;
+
+            return level;
+        }
+
+        /// <summary>
+        /// Calculates additional XP needed to go from currentLevel to currentLevel + 1.
+        /// </summary>
+        public static int CalculateRequiredXP(int currentLevel)
+        {
+            if (currentLevel < 1) currentLevel = 1;
+
+            return TotalRequiredXpForLevel(currentLevel + 1) - TotalRequiredXpForLevel(currentLevel);
+        }
+
+        /// <summary>
+        /// XP progress towards the next level (progress bar value).
+        /// </summary>
+        public static int CalculateXpProgress(int xp)
+        {
+            int currentLevel = CalculateCurrentLevel(xp);
+            int xpAtStartOfLevel = TotalRequiredXpForLevel(currentLevel);
+
+            return Math.Max(0, xp - xpAtStartOfLevel);
         }
     }
 }
