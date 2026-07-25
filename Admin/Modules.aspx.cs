@@ -1,5 +1,6 @@
-using DriveLingo.Data;
-using DriveLingo.Models;
+using DriveLingo.Database;
+using DriveLingo.Database.Models;
+using DriveLingo.Services;
 using DriveLingo.UI;
 using System;
 using System.Collections.Generic;
@@ -18,30 +19,13 @@ namespace DriveLingo.Admin
 
             if (!IsPostBack)
             {
-                EnsureModuleDataSeeded();
                 BindModules();
             }
         }
-
-        private void EnsureModuleDataSeeded()
-        {
-            var state = AppStateRepository.GetCurrent();
-            if (state.Modules == null || state.Modules.Count == 0)
-            {
-                state.Modules = new List<ModuleItem>
-                {
-                    new ModuleItem { Id = "mod_sec_a", Name = "Section A - Road Signs", Description = "Prohibitory, warning, and mandatory road sign regulations.", Icon = "🛑", RewardPointsPerQuestion = 20 },
-                    new ModuleItem { Id = "mod_sec_b", Name = "Section B - Rules of the Road", Description = "Speed limits, lane discipline, traffic signals, and right of way.", Icon = "🚗", RewardPointsPerQuestion = 25 },
-                    new ModuleItem { Id = "mod_sec_c", Name = "Section C - KEJARA & Safety", Description = "Demerit point penalties, alcohol laws, and emergency procedures.", Icon = "🚦", RewardPointsPerQuestion = 30 },
-                    new ModuleItem { Id = "mod_cb", Name = "Color Blind", Description = "Official Ishihara color vision screening plates.", Icon = "👁️", RewardPointsPerQuestion = 15 }
-                };
-            }
-        }
-
+        
         private void BindModules()
         {
-            var state = AppStateRepository.GetCurrent();
-            gvModules.DataSource = state.Modules;
+            gvModules.DataSource = ModuleService.GetModules();
             gvModules.DataBind();
         }
 
@@ -55,54 +39,57 @@ namespace DriveLingo.Admin
                 return;
             }
 
-            string icon = txtModuleIcon.Text.Trim();
-            if (string.IsNullOrEmpty(icon)) icon = "📁";
+            //string icon = txtModuleIcon.Text.Trim();
+            //if (string.IsNullOrEmpty(icon)) icon = "📁";
 
-            int ptsPerQ = 20;
-            int.TryParse(txtRewardPointsPerQuestion.Text.Trim(), out ptsPerQ);
-            if (ptsPerQ <= 0) ptsPerQ = 20;
+            //int ptsPerQ = 20;
+            //int.TryParse(txtRewardPointsPerQuestion.Text.Trim(), out ptsPerQ);
+            //if (ptsPerQ <= 0) ptsPerQ = 20;
 
             string description = txtModuleDescription.Text.Trim();
 
-            var state = AppStateRepository.GetCurrent();
-            string editingId = hfEditingModuleId.Value;
-
-            if (!string.IsNullOrEmpty(editingId))
+            using (var db = new AppDbContext())
             {
-                var modToEdit = state.Modules.FirstOrDefault(m => m.Id == editingId);
-                if (modToEdit != null)
+                string moduleId = hfEditingModuleId.Value;
+                Module module = null;
+                if (!string.IsNullOrEmpty(moduleId))
                 {
-                    string oldName = modToEdit.Name;
-                    modToEdit.Name = name;
-                    modToEdit.Icon = icon;
-                    modToEdit.RewardPointsPerQuestion = ptsPerQ;
-                    modToEdit.Description = description;
-
-                    // Update existing quizzes under old module name if renamed
-                    foreach (var q in state.Quizzes.Where(qz => qz.Category == oldName))
-                    {
-                        q.Category = name;
-                    }
-
-                    ShowNotification("Module '" + name + "' updated with " + ptsPerQ + " Pts/Question rate!");
+                    module = db.Modules.Find(moduleId);
                 }
-            }
-            else
-            {
-                var newModule = new ModuleItem
-                {
-                    Id = "mod_" + Guid.NewGuid().ToString().Substring(0, 8),
-                    Name = name,
-                    Icon = icon,
-                    RewardPointsPerQuestion = ptsPerQ,
-                    Description = description
-                };
-                state.Modules.Add(newModule);
-                ShowNotification("New curriculum module '" + name + "' created with " + ptsPerQ + " Pts/Question rate!");
-            }
 
-            ResetModuleForm();
-            BindModules();
+                bool isEdit = module != null;
+                string oldName;
+
+                if (isEdit)
+                {
+                    oldName = module.Name;
+                }
+                else
+                {
+                    module = new Module();
+                    db.Modules.Add(module);
+                }
+
+
+                module.Name = name;
+                //module.Icon = icon;
+
+                //module.RewardPointsPerQuestion = ptsPerQ;
+                module.Description = description;
+
+                db.SaveChanges();
+
+                if (isEdit)
+                {
+                    ShowNotification("Module '" + name + "' updated.");
+
+                } else
+                {
+                    ShowNotification("New curriculum module '" + name + "' added.");
+                }
+                ResetModuleForm();
+                BindModules();
+            }
         }
 
         protected void btnCancelModuleEdit_Click(object sender, EventArgs e)
@@ -114,8 +101,8 @@ namespace DriveLingo.Admin
         {
             hfEditingModuleId.Value = "";
             txtModuleName.Text = "";
-            txtModuleIcon.Text = "📁";
-            txtRewardPointsPerQuestion.Text = "20";
+            //txtModuleIcon.Text = "📁";
+            //txtRewardPointsPerQuestion.Text = "20";
             txtModuleDescription.Text = "";
             litModuleFormTitle.Text = "➕ Create New Curriculum Module";
             btnAddModule.Text = "➕ Save Module";
@@ -124,34 +111,43 @@ namespace DriveLingo.Admin
 
         protected void gvModules_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            string modId = e.CommandArgument.ToString();
-            var state = AppStateRepository.GetCurrent();
-            var module = state.Modules.FirstOrDefault(m => m.Id == modId);
+            int moduleId = Convert.ToInt32(e.CommandArgument.ToString());
 
-            if (e.CommandName == "EditModule")
+            using (var db = new AppDbContext())
             {
-                if (module != null)
+                var module = db.Modules.Find(moduleId);
+
+                if (module == null)
                 {
-                    hfEditingModuleId.Value = module.Id;
+                    ShowNotification("Module not found.");
+                    return;
+                }
+
+                if (e.CommandName == "EditModule")
+                {
+                    hfEditingModuleId.Value = module.Id.ToString();
                     txtModuleName.Text = module.Name;
-                    txtModuleIcon.Text = module.Icon;
-                    txtRewardPointsPerQuestion.Text = module.RewardPointsPerQuestion.ToString();
+                    //txtModuleIcon.Text = module.Icon;
+                    //txtRewardPointsPerQuestion.Text = module.RewardPointsPerQuestion.ToString();
                     txtModuleDescription.Text = module.Description;
                     litModuleFormTitle.Text = "✏️ Edit Curriculum Module";
                     btnAddModule.Text = "💾 Save Module Changes";
                     btnCancelModuleEdit.Visible = true;
                 }
-            }
-            else if (e.CommandName == "DeleteModule")
-            {
-                if (module != null)
+                else if (e.CommandName == "DeleteModule")
                 {
-                    state.Modules.Remove(module);
+                    db.Modules.Remove(module);
+                    db.SaveChanges();
                     ShowNotification("Module '" + module.Name + "' deleted.");
                     ResetModuleForm();
                     BindModules();
                 }
             }
+
+
+
+
+            
         }
 
         private void ShowNotification(string message)

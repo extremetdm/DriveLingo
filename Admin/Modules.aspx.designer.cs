@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DriveLingo.Admin {
-    
-    
-    public partial class Modules {
-        
+namespace DriveLingo.Admin
+{
+
+
+    public partial class Modules
+    {
+
         /// <summary>
         /// pnlNotification control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlNotification;
-        
+
         /// <summary>
         /// litNotificationText control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litNotificationText;
-        
+
         /// <summary>
         /// hfEditingModuleId control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hfEditingModuleId;
-        
+
         /// <summary>
         /// litModuleFormTitle control.
         /// </summary>
@@ -47,16 +49,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litModuleFormTitle;
-        
-        /// <summary>
-        /// txtModuleIcon control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtModuleIcon;
-        
+
         /// <summary>
         /// txtModuleName control.
         /// </summary>
@@ -65,16 +58,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtModuleName;
-        
-        /// <summary>
-        /// txtRewardPointsPerQuestion control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRewardPointsPerQuestion;
-        
+
         /// <summary>
         /// txtModuleDescription control.
         /// </summary>
@@ -83,7 +67,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtModuleDescription;
-        
+
         /// <summary>
         /// btnAddModule control.
         /// </summary>
@@ -92,7 +76,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAddModule;
-        
+
         /// <summary>
         /// btnCancelModuleEdit control.
         /// </summary>
@@ -101,7 +85,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCancelModuleEdit;
-        
+
         /// <summary>
         /// gvModules control.
         /// </summary>
