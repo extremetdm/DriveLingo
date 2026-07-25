@@ -1,5 +1,5 @@
-using DriveLingo.Data;
-using DriveLingo.Models;
+using DriveLingo.Database;
+using DriveLingo.Database.Models;
 using DriveLingo.UI;
 using System;
 using System.Collections.Generic;
@@ -24,69 +24,93 @@ namespace DriveLingo.Admin
 
         private void BindAchievements()
         {
-            var state = AppStateRepository.GetCurrent();
-            gvAchievements.DataSource = state.Achievements;
-            gvAchievements.DataBind();
+            using (var db = new AppDbContext())
+            {
+                gvAchievements.DataSource = db.Achievements.ToList();
+                gvAchievements.DataBind();
+            }
         }
 
         protected void btnAddAch_Click(object sender, EventArgs e)
         {
-            string title = txtAchTitle.Text.Trim();
-            if (string.IsNullOrEmpty(title))
+            string name = txtAchTitle.Text.Trim();
+            if (string.IsNullOrEmpty(name))
             {
-                ShowNotification("Please enter achievement title.");
+                ShowNotification("Please enter achievement name.");
                 return;
             }
 
             string icon = txtAchIcon.Text.Trim();
-            if (string.IsNullOrEmpty(icon)) icon = "🏆";
+            if (string.IsNullOrEmpty(icon))
+            {
+                ShowNotification("Please enter achievement icon.");
+                return;
+            }
 
-            int xpBonus = 100;
-            int.TryParse(txtAchXp.Text.Trim(), out xpBonus);
-
-            int targetCount = 5;
-            int.TryParse(txtTargetCount.Text.Trim(), out targetCount);
-            if (targetCount <= 0) targetCount = 1;
-
-            string metricType = ddlMetricType.SelectedValue;
             string description = txtAchDesc.Text.Trim();
-
-            var state = AppStateRepository.GetCurrent();
-            string editingId = hfEditingAchId.Value;
-
-            if (!string.IsNullOrEmpty(editingId))
+            if (string.IsNullOrEmpty(description))
             {
-                var achToEdit = state.Achievements.FirstOrDefault(a => a.Id == editingId);
-                if (achToEdit != null)
-                {
-                    achToEdit.Title = title;
-                    achToEdit.Icon = icon;
-                    achToEdit.XpBonus = xpBonus;
-                    achToEdit.TargetCount = targetCount;
-                    achToEdit.MetricType = metricType;
-                    achToEdit.Description = description;
+                ShowNotification("Please enter achievement description.");
+                return;
+            }
 
-                    ShowNotification("Achievement '" + title + "' updated successfully!");
+            int xp;
+            if (!int.TryParse(txtAchXp.Text.Trim(), out xp))
+            {
+                ShowNotification("Please enter XP bonus.");
+                return;
+            }
+
+
+            int target;
+            if (!int.TryParse(txtTargetCount.Text.Trim(), out target))
+            {
+                ShowNotification("Please enter target.");
+                return;
+            }
+
+            Achievement.TaskType task;
+            if (!Enum.TryParse(ddlMetricType.SelectedValue, out task))
+            {
+                ShowNotification("Please select task type.");
+                return;
+            }
+
+            using (var db = new AppDbContext())
+            {
+                string achievementId = hfEditingAchId.Value;
+                Achievement achievement = null;
+                if (!string.IsNullOrEmpty(achievementId))
+                {
+                    achievement = db.Achievements.Find(Convert.ToInt32(achievementId));
                 }
-            }
-            else
-            {
-                var newAch = new Achievement
+                bool isEdit = achievement != null;
+                if (!isEdit)
                 {
-                    Id = "ach_" + Guid.NewGuid().ToString().Substring(0, 8),
-                    Title = title,
-                    Icon = icon,
-                    XpBonus = xpBonus,
-                    TargetCount = targetCount,
-                    MetricType = metricType,
-                    Description = description
-                };
-                state.Achievements.Add(newAch);
-                ShowNotification("New achievement '" + title + "' created successfully!");
-            }
+                    achievement = new Achievement();
+                    db.Achievements.Add(achievement);
+                }
+                achievement.Name = name;
+                achievement.Icon = icon;
+                achievement.Description = description;
+                achievement.Xp = xp;
+                achievement.Points = 0; // TODO CHANGE THESE maybe
+                achievement.Target = target;
+                achievement.Task = task;
 
-            ResetAchForm();
-            BindAchievements();
+                db.SaveChanges();
+
+                if (isEdit)
+                {
+                    ShowNotification("Achievement " + name + " updated successfully!");
+                }
+                else
+                {
+                    ShowNotification("Achievement " + name + " created successfully!");
+                }
+                ResetAchForm();
+                BindAchievements();
+            }
         }
 
         protected void btnCancelAchEdit_Click(object sender, EventArgs e)
@@ -110,41 +134,70 @@ namespace DriveLingo.Admin
 
         protected void gvAchievements_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            string achId = e.CommandArgument.ToString();
-            var state = AppStateRepository.GetCurrent();
-            var achievement = state.Achievements.FirstOrDefault(a => a.Id == achId);
-
             if (e.CommandName == "EditAchievement")
             {
-                if (achievement != null)
-                {
-                    hfEditingAchId.Value = achievement.Id;
-                    txtAchTitle.Text = achievement.Title;
-                    txtAchIcon.Text = achievement.Icon;
-                    txtAchXp.Text = achievement.XpBonus.ToString();
-                    txtTargetCount.Text = achievement.TargetCount.ToString();
-                    if (ddlMetricType.Items.FindByValue(achievement.MetricType) != null)
-                    {
-                        ddlMetricType.SelectedValue = achievement.MetricType;
-                    }
-                    txtAchDesc.Text = achievement.Description;
-
-                    litAchFormTitle.Text = "✏️ Edit Achievement";
-                    btnAddAch.Text = "💾 Save Changes";
-                    btnCancelAchEdit.Visible = true;
-                }
+                handleEdit(sender, e);
             }
             else if (e.CommandName == "DeleteAchievement")
             {
-                if (achievement != null)
-                {
-                    state.Achievements.Remove(achievement);
-                    ShowNotification("Achievement '" + achievement.Title + "' deleted.");
-                    ResetAchForm();
-                    BindAchievements();
-                }
+                handleDelete(sender, e);
             }
         }
+
+        protected void handleEdit(object sender, GridViewCommandEventArgs e)
+        {
+            var achievementId = Convert.ToInt32(e.CommandArgument.ToString());
+
+            using (var db = new AppDbContext())
+            {
+                var achievement = db.Achievements.Find(achievementId);
+                if (achievement == null)
+                {
+                    ShowNotification("Achievement not found.");
+                    return;
+                }
+
+                hfEditingAchId.Value = achievement.Id.ToString();
+                txtAchTitle.Text = achievement.Name;
+                txtAchIcon.Text = achievement.Icon;
+                txtAchXp.Text = achievement.Xp.ToString();
+                txtAchDesc.Text = achievement.Description;
+                
+                txtTargetCount.Text = achievement.Target.ToString();
+
+                if (ddlMetricType.Items.FindByValue(achievement.Task.ToString()) != null)
+                {
+                    ddlMetricType.SelectedValue = achievement.Task.ToString();
+                }
+
+                litAchFormTitle.Text = "✏️ Edit Achievement";
+                btnAddAch.Text = "💾 Save Changes";
+                btnCancelAchEdit.Visible = true;
+
+            }
+        }
+
+        protected void handleDelete(object sender, GridViewCommandEventArgs e)
+        {
+            var achievementId = Convert.ToInt32(e.CommandArgument.ToString());
+
+            using (var db = new AppDbContext())
+            {
+                var achievement = db.Achievements.Find(achievementId);
+                if (achievement == null)
+                {
+                    ShowNotification("Achievement not found.");
+                    return;
+                }
+
+                db.Achievements.Remove(achievement);
+                db.SaveChanges();
+                ShowNotification("Achievement deleted.");
+                BindAchievements();
+            }
+        }
+
+        
 
         private void ShowNotification(string message)
         {

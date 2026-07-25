@@ -48,9 +48,11 @@
                     <div>
                         <label style="display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.85rem;">Milestone Metric Type</label>
                         <asp:DropDownList ID="ddlMetricType" runat="server" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;">
-                            <asp:ListItem Value="quiz_count" Text="📝 Quizzes Answered" />
-                            <asp:ListItem Value="perfect_score" Text="💯 Flawless 100% Scores" />
-                            <asp:ListItem Value="materials_read" Text="📖 Study Guides Read" />
+                            <asp:ListItem Value="CompleteQuizzes" Text="📝 Quizzes Answered" />
+                            <asp:ListItem Value="ReadLessons" Text="📖 Study Guides Read" />
+                            <asp:ListItem Value="RedeemItems" Text="Shop Redemptions" />
+                            <asp:ListItem Value="CompletePerfectQuizzes" Text="💯 Flawless 100% Scores" />
+                            <asp:ListItem Value="PostInForum" Text="Post in Forum" />
                         </asp:DropDownList>
                     </div>
 
@@ -72,10 +74,10 @@
                 <asp:GridView ID="gvAchievements" runat="server" AutoGenerateColumns="false" CssClass="data-table" DataKeyNames="Id" OnRowCommand="gvAchievements_RowCommand" EmptyDataText="No achievements found.">
                     <Columns>
                         <asp:BoundField DataField="Icon" HeaderText="Icon" ItemStyle-Width="50px" />
-                        <asp:BoundField DataField="Title" HeaderText="Achievement Title" />
-                        <asp:BoundField DataField="MetricType" HeaderText="Metric Type" ItemStyle-Width="110px" />
-                        <asp:BoundField DataField="TargetCount" HeaderText="Target" ItemStyle-Width="60px" ItemStyle-HorizontalAlign="Center" />
-                        <asp:BoundField DataField="XpBonus" HeaderText="XP Bonus" ItemStyle-Width="80px" ItemStyle-HorizontalAlign="Center" />
+                        <asp:BoundField DataField="Name" HeaderText="Achievement Title" />
+                        <asp:BoundField DataField="Task" HeaderText="Metric Type" ItemStyle-Width="110px" />
+                        <asp:BoundField DataField="Target" HeaderText="Target" ItemStyle-Width="60px" ItemStyle-HorizontalAlign="Center" />
+                        <asp:BoundField DataField="Xp" HeaderText="XP Bonus" ItemStyle-Width="80px" ItemStyle-HorizontalAlign="Center" />
                         <asp:TemplateField HeaderText="Actions" ItemStyle-Width="140px" ItemStyle-HorizontalAlign="Right">
                             <ItemTemplate>
                                 <asp:Button ID="btnEditAch" runat="server" Text="✏️ Edit" CommandName="EditAchievement" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-secondary btn-sm" />
