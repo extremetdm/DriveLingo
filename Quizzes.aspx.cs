@@ -41,20 +41,6 @@ namespace DriveLingo
         {
             using (var db = new AppDbContext())
             {
-                //rptQuizzes.DataSource = db.Quizzes
-                //    .Include(q => q.Lesson)
-                //    .Include(q => q.Questions)
-                //    .Include(q => q.Attempts.Where(a => a.UserId == CurrentUser.Id && a.Passed))
-                //    .ToList()
-                //    .Select(q => new QuizDetails
-                //    {
-                //        Id = q.Id,
-                //        Lesson = q.Lesson.Title,
-                //        Title = q.Title,
-                //        Points = 100, // todo CHANGE THIS
-                //        TotalQuestions = q.Questions.Count,
-                //        Passed = q.Attempts.Count > 0
-                //    });
 
                 rptQuizzes.DataSource = db.Quizzes
                     .Select(q => new
@@ -129,197 +115,77 @@ namespace DriveLingo
 
         protected void rptQuestions_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-            {
-                var question = (Question)e.Item.DataItem;
-                RadioButtonList rblOptions = (RadioButtonList)e.Item.FindControl("rblOptions");
+            if (e.Item.ItemType != ListItemType.Item
+                && e.Item.ItemType != ListItemType.AlternatingItem
+            ) return;
 
-                if (rblOptions != null && question != null)
-                {
-                    rblOptions.Items.Clear();
-                    foreach (var choice in question.Choices)
-                    {
-                        rblOptions.Items.Add(new ListItem(choice.Text, choice.Id.ToString()));
-                    }
-                }
-            }
+            var question = (Question)e.Item.DataItem;
+            var rblOptions = (RadioButtonList)e.Item.FindControl("rblOptions");
+
+            rblOptions.DataSource = question.Choices.ToList();
+            rblOptions.DataTextField = "Text";
+            rblOptions.DataValueField = "Id";
+            rblOptions.DataBind();
         }
 
         protected void btnSubmitExam_Click(object sender, EventArgs e)
         {
-            var activeQuiz = Session["ActiveQuiz"] as Quiz;
-
-            if (activeQuiz == null || CurrentUser == null) return;
+            var quiz = Session["ActiveQuiz"] as Quiz;
 
             bool isSim = Session["IsSimulationMode"] != null && (bool)Session["IsSimulationMode"];
 
-            int correctCount = 0;
-            int total = activeQuiz.Questions.Count;
-
-            int cbScore = 0, aScore = 0, bScore = 0, cScore = 0;
-            
-            var answers = new List<QuizAttemptAnswer>();
+            var answers = new Dictionary<int, int>();
 
             foreach (RepeaterItem item in rptQuestions.Items)
             {
                 HiddenField hfQuestionId = (HiddenField)item.FindControl("hfQuestionId");
                 RadioButtonList rblOptions = (RadioButtonList)item.FindControl("rblOptions");
 
+                int questionId, choiceId;
 
-                if (hfQuestionId != null && rblOptions != null)
+                if (!int.TryParse(hfQuestionId.Value, out questionId))
                 {
-                    int questionId = int.Parse(hfQuestionId.Value);
-                    int choiceId = int.Parse(rblOptions.SelectedValue);
-                    answers.Add(new QuizAttemptAnswer
-                    {
-                        QuestionId = questionId,
-                        ChoiceId = choiceId
-                    });
-
-                    if (activeQuiz.Questions.FirstOrDefault(q => q.Id == questionId)
-                        .Choices
-                        .FirstOrDefault(c => c.Id == choiceId)
-                        .IsCorrect
-                    )
-                    {
-                        correctCount++;
-                    }
-
-                    //var question = activeQuiz.Questions.FirstOrDefault(q => q.Id == hfQuestionId.Value);
-                    //if (question != null && rblOptions.SelectedIndex != -1)
-                    //{
-                    //    int selectedIndex = Convert.ToInt32(rblOptions.SelectedValue);
-                    //    if (selectedIndex == question.CorrectIndex)
-                    //    {
-                    //        correctCount++;
-                    //        if (isSim)
-                    //        {
-                    //            if (question.Section == "ColorBlindness") cbScore++;
-                    //            else if (question.Section == "SectionA") aScore++;
-                    //            else if (question.Section == "SectionB") bScore++;
-                    //            else if (question.Section == "SectionC") cScore++;
-                    //        }
-                    //    }
-                    //}
+                    ShowNotification("Invalid question.");
+                    return;
                 }
+
+                if (!int.TryParse(rblOptions.SelectedValue, out choiceId))
+                {
+                    ShowNotification("Invalid choice.");
+                    return;
+                }
+
+                answers.Add(questionId, choiceId);
             }
 
-            int percentage = total > 0 ? (int)Math.Round((double)correctCount / total * 100) : 0;
-            bool passed = false;
-
-            int awardedPoints = 0;
-
-            int awardedXP = isSim ? (correctCount * 10) : (correctCount * 50); //TODO CHANGE THIS
-
-            using (var db = new AppDbContext())
+            var output = QuizAttemptService.SubmitAttempt(CurrentUser.Id, quiz.Id, answers);
+            if (!output.Success)
             {
-                var user = db.Users.Find(CurrentUser.Id);
-
-                if (isSim)
-                {
-                    //// Sectional pass criteria:
-                    //// Color Blindness: 8/8 (100%)
-                    //// Section A: 17/21
-                    //// Section B: 28/35
-                    //// Section C: 11/14
-                    //// Overall score: >= 80% (>= 63/78)
-                    //bool cbPassed = (cbScore == 8);
-                    //bool aPassed = (aScore >= 17);
-                    //bool bPassed = (bScore >= 28);
-                    //bool cPassed = (cScore >= 11);
-
-                    //passed = (percentage >= 80) && cbPassed && aPassed && bPassed && cPassed;
-                    //awardedPoints = 0; // No points for simulation
-
-                    //// Populate Simulation Breakdown UI
-                    //pnlSimBreakdown.Visible = true;
-                    //litSimCbScore.Text = cbScore + " / 8";
-                    //lblSimCbStatus.Text = cbPassed ? "PASS 🟢" : "FAIL 🔴";
-                    //lblSimCbStatus.CssClass = cbPassed ? "badge badge-success" : "badge badge-danger";
-
-                    //litSimSecAScore.Text = aScore + " / 21";
-                    //lblSimSecAStatus.Text = aPassed ? "PASS 🟢" : "FAIL 🔴";
-                    //lblSimSecAStatus.CssClass = aPassed ? "badge badge-success" : "badge badge-danger";
-
-                    //litSimSecBScore.Text = bScore + " / 35";
-                    //lblSimSecBStatus.Text = bPassed ? "PASS 🟢" : "FAIL 🔴";
-                    //lblSimSecBStatus.CssClass = bPassed ? "badge badge-success" : "badge badge-danger";
-
-                    //litSimSecCScore.Text = cScore + " / 14";
-                    //lblSimSecCStatus.Text = cPassed ? "PASS 🟢" : "FAIL 🔴";
-                    //lblSimSecCStatus.CssClass = cPassed ? "badge badge-success" : "badge badge-danger";
-                }
-                else
-                {
-                    pnlSimBreakdown.Visible = false;
-                    passed = percentage >= 70;
-
-                    if (passed)
-                    {
-                        bool newlyCompleted = !user.QuizAttempts.Any(qa => qa.QuizId == activeQuiz.Id && qa.Passed);
-                        if (newlyCompleted)
-                        {
-                            awardedPoints = 100; //TODO CHANGE THIS
-                        }
-                    }
-                }
-
-                user.Points += awardedPoints;
-                user.XP += awardedXP;
-                user.QuizAttempts.Add(new QuizAttempt
-                {
-                    QuizId = activeQuiz.Id,
-                    CompletedAt = DateTime.Now,
-                    Answers = answers,
-                    Score = correctCount,
-                    Passed = passed,
-                });
-
-                db.SaveChanges();
+                ShowNotification(output.Message);
             }
 
-            //var attempt = new QuizAttempt
+            litResultIcon.Text = output.Passed ?? false ? "🎉" : "⚠️";
+            litResultHeader.Text = output.Passed ?? false ? "Exam Passed!" : "Exam Needs Improvement";
+                //(passed ? "Official JPJ Simulation PASSED!" : "Official JPJ Simulation FAILED") : 
+            litResultScore.Text = output.Score + " / " + output.MaxScore;
+            litResultPercentage.Text = output.Percentage.ToString();
+            litAwardedPoints.Text = output.Points.ToString();
+            litAwardedXP.Text = output.Xp.ToString();
+
+            //if (isSim)
             //{
-            //    Id = "att_" + Guid.NewGuid().ToString("N").Substring(0, 8),
-            //    UserId = CurrentUser.Id.ToString(),
-            //    QuizId = activeQuiz.Id,
-            //    QuizTitle = isSim ? "Official JPJ Exam Simulation (78 Qs)" : activeQuiz.Title,
-            //    Score = correctCount,
-            //    TotalQuestions = total,
-            //    Percentage = percentage,
-            //    Passed = passed,
-            //    DateTaken = DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
-            //    IsSimulation = isSim,
-            //    ColorBlindScore = cbScore,
-            //    SectionAScore = aScore,
-            //    SectionBScore = bScore,
-            //    SectionCScore = cScore
-            //};
-
-            //var repo = AppStateRepository.GetCurrent();
-            //repo.Attempts.Add(attempt);
-
-            litResultIcon.Text = passed ? "🎉" : "⚠️";
-            litResultHeader.Text = isSim ? (passed ? "Official JPJ Simulation PASSED!" : "Official JPJ Simulation FAILED") : (passed ? "Exam Passed!" : "Exam Needs Improvement");
-            litResultScore.Text = correctCount + " / " + total;
-            litResultPercentage.Text = percentage.ToString();
-            litAwardedPoints.Text = awardedPoints.ToString();
-            litAwardedXP.Text = awardedXP.ToString();
-
-            if (isSim)
+            //    if (passed)
+            //        ShowNotification("Congratulations! You PASSED the Official JPJ 78-Question Simulation Exam (+ " + awardedXP + " XP)");
+            //    else
+            //        ShowNotification("Simulation Exam Result: FAILED. Please review the sectional criteria failure reasons below.");
+            //}
+            if (output.Points > 0)
             {
-                if (passed)
-                    ShowNotification("Congratulations! You PASSED the Official JPJ 78-Question Simulation Exam (+ " + awardedXP + " XP)");
-                else
-                    ShowNotification("Simulation Exam Result: FAILED. Please review the sectional criteria failure reasons below.");
+                ShowNotification("Quiz Passed! You earned +" + output.Points + " Points & +" + output.Xp + " XP!");
             }
-            else if (awardedPoints > 0)
+            else if (output.Passed ?? false)    
             {
-                ShowNotification("Quiz Passed! You earned +" + awardedPoints + " Points & +" + awardedXP + " XP!");
-            }
-            else if (passed)
-            {
-                ShowNotification("Quiz Passed! +" + awardedXP + " XP earned. (Points bonus was previously claimed for this quiz)");
+                ShowNotification("Quiz Passed! +" + output.Xp + " XP earned. (Points bonus was previously claimed for this quiz)");
             }
 
             Session["IsSimulationMode"] = false;

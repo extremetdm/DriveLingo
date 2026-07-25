@@ -349,6 +349,7 @@
     <Compile Include="Services\AuthService.cs" />
     <Compile Include="Services\ForumService.cs" />
     <Compile Include="Services\LevelingService.cs" />
+    <Compile Include="Services\QuizAttemptService.cs" />
     <Compile Include="Services\ServiceStatusOutput.cs" />
     <Compile Include="Services\ShopService.cs" />
     <Compile Include="Register.aspx.cs">

@@ -67,7 +67,7 @@ namespace DriveLingo.Services
                 {
                     Success = true,
                     Message = "Image uploaded successfully.",
-                    FilePath = "uploads/" + safeFileName
+                    FilePath = "/uploads/" + safeFileName
                 };
             }
             catch (Exception ex)
