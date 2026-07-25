@@ -245,6 +245,10 @@
     <Compile Include="Database\Migrations\202607251350250_EditQuizToUseModule.Designer.cs">
       <DependentUpon>202607251350250_EditQuizToUseModule.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\Migrations\202607251626065_AddItemTypeAndEquip.cs" />
+    <Compile Include="Database\Migrations\202607251626065_AddItemTypeAndEquip.Designer.cs">
+      <DependentUpon>202607251626065_AddItemTypeAndEquip.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database\Models\Achievement.cs" />
     <Compile Include="Models\ModuleItem.cs" />
     <Compile Include="Database\Seeders\QuizSeeder.cs" />
@@ -466,6 +470,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202607251350250_EditQuizToUseModule.resx">
       <DependentUpon>202607251350250_EditQuizToUseModule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607251626065_AddItemTypeAndEquip.resx">
+      <DependentUpon>202607251626065_AddItemTypeAndEquip.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

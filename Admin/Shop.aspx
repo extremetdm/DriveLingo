@@ -73,9 +73,9 @@
                 <asp:GridView ID="gvStore" runat="server" AutoGenerateColumns="false" CssClass="data-table" DataKeyNames="Id" OnRowCommand="gvStore_RowCommand" EmptyDataText="No store items found.">
                     <Columns>
                         <asp:BoundField DataField="Icon" HeaderText="Icon" ItemStyle-Width="50px" />
-                        <asp:BoundField DataField="Category" HeaderText="Category" ItemStyle-Width="90px" />
-                        <asp:BoundField DataField="Title" HeaderText="Title" />
-                        <asp:BoundField DataField="Price" HeaderText="Price (Pts)" ItemStyle-Width="90px" ItemStyle-HorizontalAlign="Center" />
+                        <asp:BoundField DataField="Type" HeaderText="Category" ItemStyle-Width="90px" />
+                        <asp:BoundField DataField="Name" HeaderText="Title" />
+                        <asp:BoundField DataField="Cost" HeaderText="Price (Pts)" ItemStyle-Width="90px" ItemStyle-HorizontalAlign="Center" />
                         <asp:TemplateField HeaderText="Actions" ItemStyle-Width="140px" ItemStyle-HorizontalAlign="Right">
                             <ItemTemplate>
                                 <asp:Button ID="btnEditStore" runat="server" Text="✏️ Edit" CommandName="EditStoreItem" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-secondary btn-sm" />

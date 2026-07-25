@@ -1,4 +1,6 @@
 using DriveLingo.Data;
+using DriveLingo.Database;
+using DriveLingo.Database.Models;
 using DriveLingo.Models;
 using DriveLingo.UI;
 using System;
@@ -24,68 +26,88 @@ namespace DriveLingo.Admin
 
         private void BindStore()
         {
-            var state = AppStateRepository.GetCurrent();
-            gvStore.DataSource = state.StoreItems;
-            gvStore.DataBind();
+            using (var db = new AppDbContext())
+            {
+                gvStore.DataSource = db.ShopItems.ToList();
+                gvStore.DataBind();
+            }
         }
 
         protected void btnAddStoreItem_Click(object sender, EventArgs e)
         {
-            string title = txtStoreTitle.Text.Trim();
-            if (string.IsNullOrEmpty(title))
+            string name = txtStoreTitle.Text.Trim();
+            if (string.IsNullOrEmpty(name))
             {
-                ShowNotification("Please provide item title.");
+                ShowNotification("Please enter item title.");
                 return;
             }
 
-            string category = ddlCategory.SelectedValue;
-            string icon = txtStoreIcon.Text.Trim();
-            if (string.IsNullOrEmpty(icon)) icon = "✨";
+            ShopItem.ItemType type;
+            if (!Enum.TryParse(ddlCategory.SelectedValue, out type)) {
+                ShowNotification("Please select item type.");
+                return;
+            }
 
-            int price = 200;
-            int.TryParse(txtStorePrice.Text.Trim(), out price);
+            int price;
+            if (!int.TryParse(txtStorePrice.Text.Trim(), out price))
+            {
+                ShowNotification("Please enter a valid price.");
+                return;
+            }
+
+            string icon = txtStoreIcon.Text.Trim(); // TODO CHANGE TO IMAGE OR SMTH WTF WHO USES EMOJI ICONS
+            if (string.IsNullOrEmpty(icon))
+            {
+                ShowNotification("Please enter icon.");
+                return;
+            }
 
             string colorHex = txtColorHex.Text.Trim();
-            if (string.IsNullOrEmpty(colorHex)) colorHex = "#6366f1";
 
             string description = txtStoreDesc.Text.Trim();
-
-            var state = AppStateRepository.GetCurrent();
-            string editingId = hfEditingStoreItemId.Value;
-
-            if (!string.IsNullOrEmpty(editingId))
+            if (string.IsNullOrEmpty(description))
             {
-                var itemToEdit = state.StoreItems.FirstOrDefault(i => i.Id == editingId);
-                if (itemToEdit != null)
-                {
-                    itemToEdit.Title = title;
-                    itemToEdit.Category = category;
-                    itemToEdit.Icon = icon;
-                    itemToEdit.Price = price;
-                    itemToEdit.ColorHex = colorHex;
-                    itemToEdit.Description = description;
+                ShowNotification("Please enter description.");
+                return;
+            }
 
-                    ShowNotification("Store item '" + title + "' updated successfully!");
+            using (var db = new AppDbContext())
+            {
+                string itemId = hfEditingStoreItemId.Value;
+                ShopItem item = null;
+
+                if (!string.IsNullOrEmpty(itemId))
+                {
+                    item = db.ShopItems.Find(Convert.ToInt32(itemId));
                 }
-            }
-            else
-            {
-                var newItem = new StoreItem
-                {
-                    Id = "item_" + Guid.NewGuid().ToString().Substring(0, 8),
-                    Title = title,
-                    Category = category,
-                    Icon = icon,
-                    Price = price,
-                    ColorHex = colorHex,
-                    Description = description
-                };
-                state.StoreItems.Add(newItem);
-                ShowNotification("New store item '" + title + "' (" + category + ") added to catalog!");
-            }
 
-            ResetStoreForm();
-            BindStore();
+                bool isEdit = item != null;
+
+                if (!isEdit)
+                {
+                    item = new ShopItem();
+                    db.ShopItems.Add(item);
+                }
+
+                item.Name = name;
+                item.Type = type;
+                item.Icon = string.IsNullOrEmpty(icon) ? "✨" : icon;
+                item.Description = description;
+                item.Cost = price;
+                item.ColorHex = colorHex;
+
+                db.SaveChanges();
+
+                if (isEdit)
+                    ShowNotification("Store item " + name + " updated successfully!");
+                else
+                    ShowNotification("New store item added!");
+
+                ResetStoreForm();
+                BindStore();
+
+
+            }
         }
 
         protected void btnCancelStoreEdit_Click(object sender, EventArgs e)
@@ -109,41 +131,65 @@ namespace DriveLingo.Admin
 
         protected void gvStore_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            string itemId = e.CommandArgument.ToString();
-            var state = AppStateRepository.GetCurrent();
-            var item = state.StoreItems.FirstOrDefault(i => i.Id == itemId);
-
             if (e.CommandName == "EditStoreItem")
             {
-                if (item != null)
-                {
-                    hfEditingStoreItemId.Value = item.Id;
-                    txtStoreTitle.Text = item.Title;
-                    txtStoreIcon.Text = item.Icon;
-                    txtStorePrice.Text = item.Price.ToString();
-                    txtColorHex.Text = !string.IsNullOrEmpty(item.ColorHex) ? item.ColorHex : "#6366f1";
-                    txtStoreDesc.Text = item.Description;
-                    if (ddlCategory.Items.FindByValue(item.Category) != null)
-                    {
-                        ddlCategory.SelectedValue = item.Category;
-                    }
-
-                    litStoreFormTitle.Text = "✏️ Edit Store Item";
-                    btnAddStoreItem.Text = "💾 Save Changes";
-                    btnCancelStoreEdit.Visible = true;
-                }
+                handleEdit(sender, e);
             }
             else if (e.CommandName == "DeleteStoreItem")
             {
-                if (item != null)
-                {
-                    state.StoreItems.Remove(item);
-                    ShowNotification("Store item '" + item.Title + "' deleted.");
-                    ResetStoreForm();
-                    BindStore();
-                }
+                handleDelete(sender, e);
             }
         }
+
+        protected void handleEdit(object sender, GridViewCommandEventArgs e)
+        {
+            int itemId = Convert.ToInt32(e.CommandArgument.ToString());
+            using (var db = new AppDbContext())
+            {
+                var item = db.ShopItems.Find(itemId);
+                if (item == null)
+                {
+                    ShowNotification("Store item not found.");
+                    return;
+                }
+
+                hfEditingStoreItemId.Value = item.Id.ToString();
+                txtStoreTitle.Text = item.Name;
+                txtStoreIcon.Text = item.Icon;
+                txtStorePrice.Text = item.Cost.ToString();
+                txtStoreDesc.Text = item.Description;
+                txtColorHex.Text = item.ColorHex;
+                if (ddlCategory.Items.FindByValue(item.Type.ToString()) != null)
+                {
+                    ddlCategory.SelectedValue = item.Type.ToString();
+                }
+
+                litStoreFormTitle.Text = "✏️ Edit Store Item";
+                btnAddStoreItem.Text = "💾 Save Changes";
+                btnCancelStoreEdit.Visible = true;
+            }
+        }
+
+        protected void handleDelete(object sender, GridViewCommandEventArgs e)
+        {
+            int itemId = Convert.ToInt32(e.CommandArgument.ToString());
+            using (var db = new AppDbContext())
+            {
+                var item = db.ShopItems.Find(itemId);
+                if (item == null)
+                {
+                    ShowNotification("Store item not found.");
+                    return;
+                }
+                db.ShopItems.Remove(item);
+
+                db.SaveChanges();
+                ShowNotification($"Store item '{item.Name}' deleted.");
+                ResetStoreForm();
+                BindStore();
+            }
+        }
+
 
         private void ShowNotification(string message)
         {

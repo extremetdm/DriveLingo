@@ -19,6 +19,9 @@ namespace DriveLingo.Database.Models
         [Required]
         public int ItemId { get; set; }
 
+        [Required]
+        public bool IsEquiped { get; set; } = false;
+
         // Navigation Properties
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }
