@@ -50,7 +50,7 @@
             <div>
               <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
                 <span class="badge" style="background: rgba(99, 102, 241, 0.2); color: var(--primary); display: inline-block;">
-                  <%# Eval("Lesson") %>
+                  <%# Eval("Module") %>
                 </span>
                 <asp:PlaceHolder ID="phQuizCompletedBadge" runat="server" Visible="false">
                   <span class="badge badge-success">Points Claimed ✔</span>

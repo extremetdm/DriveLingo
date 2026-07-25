@@ -241,6 +241,10 @@
     <Compile Include="Database\Migrations\202607250414521_AddAchievements.Designer.cs">
       <DependentUpon>202607250414521_AddAchievements.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\Migrations\202607251350250_EditQuizToUseModule.cs" />
+    <Compile Include="Database\Migrations\202607251350250_EditQuizToUseModule.Designer.cs">
+      <DependentUpon>202607251350250_EditQuizToUseModule.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database\Models\Achievement.cs" />
     <Compile Include="Models\ModuleItem.cs" />
     <Compile Include="Database\Seeders\QuizSeeder.cs" />
@@ -359,6 +363,7 @@
     <Compile Include="Services\ForumService.cs" />
     <Compile Include="Services\LevelingService.cs" />
     <Compile Include="Services\ModuleService.cs" />
+    <Compile Include="Services\PointService.cs" />
     <Compile Include="Services\QuizAttemptService.cs" />
     <Compile Include="Services\ServiceStatusOutput.cs" />
     <Compile Include="Services\ShopService.cs" />
@@ -458,6 +463,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202607250414521_AddAchievements.resx">
       <DependentUpon>202607250414521_AddAchievements.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607251350250_EditQuizToUseModule.resx">
+      <DependentUpon>202607251350250_EditQuizToUseModule.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

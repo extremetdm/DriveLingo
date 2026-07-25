@@ -83,7 +83,7 @@ namespace DriveLingo.Services
                     bool newlyCompleted = !user.QuizAttempts.Any(qa => qa.QuizId == quiz.Id && qa.Passed);
                     if (newlyCompleted)
                     {
-                        points = passed ? 5 * maxScore : 0;
+                        points = passed ? PointService.CalculateForQuiz(maxScore) : 0;
                     }
                 }
 
