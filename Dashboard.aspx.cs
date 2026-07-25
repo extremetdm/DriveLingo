@@ -1,4 +1,4 @@
-﻿using DriveLingo.Database;
+using DriveLingo.Database;
 using DriveLingo.Database.Models;
 using DriveLingo.UI;
 using System;
@@ -32,8 +32,17 @@ namespace DriveLingo
 
         }
 
-        private void BindDashboardData(User user)
+        private void BindDashboardData(DriveLingo.Database.Models.User user)
         {
+            if (user == null || user.Role == DriveLingo.Database.Models.User.UserRole.Guest || user.Id == 9999)
+            {
+                litPassRate.Text = "0%";
+                litLevel.Text = "1";
+                litPoints.Text = "0";
+                gvAttempts.DataSource = new List<QuizAttemptSummary>();
+                gvAttempts.DataBind();
+                return;
+            }
             using (var db = new AppDbContext())
             {
                 var attempts = db.QuizAttempts.Where(a => a.UserId == user.Id)

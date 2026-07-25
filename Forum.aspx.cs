@@ -1,4 +1,4 @@
-﻿using DriveLingo.Database;
+using DriveLingo.Database;
 using DriveLingo.Database.Models;
 using DriveLingo.Services;
 using DriveLingo.UI;
@@ -9,12 +9,21 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using static DriveLingo.Database.Models.User;
 
 namespace DriveLingo
 {
     public partial class Forum : AuthPage
     {
+        public bool IsAdmin
+        {
+            get
+            {
+                var sessionUser = Session["CurrentUser"] as DriveLingo.Models.User;
+                if (sessionUser != null && sessionUser.Role == "admin") return true;
+                return CurrentUser != null && CurrentUser.Role == DriveLingo.Database.Models.User.UserRole.Admin;
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             RequireAuth();
@@ -33,8 +42,7 @@ namespace DriveLingo
 
         protected void rptForum_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Item.ItemType != ListItemType.Item
-                && e.Item.ItemType != ListItemType.AlternatingItem)
+            if (e.Item.ItemType != ListItemType.Item && e.Item.ItemType != ListItemType.AlternatingItem)
                 return;
 
             var thread = (ForumThread)e.Item.DataItem;
@@ -56,20 +64,18 @@ namespace DriveLingo
                 PlaceHolder phEducatorReply = (PlaceHolder)e.Item.FindControl("phEducatorReply");
                 PlaceHolder phStandardReply = (PlaceHolder)e.Item.FindControl("phStandardReply");
 
-                bool isEducatorAnswer = reply.AuthorRole == UserRole.Instructor;
+                bool isEducatorAnswer = reply.AuthorRole == DriveLingo.Database.Models.User.UserRole.Instructor;
 
                 phEducatorReply.Visible = isEducatorAnswer;
                 phStandardReply.Visible = !isEducatorAnswer;
             }
         }
 
-        // --- Forum Handlers ---
         protected void btnToggleNewQuestion_Click(object sender, EventArgs e)
         {
             pnlNewQuestionForm.Visible = !pnlNewQuestionForm.Visible;
         }
 
-        // TODO HANDLE ACHIEVEMENT UNLOCKS
         protected void btnPostQuestion_Click(object sender, EventArgs e)
         {
             if (CurrentUser == null) return;
@@ -97,36 +103,40 @@ namespace DriveLingo
         {
             if (e.CommandName == "Upvote")
             {
-                handleUpvote(source, e);
+                BindForum();
             }
             else if (e.CommandName == "ReplyThread")
             {
                 handleReply(source, e);
             }
+            else if (e.CommandName == "DeleteThread")
+            {
+                string threadId = e.CommandArgument.ToString();
+                var output = ForumService.DeletePost(threadId);
+                ShowNotification(output.Message);
+                BindForum();
+            }
         }
 
-        private void handleUpvote(object source, RepeaterCommandEventArgs e)
-        {   //TODO CHANGE THIS
-
-            //string threadId = e.CommandArgument.ToString();
-            //var repo = AppStateRepository.GetCurrent();
-            //var thread = repo.Discussions.FirstOrDefault(d => d.Id == threadId);
-            //if (thread != null)
-            //{
-            //    thread.Upvotes++;
-            //    BindForum();
-            //}
-            BindForum();
+        protected void rptReplies_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "DeleteReply")
+            {
+                string replyId = e.CommandArgument.ToString();
+                var output = ForumService.DeletePost(replyId);
+                ShowNotification(output.Message);
+                BindForum();
+            }
         }
 
         private void handleReply(object source, RepeaterCommandEventArgs e)
         {
             if (CurrentUser == null) return;
 
-            int postId = int.Parse(e.CommandArgument.ToString());
+            string threadIdStr = e.CommandArgument.ToString();
             TextBox txtCandidateReply = (TextBox)e.Item.FindControl("txtCandidateReply");
 
-            var output = ForumService.AddReply(CurrentUser.Id, postId, txtCandidateReply.Text);
+            var output = ForumService.AddReply(CurrentUser.Id, threadIdStr, txtCandidateReply.Text);
 
             if (output.Success)
             {
@@ -144,7 +154,6 @@ namespace DriveLingo
         {
             pnlNotification.Visible = true;
             litNotificationText.Text = "✅ " + message;
-            // todo add error msg notification
         }
     }
 }
