@@ -9,7 +9,7 @@
         {
             DropForeignKey("dbo.Quizs", "LessonId", "dbo.Lessons");
             DropIndex("dbo.Quizs", new[] { "LessonId" });
-            AddColumn("dbo.Quizs", "ModuleId", c => c.Int(nullable: false));
+            AddColumn("dbo.Quizs", "ModuleId", c => c.Int(nullable: false, defaultValue: 1));
             CreateIndex("dbo.Quizs", "ModuleId");
             AddForeignKey("dbo.Quizs", "ModuleId", "dbo.Modules", "Id", cascadeDelete: true);
             DropColumn("dbo.Quizs", "LessonId");
