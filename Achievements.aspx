@@ -53,10 +53,10 @@
     <div class="grid-3-col">
         <asp:Repeater ID="rptAchievements" runat="server">
             <ItemTemplate>
-                <div class='<%# Convert.ToBoolean(Eval("IsUnlocked")) ? "achievement-card unlocked" : "achievement-card" %>'>
+                <div class='<%# Eval("CompletedAt") != null ? "achievement-card unlocked" : "achievement-card" %>'>
                     <div style="text-align: center;">
                         <span style="font-size: 3.5rem; display: block; margin-bottom: 0.5rem;"><%# Eval("Icon") %></span>
-                        <h3 style="font-family: var(--font-heading); margin-bottom: 0.25rem;"><%# Eval("Title") %></h3>
+                        <h3 style="font-family: var(--font-heading); margin-bottom: 0.25rem;"><%# Eval("Name") %></h3>
                         <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 1rem; min-height: 40px;"><%# Eval("Description") %></p>
                     </div>
 
@@ -64,19 +64,19 @@
                         <!-- Progress text e.g. "3 / 5 Quizzes (60%)" -->
                         <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; color: var(--text-secondary);">
                             <span>Progress</span>
-                            <span><%# Eval("CurrentProgress") %> / <%# Eval("TargetCount") %> (<%# Eval("ProgressPercentage") %>%)</span>
+                            <span><%# Eval("Progress") %> / <%# Eval("Target") %> (<%# CalculatePercentage((int)Eval("Progress"), (int)Eval("Target")) %>%)</span>
                         </div>
 
                         <!-- Animated Progress Bar -->
                         <div class="progress-bar-bg">
-                            <div class='<%# Convert.ToBoolean(Eval("IsUnlocked")) ? "progress-bar-fill completed" : "progress-bar-fill" %>' style='<%# "width: " + Eval("ProgressPercentage") + "%;" %>'></div>
+                            <div class='<%# Eval("CompletedAt") != null ? "progress-bar-fill completed" : "progress-bar-fill" %>' style='<%# "width: " + CalculatePercentage((int)Eval("Progress"), (int)Eval("Target")) + "%;" %>'></div>
                         </div>
 
                         <!-- Status Badge -->
                         <div style="text-align: center; margin-top: 0.5rem;">
-                            <%# Convert.ToBoolean(Eval("IsUnlocked")) 
-                                ? "<span class='badge' style='background: rgba(16, 185, 129, 0.2); color: var(--success); font-weight: 700;'>🏆 Unlocked (+ " + Eval("XpBonus") + " XP)</span>" 
-                                : "<span class='badge' style='background: rgba(255, 255, 255, 0.1); color: var(--text-secondary);'>🔒 Locked (" + Eval("XpBonus") + " XP Reward)</span>" %>
+                            <%# Eval("CompletedAt") != null
+                                ? "<span class='badge' style='background: rgba(16, 185, 129, 0.2); color: var(--success); font-weight: 700;'>🏆 Unlocked (+ " + Eval("Xp") + " XP)</span>" 
+                                : "<span class='badge' style='background: rgba(255, 255, 255, 0.1); color: var(--text-secondary);'>🔒 Locked (" + Eval("Xp") + " XP Reward)</span>" %>
                         </div>
                     </div>
                 </div>
