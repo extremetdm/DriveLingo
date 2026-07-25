@@ -10,6 +10,7 @@ namespace DriveLingo.Data
     public class AppStateRepository
     {
         public List<User> Users { get; set; }
+        public List<ModuleItem> Modules { get; set; }
         public List<Quiz> Quizzes { get; set; }
         public List<Material> Materials { get; set; }
         public List<DiscussionThread> Discussions { get; set; }
@@ -21,6 +22,7 @@ namespace DriveLingo.Data
         public AppStateRepository()
         {
             Users = new List<User>();
+            Modules = new List<ModuleItem>();
             Quizzes = new List<Quiz>();
             Materials = new List<Material>();
             Discussions = new List<DiscussionThread>();
@@ -90,6 +92,12 @@ namespace DriveLingo.Data
                 EquippedBorder = "Border: Glowing Neon",
                 JoinedDate = "2026-07-01"
             });
+
+            // Seed Dynamic Modules
+            Modules.Add(new ModuleItem { Id = "mod_sec_a", Name = "Section A - Road Signs", Description = "Prohibitory, warning, and mandatory road sign regulations.", Icon = "🛑" });
+            Modules.Add(new ModuleItem { Id = "mod_sec_b", Name = "Section B - Rules of the Road", Description = "Speed limits, lane discipline, traffic signals, and right of way.", Icon = "🚗" });
+            Modules.Add(new ModuleItem { Id = "mod_sec_c", Name = "Section C - KEJARA & Safety", Description = "Demerit point penalties, alcohol laws, and emergency procedures.", Icon = "🚦" });
+            Modules.Add(new ModuleItem { Id = "mod_cb", Name = "Color Blind", Description = "Official Ishihara color vision screening plates.", Icon = "👁️" });
 
             // Seed Quizzes & Questions
             var quiz1 = new Quiz

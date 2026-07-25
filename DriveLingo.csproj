@@ -126,6 +126,7 @@
     <Content Include="Admin\Achievements.aspx" />
     <Content Include="Admin\Default.aspx" />
     <Content Include="Admin\Lessons.aspx" />
+    <Content Include="Admin\Modules.aspx" />
     <Content Include="Admin\Shop.aspx" />
     <Content Include="Admin\Simulation.aspx" />
     <Content Include="Admin\Users.aspx" />
@@ -181,6 +182,13 @@
     <Compile Include="Admin\Lessons.aspx.designer.cs">
       <DependentUpon>Lessons.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Modules.aspx.cs">
+      <DependentUpon>Modules.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Modules.aspx.designer.cs">
+      <DependentUpon>Modules.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Shop.aspx.cs">
       <DependentUpon>Shop.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -234,6 +242,7 @@
       <DependentUpon>202607250414521_AddAchievements.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Models\Achievement.cs" />
+    <Compile Include="Models\ModuleItem.cs" />
     <Compile Include="Database\Seeders\QuizSeeder.cs" />
     <Compile Include="Data\AppStateRepository.cs" />
     <Compile Include="Data\SimulationQuestionBank.cs" />
