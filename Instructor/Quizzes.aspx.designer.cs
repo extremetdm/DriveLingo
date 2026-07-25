@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DriveLingo.Instructor {
-    
-    
-    public partial class Quizzes {
-        
+namespace DriveLingo.Instructor
+{
+
+
+    public partial class Quizzes
+    {
+
         /// <summary>
         /// pnlNotification control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlNotification;
-        
+
         /// <summary>
         /// litNotificationText control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litNotificationText;
-        
+
         /// <summary>
         /// hfEditingQuizId control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hfEditingQuizId;
-        
+
         /// <summary>
         /// litQuizFormTitle control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litQuizFormTitle;
-        
+
         /// <summary>
         /// ddlQuizModuleSection control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlQuizModuleSection;
-        
+
         /// <summary>
         /// litModuleRewardRateInfo control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litModuleRewardRateInfo;
-        
+
         /// <summary>
         /// txtQuizTitle control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtQuizTitle;
-        
+
         /// <summary>
         /// btnAddQuiz control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAddQuiz;
-        
+
         /// <summary>
         /// btnCancelQuizEdit control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCancelQuizEdit;
-        
+
         /// <summary>
         /// gvQuizzes control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvQuizzes;
-        
+
         /// <summary>
         /// pnlQuestionBank control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlQuestionBank;
-        
+
         /// <summary>
         /// litActiveQuizTitle control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litActiveQuizTitle;
-        
+
         /// <summary>
         /// litActiveQuizModule control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litActiveQuizModule;
-        
+
         /// <summary>
         /// btnCloseQuestionBank control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCloseQuestionBank;
-        
+
         /// <summary>
         /// hfEditingQuestionId control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hfEditingQuestionId;
-        
+
         /// <summary>
         /// litQuestionFormTitle control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litQuestionFormTitle;
-        
+
         /// <summary>
         /// txtQuestionText control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtQuestionText;
-        
+
         /// <summary>
         /// fileQuestionImage control.
         /// </summary>
@@ -173,7 +175,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fileQuestionImage;
-        
+
         /// <summary>
         /// txtQuestionImageUrl control.
         /// </summary>
@@ -182,43 +184,16 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtQuestionImageUrl;
-        
+
         /// <summary>
-        /// txtOptionA control.
+        /// rptChoices control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtOptionA;
-        
-        /// <summary>
-        /// txtOptionB control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtOptionB;
-        
-        /// <summary>
-        /// txtOptionC control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtOptionC;
-        
-        /// <summary>
-        /// txtOptionD control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtOptionD;
-        
+        protected global::System.Web.UI.WebControls.Repeater rptChoices;
+
         /// <summary>
         /// ddlCorrectIndex control.
         /// </summary>
@@ -227,7 +202,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCorrectIndex;
-        
+
         /// <summary>
         /// txtQuestionExplanation control.
         /// </summary>
@@ -236,7 +211,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtQuestionExplanation;
-        
+
         /// <summary>
         /// btnAddQuestion control.
         /// </summary>
@@ -245,7 +220,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAddQuestion;
-        
+
         /// <summary>
         /// btnCancelQuestionEdit control.
         /// </summary>
@@ -254,7 +229,7 @@ namespace DriveLingo.Instructor {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCancelQuestionEdit;
-        
+
         /// <summary>
         /// gvQuestions control.
         /// </summary>

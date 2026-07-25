@@ -13,7 +13,7 @@ namespace DriveLingo.Database.Seeders
             var quiz1 = new Quiz
             {
                 Id = 1,
-                LessonId = 1,
+                ModuleId = 1,
                 Title = "JPJ Road Signs Quiz",
                 Questions = new List<Question>
                 {

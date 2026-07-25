@@ -13,10 +13,10 @@ namespace DriveLingo.Database.Models
         public int Id { get; set; }
 
         [Required]
-        public int LessonId { get; set; }
+        public int ModuleId { get; set; }
 
-        [ForeignKey(nameof(LessonId))]
-        public virtual Lesson Lesson { get; set; }
+        [ForeignKey(nameof(ModuleId))]
+        public virtual Module Module { get; set; }
 
         [Required]
         [StringLength(200)]

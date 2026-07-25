@@ -77,7 +77,7 @@
                     <asp:TemplateField HeaderText="Module Section" ItemStyle-Width="180px">
                         <ItemTemplate>
                             <span class="module-badge">
-                                <%# Eval("Category") %>
+                                <%# Eval("Module.Name") %>
                             </span>
                         </ItemTemplate>
                     </asp:TemplateField>
@@ -87,14 +87,6 @@
                     <asp:TemplateField HeaderText="Questions" ItemStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                         <ItemTemplate>
                             <span style="font-weight: 700; color: var(--primary);"><%# GetQuestionCount(Eval("Questions")) %> Qs</span>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-
-                    <asp:TemplateField HeaderText="Reward Points" ItemStyle-Width="110px" ItemStyle-HorizontalAlign="Center">
-                        <ItemTemplate>
-                            <span class="pts-rate-badge">
-                                🪙 <%# CalculateQuizRewardPoints(Eval("Category").ToString(), Eval("Questions")) %> Pts
-                            </span>
                         </ItemTemplate>
                     </asp:TemplateField>
 
@@ -145,22 +137,20 @@
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-                        <div>
-                            <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.85rem;">Option A</label>
-                            <asp:TextBox ID="txtOptionA" runat="server" CssClass="form-control" placeholder="Choice A" style="width: 100%; padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.7); color: white;" />
-                        </div>
-                        <div>
-                            <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.85rem;">Option B</label>
-                            <asp:TextBox ID="txtOptionB" runat="server" CssClass="form-control" placeholder="Choice B" style="width: 100%; padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.7); color: white;" />
-                        </div>
-                        <div>
-                            <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.85rem;">Option C</label>
-                            <asp:TextBox ID="txtOptionC" runat="server" CssClass="form-control" placeholder="Choice C" style="width: 100%; padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.7); color: white;" />
-                        </div>
-                        <div>
-                            <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.85rem;">Option D</label>
-                            <asp:TextBox ID="txtOptionD" runat="server" CssClass="form-control" placeholder="Choice D" style="width: 100%; padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.7); color: white;" />
-                        </div>
+                        <asp:Repeater ID="rptChoices" runat="server">
+                            <ItemTemplate>
+                                <div style="margin-bottom: 0.75rem;">
+                                    <asp:HiddenField ID="hfChoiceId" runat="server" Value='<%# Eval("Id") %>' />
+            
+                                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.85rem;">
+                                        Option <%# GetChoicePlaceholder(Container.ItemIndex) %>
+                                    </label>
+            
+                                    <asp:TextBox ID="txtChoiceText" runat="server" Text='<%# Eval("Text") %>' CssClass="form-control" placeholder='<%# "Choice " + GetChoicePlaceholder(Container.ItemIndex) %>' style="width: 100%; padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.7); color: white;" />
+                                </div>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                        
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
@@ -194,11 +184,6 @@
                     <Columns>
                         <asp:BoundField DataField="Id" HeaderText="Q ID" ItemStyle-Width="60px" />
                         <asp:BoundField DataField="Text" HeaderText="Prompt" />
-                        <asp:TemplateField HeaderText="Key" ItemStyle-Width="60px" ItemStyle-HorizontalAlign="Center">
-                            <ItemTemplate>
-                                <span style="font-weight: 700; color: var(--success);"><%# GetOptionLetter(Eval("CorrectIndex")) %></span>
-                            </ItemTemplate>
-                        </asp:TemplateField>
                         <asp:TemplateField HeaderText="Actions" ItemStyle-Width="120px" ItemStyle-HorizontalAlign="Right">
                             <ItemTemplate>
                                 <asp:Button ID="btnEditQuestion" runat="server" Text="✏️" CommandName="EditQuestion" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-secondary btn-sm" Title="Edit Question" />

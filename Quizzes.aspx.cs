@@ -29,7 +29,7 @@ namespace DriveLingo
         struct QuizDetails
         {
             public int Id { get; set; }
-            public string Lesson { get; set; }
+            public string Module { get; set; }
             public string Title { get; set; }
             public int Points { get; set; }
             public int TotalQuestions { get; set; }
@@ -46,7 +46,7 @@ namespace DriveLingo
                     .Select(q => new
                     {
                         q.Id,
-                        LessonTitle = q.Lesson.Title,
+                        Module = q.Module.Name,
                         q.Title,
                         QuestionCount = q.Questions.Count,
                         HasPassed = q.Attempts.Any(a => a.UserId == CurrentUser.Id && a.Passed)
@@ -55,7 +55,7 @@ namespace DriveLingo
                     .Select(q => new QuizDetails
                     {
                         Id = q.Id,
-                        Lesson = q.LessonTitle,
+                        Module = q.Module,
                         Title = q.Title,
                         Points = 100, // todo CHANGE THIS
                         TotalQuestions = q.QuestionCount,

@@ -19,5 +19,7 @@ namespace DriveLingo.Database.Models
         public string Description { get; set; }
 
         public virtual ICollection<Lesson> Lessons { get; set; } = new HashSet<Lesson>();
+
+        public virtual ICollection<Quiz> Quizzes { get; set; } = new HashSet<Quiz>();
     }
 }
