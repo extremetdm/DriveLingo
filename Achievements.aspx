@@ -21,9 +21,14 @@
         <ItemTemplate>
           <div class="glass-card" style="text-align: center;">
             <span style="font-size: 3.5rem; display: block; margin-bottom: 0.5rem;"><%# Eval("Icon") %></span>
-            <h3 style="font-family: var(--font-heading); margin-bottom: 0.25rem;"><%# Eval("Title") %></h3>
+            <h3 style="font-family: var(--font-heading); margin-bottom: 0.25rem;"><%# Eval("Name") %></h3>
             <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;"><%# Eval("Description") %></p>
-            <asp:Label ID="lblAchievementStatus" runat="server" CssClass="badge" />
+            <asp:PlaceHolder ID="phAchievementUnlocked" runat="server" Visible="false">
+              <span class="badge badge-success">Unlocked 🟢 (<%# Eval("Xp") %> XP)</span>
+            </asp:PlaceHolder>
+            <asp:PlaceHolder ID="phAchievementLocked" runat="server" Visible="true">
+              <span class="badge badge-success">Locked 🔒 (Score threshold required)</span>
+            </asp:PlaceHolder>
           </div>
         </ItemTemplate>
       </asp:Repeater>

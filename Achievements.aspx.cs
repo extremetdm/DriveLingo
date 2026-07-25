@@ -36,19 +36,14 @@ namespace DriveLingo
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 var achievement = (AchievementService.AchievementStatus)e.Item.DataItem;
-                Label lblStatus = (Label)e.Item.FindControl("lblAchievementStatus");
+                
+                var unlockedPh = (PlaceHolder)e.Item.FindControl("phAchievementUnlocked");
+                var lockedPh = (PlaceHolder)e.Item.FindControl("phAchievementLocked");
 
-                //bool isUnlocked = currentUser.Achievements.Contains(achievement.Id);
-                //if (isUnlocked)
-                //{
-                //    lblStatus.Text = "Unlocked 🟢 (+" + achievement.XpBonus + " XP)";
-                //    lblStatus.CssClass = "badge badge-success";
-                //}
-                //else
-                //{
-                //    lblStatus.Text = "Locked 🔒 (Score threshold required)";
-                //    lblStatus.CssClass = "badge badge-secondary";
-                //}
+                bool isUnlocked = achievement.CompletedAt != null;
+
+                unlockedPh.Visible = isUnlocked;
+                lockedPh.Visible = !isUnlocked;
             }
         }
 
