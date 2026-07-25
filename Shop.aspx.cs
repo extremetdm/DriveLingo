@@ -1,9 +1,8 @@
-﻿using DriveLingo.Database;
-using DriveLingo.Services;
+using DriveLingo.Data;
+using DriveLingo.Models;
 using DriveLingo.UI;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -13,6 +12,23 @@ namespace DriveLingo
 {
     public partial class Shop : AuthPage
     {
+        public class ShopItemViewModel
+        {
+            public string Id { get; set; }
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public int Price { get; set; }
+            public string Icon { get; set; }
+            public string Category { get; set; }
+            public bool Owned { get; set; }
+        }
+
+        private string ActiveCategory
+        {
+            get => ViewState["ActiveCategory"] as string ?? "ALL";
+            set => ViewState["ActiveCategory"] = value;
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             RequireAuth();
@@ -23,73 +39,110 @@ namespace DriveLingo
             }
         }
 
-        // --- Store Handlers ---
-        struct ShopAvailableItem
-        {
-            public int Id { get; set; }
-            public string Icon { get; set; }
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public int Cost { get; set; }
-            public bool Owned { get; set; }
-
-        }
         private void BindStore()
         {
-            using (var db = new AppDbContext())
+            var state = AppStateRepository.GetCurrent();
+            var user = Session["CurrentUser"] as User ?? state.Users.FirstOrDefault(u => u.Role == "learner") ?? new User();
+
+            var query = state.StoreItems.AsEnumerable();
+
+            if (ActiveCategory != "ALL")
             {
-                rptStore.DataSource = db.ShopItems
-                    .Include(i => i.Redemptions)
-                    .ToList()
-                    .Select(i => new ShopAvailableItem
-                    {
-                        Id = i.Id,
-                        Icon = i.Icon,
-                        Name = i.Name,
-                        Description = i.Description,
-                        Cost = i.Cost,
-                        Owned = i.Redemptions.Any(r => r.UserId == CurrentUser.Id)
-                    })
-                    .ToList();
-                rptStore.DataBind();
+                query = query.Where(i => i.Category.Equals(ActiveCategory, StringComparison.OrdinalIgnoreCase));
             }
+
+            var list = query.Select(i => new ShopItemViewModel
+            {
+                Id = i.Id,
+                Title = i.Title,
+                Description = i.Description,
+                Price = i.Price,
+                Icon = i.Icon,
+                Category = i.Category,
+                Owned = user.Inventory != null && user.Inventory.Contains(i.Id)
+            }).ToList();
+
+            rptStore.DataSource = list;
+            rptStore.DataBind();
         }
+
+        protected void btnCategoryFilter_Click(object sender, EventArgs e)
+        {
+            var btn = (LinkButton)sender;
+            ActiveCategory = btn.CommandArgument;
+
+            btnTabAll.CssClass = "shop-category-btn" + (ActiveCategory == "ALL" ? " active" : "");
+            btnTabBorder.CssClass = "shop-category-btn" + (ActiveCategory == "Border" ? " active" : "");
+            btnTabIcon.CssClass = "shop-category-btn" + (ActiveCategory == "Icon" ? " active" : "");
+            btnTabBadge.CssClass = "shop-category-btn" + (ActiveCategory == "Badge" ? " active" : "");
+
+            BindStore();
+        }
+
         protected void rptStore_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             if (e.CommandName == "BuyItem")
             {
-                int itemId = int.Parse(e.CommandArgument.ToString());
-
-                var output = ShopService.HandleRedeem(CurrentUser.Id, itemId);
-                ShowNotification(output.Message);
-
-                if (output.Success)
+                if (IsGuest)
                 {
-                    BindStore();
-                    ((SiteMaster)Master).UpdateUserHeaderAndNavigation();
+                    ShowNotification("🔍 Guest Mode: Please sign in or register an account to redeem store items!");
+                    return;
+                }
+
+                var state = AppStateRepository.GetCurrent();
+                var user = Session["CurrentUser"] as User;
+                if (user == null)
+                {
+                    string email = CurrentUser != null ? CurrentUser.Email : "";
+                    user = state.Users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase))
+                        ?? state.Users.FirstOrDefault(u => u.Role == "learner")
+                        ?? new User { Id = "usr_learner", Name = "Candidate", Role = "learner", Points = 500 };
+                    Session["CurrentUser"] = user;
+                }
+
+                string itemId = e.CommandArgument.ToString();
+                var item = state.StoreItems.FirstOrDefault(i => i.Id == itemId);
+
+                if (item == null) return;
+
+                if (user.Points < item.Price)
+                {
+                    ShowNotification("❌ Insufficient Points! You need " + item.Price + " Pts, but only have " + user.Points + " Pts.");
+                    return;
+                }
+
+                user.Points -= item.Price;
+                if (user.Inventory == null) user.Inventory = new List<string>();
+                if (!user.Inventory.Contains(item.Id))
+                {
+                    user.Inventory.Add(item.Id);
+                }
+
+                Session["CurrentUser"] = user;
+                ShowNotification("🎉 Successfully redeemed " + item.Title + "! Visit your Profile to equip it.");
+
+                BindStore();
+                if (Master is SiteMaster masterPage)
+                {
+                    masterPage.UpdateUserHeaderAndNavigation();
                 }
             }
         }
 
-        protected void rptStore_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        public string GetCategoryBadgeClass(string category)
         {
-            if (e.Item.ItemType != ListItemType.Item
-                && e.Item.ItemType != ListItemType.AlternatingItem
-            ) return;
+            if (string.IsNullOrEmpty(category)) return "category-pill cat-border";
+            if (category.Equals("Border", StringComparison.OrdinalIgnoreCase)) return "category-pill cat-border";
+            if (category.Equals("Icon", StringComparison.OrdinalIgnoreCase)) return "category-pill cat-icon";
+            if (category.Equals("Badge", StringComparison.OrdinalIgnoreCase)) return "category-pill cat-badge";
 
-            var item = (ShopAvailableItem)e.Item.DataItem;
-            Button btnBuyItem = (Button)e.Item.FindControl("btnBuyItem");
-            Label lblOwnedItem = (Label)e.Item.FindControl("lblOwnedItem");
-
-            btnBuyItem.Visible = !item.Owned;
-            lblOwnedItem.Visible = item.Owned;
+            return "category-pill cat-border";
         }
 
         private void ShowNotification(string message)
         {
             pnlNotification.Visible = true;
-            litNotificationText.Text = "✅ " + message;
-            // todo add error msg notification
+            litNotificationText.Text = message;
         }
     }
 }

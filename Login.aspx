@@ -1,4 +1,4 @@
-﻿<%@ Page Title="DriveLingo | Login" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="DriveLingo.Login" %>
+<%@ Page Title="DriveLingo | Login" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="DriveLingo.Login" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
   <style>
@@ -139,6 +139,10 @@
       <div style="text-align: center; margin-top: 1.25rem;">
         <span style="color: var(--text-secondary); font-size: 0.88rem;">Don't have a candidate account? </span>
         <a href="Register.aspx" style="color: var(--primary); font-weight: 700; text-decoration: none; font-size: 0.88rem;">Create One Here</a>
+      </div>
+
+      <div style="margin-top: 1rem;">
+        <asp:Button ID="btnContinueGuest" runat="server" Text="🔍 Continue as Guest (Limited Access)" OnClick="btnContinueGuest_Click" CssClass="btn btn-secondary" style="width: 100%; font-weight: 700; background: rgba(15, 23, 42, 0.6); border-color: rgba(255, 255, 255, 0.15);" />
       </div>
 
       <div class="divider"></div>

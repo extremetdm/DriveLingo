@@ -84,7 +84,7 @@ namespace DriveLingo.Data
                 Role = "learner",
                 Name = "Alex Hero",
                 Avatar = "🚗",
-                Points = 350,
+                Points = 5000,
                 Level = 2,
                 XP = 180,
                 Achievements = new List<string> { "first_step" },
@@ -197,15 +197,24 @@ namespace DriveLingo.Data
                 Content = "Regulatory Signs (Circular red border = prohibition / Stop sign = octagonal red), Warning Signs (Diamond yellow background), Informational Signs (Green = Expressway, Blue = Federal)."
             });
 
-            // Seed Store Items
-            StoreItems.Add(new StoreItem { Id = "item_1", Title = "Border: Glowing Neon", Description = "Cyberpunk glowing profile outline", Price = 150, Icon = "✨", Category = "Avatars" });
-            StoreItems.Add(new StoreItem { Id = "item_2", Title = "Badge: Speed Master", Description = "Gold badge on profile", Price = 250, Icon = "⚡", Category = "Badges" });
-            StoreItems.Add(new StoreItem { Id = "item_3", Title = "Theme: Dark Emerald", Description = "Exclusive green glass styling", Price = 400, Icon = "🟢", Category = "Themes" });
+            // Seed Store Items (Categories: Border, Icon, Badge)
+            StoreItems.Add(new StoreItem { Id = "border_neon", Title = "Glowing Neon Frame", Description = "Cyberpunk neon glowing outline for avatar icon", Price = 150, Icon = "✨", Category = "Border" });
+            StoreItems.Add(new StoreItem { Id = "border_gold", Title = "Gold Crown Frame", Description = "Royal gold border outline for profile avatar", Price = 250, Icon = "👑", Category = "Border" });
+            StoreItems.Add(new StoreItem { Id = "border_emerald", Title = "Cyber Emerald Frame", Description = "Glowing emerald glass border frame", Price = 300, Icon = "🟢", Category = "Border" });
 
-            // Seed Achievements
-            Achievements.Add(new Achievement { Id = "first_step", Title = "First Step", Description = "Complete your first JPJ practice quiz", Icon = "🎯", XpBonus = 50 });
-            Achievements.Add(new Achievement { Id = "perfect_score", Title = "Flawless Driver", Description = "Score 100% on any practice test", Icon = "🏆", XpBonus = 150 });
-            Achievements.Add(new Achievement { Id = "quiz_creator", Title = "Certified Educator", Description = "Create a custom JPJ practice test", Icon = "👨‍✈️", XpBonus = 200 });
+            StoreItems.Add(new StoreItem { Id = "icon_supercar", Title = "Red Supercar", Description = "High-speed red supercar icon", Price = 200, Icon = "🏎️", Category = "Icon" });
+            StoreItems.Add(new StoreItem { Id = "icon_motorbike", Title = "Racing Motorbike", Description = "Sporty motorcycling icon", Price = 180, Icon = "🏍️", Category = "Icon" });
+            StoreItems.Add(new StoreItem { Id = "icon_lightning", Title = "Lightning Wheel", Description = "Electric lightning wheel icon", Price = 220, Icon = "⚡", Category = "Icon" });
+
+            StoreItems.Add(new StoreItem { Id = "badge_speed", Title = "Speed Master Badge", Description = "Displays ⚡ Speed Master badge next to your display name", Price = 250, Icon = "⚡", Category = "Badge" });
+            StoreItems.Add(new StoreItem { Id = "badge_flawless", Title = "Flawless Driver Badge", Description = "Displays 🏆 Flawless Driver badge next to your display name", Price = 350, Icon = "🏆", Category = "Badge" });
+            StoreItems.Add(new StoreItem { Id = "badge_scholar", Title = "Traffic Scholar Badge", Description = "Displays 👨‍✈️ Traffic Scholar badge next to your display name", Price = 300, Icon = "👨‍✈️", Category = "Badge" });
+
+            // Seed Achievements with Target Counts & Metric Types
+            Achievements.Add(new Achievement { Id = "first_step", Title = "First Step", Description = "Complete your first JPJ practice quiz", Icon = "🎯", XpBonus = 50, TargetCount = 1, MetricType = "quiz_count" });
+            Achievements.Add(new Achievement { Id = "quiz_master", Title = "Theory Master", Description = "Answer 5 practice quizzes to unlock", Icon = "📚", XpBonus = 200, TargetCount = 5, MetricType = "quiz_count" });
+            Achievements.Add(new Achievement { Id = "perfect_score", Title = "Flawless Driver", Description = "Score 100% on any practice test", Icon = "🏆", XpBonus = 150, TargetCount = 1, MetricType = "perfect_score" });
+            Achievements.Add(new Achievement { Id = "study_bug", Title = "Diligent Scholar", Description = "Read 3 JPJ study guides to unlock", Icon = "📖", XpBonus = 100, TargetCount = 3, MetricType = "materials_read" });
 
             // Seed Initial Discussion Thread
             Discussions.Add(new DiscussionThread
