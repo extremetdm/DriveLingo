@@ -34,5 +34,24 @@ namespace DriveLingo.Database.Models
         [ForeignKey(nameof(ModuleId))]
         [InverseProperty("Lessons")]
         public virtual Module Module { get; set; }
+        public virtual ICollection<CompletedLesson> CompletedUsers { get; set; }
+    }
+
+    public class CompletedLesson
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        public int LessonId { get; set; }
+
+        [Required]
+        public int UserId { get; set; }
+
+        [ForeignKey(nameof(LessonId))]
+        public virtual Lesson Lesson { get; set; }
+
+        [ForeignKey(nameof(UserId))]
+        public virtual User User { get; set; }
     }
 }

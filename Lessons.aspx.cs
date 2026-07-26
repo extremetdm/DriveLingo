@@ -30,13 +30,17 @@ namespace DriveLingo
             public string Image { get; set; }
             public string Pdf { get; set; }
             public int? EstimatedTime { get; set; }
+            public bool IsCompleted { get; set; }
         }
         private void BindMaterials()
         {
             using (var db = new AppDbContext())
             {
+                int? userId = CurrentUser?.Id;
+
                 rptMaterials.DataSource = db.Lessons
                     .Include(l => l.Module)
+                    .Include(l => l.CompletedUsers)
                     .Select(l => new
                     {
                         l.Id,
@@ -46,6 +50,7 @@ namespace DriveLingo
                         l.Image,
                         l.Pdf,
                         l.EstimatedTime,
+                        IsCompleted = l.CompletedUsers.Any(u => u.UserId == userId)
                     })
                     .ToList()
                     .Select(l => new LearningMaterial
@@ -56,31 +61,14 @@ namespace DriveLingo
                         Content = l.Content,
                         Image = l.Image,
                         Pdf = l.Pdf,
-                        EstimatedTime = l.EstimatedTime
+                        EstimatedTime = l.EstimatedTime,
+                        IsCompleted = l.IsCompleted
                     })
                     .ToList();
                 rptMaterials.DataBind();
             }
         }
 
-        // --- Material Handlers ---
-        protected void rptMaterials_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-            {
-                LearningMaterial mat = (LearningMaterial)e.Item.DataItem;
-                PlaceHolder phReadBadge = (PlaceHolder)e.Item.FindControl("phReadBadge");
-
-                if (phReadBadge != null)
-                {
-                    //TODO REENABLE THIS
-                    //if (currentUser.ReadMaterials != null && currentUser.ReadMaterials.Contains(mat.Id))
-                    //{
-                    //    phReadBadge.Visible = true;
-                    //}
-                }
-            }
-        }
 
         protected void rptMaterials_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
@@ -93,38 +81,16 @@ namespace DriveLingo
                 var lesson = db.Lessons.Find(lessonId);
                 if (lesson != null)
                 {
-                    //if (currentUser.ReadMaterials == null)
-                    //{
-                    //    currentUser.ReadMaterials = new List<string>();
-                    //}
+                    ShowNotification("Viewing study guide: " + lesson.Title);
 
-                    //bool newlyRead = !currentUser.ReadMaterials.Contains(mat.Id);
-
-                    //if (newlyRead)
-                    //{
-                    //    currentUser.ReadMaterials.Add(mat.Id);
-                    //    int oldLevel = currentUser.Level;
-
-                    //    currentUser.XP += 15;
-                    //    // Level formula: 1 + (XP / 200)
-                    //    currentUser.Level = 1 + (currentUser.XP / 200);
-
-                    //    if (currentUser.Level > oldLevel)
-                    //    {
-                    //        ShowNotification("🎉 Level Up! You reached Level " + currentUser.Level + "! (+15 XP for studying " + mat.Title + ")");
-                    //    }
-                    //    else
-                    //    {
-                    //        ShowNotification("Reading guide logged! You earned +15 XP for studying " + mat.Title + ".");
-                    //    }
-
-                    //    litMatXpStatus.Text = "+15 XP Earned for completing this guide!";
-                    //}
-                    //else
-                    //{
-                        ShowNotification("Viewing study guide: " + lesson.Title);
-                    //litMatXpStatus.Text = "✔ Guide Completed (XP bonus already claimed)";
-                    //}
+                    if (lesson.CompletedUsers.Any(l => l.UserId == CurrentUser?.Id))
+                    {
+                        litMatXpStatus.Text = "✔ Guide Completed (XP bonus already claimed)";
+                    } else
+                    {
+                        int xpGain = LevelingService.CalculateXpForLessons(lesson.EstimatedTime ?? 0);
+                        litMatXpStatus.Text = $"+{xpGain} XP for completing this guide!";
+                    }
 
                     // Populate expanded detail view
                     litMatTitle.Text = lesson.Title;
@@ -154,11 +120,71 @@ namespace DriveLingo
 
                     pnlMaterialList.Visible = false;
                     pnlMaterialDetail.Visible = true;
+                    lbCompleteLesson.CommandArgument = lesson.Id.ToString();
+                }
+            }
+        }
+
+        protected void btnCompleteLesson_Command(object sender, CommandEventArgs e)
+        {
+            if (e.CommandName != "CompleteLesson") return;
+
+            if (IsGuest)
+            {
+                ShowNotification("🔍 Guest Mode: Please register an account to gain XP from lessons!");
+                return;
+            }
+
+            int lessonId = Convert.ToInt32(e.CommandArgument);
+
+            using (var db = new AppDbContext())
+            {
+                var lesson = db.Lessons.Find(lessonId);
+                if (lesson == null)
+                {
+                    ShowNotification("Lesson not found.");
+                    return;
+                }
+
+                var user = db.Users.Find(CurrentUser.Id);
+                if (user == null)
+                {
+                    ShowNotification("User not found.");
+                    return;
+                }
+
+                var hasLearnt = user.CompletedLessons.Any(ll => ll.LessonId == lesson.Id);
+
+                if (!hasLearnt) {
+                    user.CompletedLessons.Add(new Database.Models.CompletedLesson
+                    {
+                        LessonId = lesson.Id
+                    });
+
+                    int xpGain = LevelingService.CalculateXpForLessons(lesson.EstimatedTime ?? 0);
+                    user.XP += xpGain;
+                    var output = AchievementService.IncrementProgress(db, user, Database.Models.Achievement.TaskType.ReadLessons);
+
+                    if (!output.Success)
+                    {
+                        ShowNotification(output.Message);
+                        return;
+                    }
+
+                    db.SaveChanges();
+                    ShowNotification($"Reading guide logged! You earned +{xpGain} XP for studying {lesson.Title}.");
 
                     // Rebind materials to show Read badge on cards
                     BindMaterials();
                     ((SiteMaster)Master).UpdateUserHeaderAndNavigation();
                 }
+                else
+                {
+                    pnlNotification.Visible = false;
+                }
+
+                pnlMaterialList.Visible = true;
+                pnlMaterialDetail.Visible = false;
             }
         }
 
@@ -166,6 +192,7 @@ namespace DriveLingo
         {
             pnlMaterialList.Visible = true;
             pnlMaterialDetail.Visible = false;
+            pnlNotification.Visible = false;
         }
 
         private void ShowNotification(string message)

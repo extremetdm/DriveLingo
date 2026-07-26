@@ -19,7 +19,7 @@
     <!-- Material Cards Grid View -->
     <asp:Panel ID="pnlMaterialList" runat="server">
       <div class="grid-3-col">
-        <asp:Repeater ID="rptMaterials" runat="server" OnItemCommand="rptMaterials_ItemCommand" OnItemDataBound="rptMaterials_ItemDataBound">
+        <asp:Repeater ID="rptMaterials" runat="server" OnItemCommand="rptMaterials_ItemCommand">
           <ItemTemplate>
             <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
               <div>
@@ -27,7 +27,7 @@
                   <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: var(--success); display: inline-block;">
                     <%# Eval("Module") %>
                   </span>
-                  <asp:PlaceHolder ID="phReadBadge" runat="server" Visible="false">
+                  <asp:PlaceHolder ID="phReadBadge" runat="server" Visible='<%# Eval("IsCompleted") %>'>
                     <span class="badge" style="background: rgba(16, 185, 129, 0.3); color: var(--success); font-weight: 700;">Read ✔</span>
                   </asp:PlaceHolder>
                 </div>
@@ -84,13 +84,13 @@
       </div>
 
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-          <%-- 
-        <asp:Panel ID="pnlMatXpNotice" runat="server" CssClass="badge" style="background: rgba(245, 158, 11, 0.2); color: var(--warning); font-size: 0.95rem; padding: 0.6rem 1rem;">
-          ⭐ <asp:Literal ID="litMatXpStatus" runat="server" Text="+15 XP Earned for completing this guide!" />
+        <asp:Panel ID="pnlMatXpNotice" runat="server" CssClass="badge" style="background: rgba(245, 158, 11, 0.2); color: var(--warning); font-size: 0.95rem; padding: 0.6rem 1rem; margin-right: auto;">
+          ⭐ <asp:Literal ID="litMatXpStatus" runat="server" Text="+15 XP for completing this guide!" />
         </asp:Panel>
-          --%>
-        <asp:HyperLink ID="hlMatPdf" runat="server" Target="_blank" CssClass="btn btn-primary" Visible="false">📄 Download Official PDF Manual</asp:HyperLink>
+        <asp:HyperLink ID="hlMatPdf" runat="server" Target="_blank" CssClass="btn btn-secondary" Visible="false">📄 Download Official PDF Manual</asp:HyperLink>
+        <asp:LinkButton ID="lbCompleteLesson" runat="server" CssClass="btn btn-primary" OnCommand="btnCompleteLesson_Command" CommandName="CompleteLesson">✅ Complete Lesson</asp:LinkButton>
       </div>
+
     </asp:Panel>
   </asp:Panel>
 </asp:Content>

@@ -24,6 +24,7 @@ namespace DriveLingo.Database
         public DbSet<User> Users { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
+        public DbSet<CompletedLesson> CompletedLessons { get; set; }
 
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<Question> Questions { get; set; }
@@ -40,6 +41,7 @@ namespace DriveLingo.Database
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<AchievementProgress> AchievementProgresses { get; set; }
         public DbSet<CompletedAchievement> CompletedAchievements { get; set; }
+
 
     }
 }
