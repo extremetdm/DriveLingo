@@ -7,6 +7,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DriveLingo | JPJ Driving Theory Exam Simulator</title>
   <link rel="stylesheet" href="css/styles.css">
+  <script type="text/javascript">
+    function togglePasswordVisibility(btn) {
+      var wrapper = btn.closest('.password-input-wrapper');
+      var input = wrapper ? wrapper.querySelector('input') : btn.previousElementSibling;
+      if (input) {
+        if (input.type === 'password') {
+          input.type = 'text';
+          btn.innerHTML = '🙈';
+          btn.title = 'Hide Password';
+        } else {
+          input.type = 'password';
+          btn.innerHTML = '👁️';
+          btn.title = 'Show Password';
+        }
+      }
+    }
+  </script>
   <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
 </head>
 <body>
