@@ -59,7 +59,12 @@ namespace DriveLingo.Admin
                 return;
             }
 
-            
+            int estimatedTime;
+            if (!int.TryParse(txtEstimatedTime.Text.Trim(), out estimatedTime))
+            {
+                ShowNotification("Please provide valid reading time.");
+                return;
+            }
 
             string pdfUrl = txtMatPdf.Text.Trim();
 
@@ -106,8 +111,7 @@ namespace DriveLingo.Admin
                 lesson.Pdf = pdfUrl;
                 lesson.Content = content;
                 if (!string.IsNullOrEmpty(imageUrl)) lesson.Image = imageUrl;
-                // TODO CHANGE THIS
-                lesson.EstimatedTime = 5;
+                lesson.EstimatedTime = estimatedTime;
 
                 db.SaveChanges();
 
@@ -158,6 +162,7 @@ namespace DriveLingo.Admin
                 txtMaterialImageUrl.Text = lesson.Image;
                 txtMatPdf.Text = lesson.Pdf;
                 txtMatContent.Text = lesson.Content;
+                txtEstimatedTime.Text = lesson.EstimatedTime.ToString();
 
                 litMaterialFormTitle.Text = "✏️ Edit Study Guide Material (" + lesson.Id + ")";
                 btnAddMaterial.Text = "💾 Save Material Changes";
@@ -201,6 +206,7 @@ namespace DriveLingo.Admin
             litMaterialFormTitle.Text = "➕ Add Study Guide Material";
             btnAddMaterial.Text = "➕ Create Material";
             btnCancelMaterialEdit.Visible = false;
+            txtEstimatedTime.Text = "";
 
             txtMatTitle.Text = "";
             txtMaterialImageUrl.Text = "";
