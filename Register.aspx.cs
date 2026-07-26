@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Web.UI;
-using DriveLingo.Data;
-using DriveLingo.Models;
 using DriveLingo.Services;
 using DriveLingo.UI;
 

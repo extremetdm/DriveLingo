@@ -1,5 +1,4 @@
 using DriveLingo.Database.Models;
-using DriveLingo.Models;
 using DriveLingo.Services;
 using DriveLingo.UI;
 using System;

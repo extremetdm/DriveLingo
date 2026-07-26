@@ -1,7 +1,5 @@
-using DriveLingo.Data;
 using DriveLingo.Database;
 using DriveLingo.Database.Models;
-using DriveLingo.Models;
 using DriveLingo.UI;
 using System;
 using System.Collections.Generic;
