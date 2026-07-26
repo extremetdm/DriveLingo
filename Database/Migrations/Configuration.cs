@@ -23,6 +23,7 @@ namespace DriveLingo.Database.Migrations
             ShopItemSeeder.Run(context);
             QuizSeeder.Run(context);
             LearningMaterial.Run(context);
+            AchievementSeeder.Run(context);
 
             context.SaveChanges();
 
