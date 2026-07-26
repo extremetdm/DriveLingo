@@ -27,10 +27,10 @@ namespace DriveLingo.Database.Seeders
                 {
                     Id = 2,
                     Icon = "🏎️",
-                    Name = "Racing Driver Avatar",
+                    Name = "Racing Driver Badge",
                     Description = "A racing driver themed profile image.",
-                    Type = ShopItem.ItemType.Icon,
-                    Cost = 500
+                    Type = ShopItem.ItemType.Badge,
+                    Cost = 1000
                 },
                 new ShopItem
                 {
@@ -68,6 +68,15 @@ namespace DriveLingo.Database.Seeders
                     Description = "A premium golden profile border.",
                     Type = ShopItem.ItemType.Border,
                     ColorHex = "Gold",
+                    Cost = 500
+                },
+                new ShopItem
+                {
+                    Id = 7,
+                    Icon = "🚘",
+                    Name = "Safe Driver Badge",
+                    Description = "A badge awarded to users who value safe and responsible driving.",
+                    Type = ShopItem.ItemType.Badge,
                     Cost = 500
                 }
             );
