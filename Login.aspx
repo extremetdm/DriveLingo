@@ -121,41 +121,205 @@
         <span style="color: var(--danger); font-weight: 600; font-size: 0.9rem;">⚠️ <asp:Literal ID="litErrorMsg" runat="server" /></span>
       </asp:Panel>
 
-      <!-- Login Form -->
-      <div>
+      <!-- Login Form Wrapper (Toggleable) -->
+      <div id="loginFields">
         <div class="form-group">
           <label>Email Address</label>
           <asp:TextBox ID="txtEmail" runat="server" CssClass="form-input" placeholder="learner@drivelingo.com" />
         </div>
 
         <div class="form-group">
-          <label>Password</label>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <label style="margin-bottom: 0;">Password</label>
+            <a href="javascript:void(0)" onclick="toggleForgotPassword(true)" style="color: var(--primary); font-size: 0.82rem; text-decoration: none; font-weight: 600; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='var(--primary)'">Forgot Password?</a>
+          </div>
           <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-input" placeholder="••••••••" />
         </div>
 
         <asp:Button ID="btnLoginSubmit" runat="server" Text="Sign In to Portal 🚀" OnClick="btnLoginSubmit_Click" CssClass="btn btn-primary btn-auth-submit" />
+
+        <div style="text-align: center; margin-top: 1.25rem;">
+          <span style="color: var(--text-secondary); font-size: 0.88rem;">Don't have a candidate account? </span>
+          <a href="Register.aspx" style="color: var(--primary); font-weight: 700; text-decoration: none; font-size: 0.88rem;">Create One Here</a>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <asp:Button ID="btnContinueGuest" runat="server" Text="🔍 Continue as Guest (Limited Access)" OnClick="btnContinueGuest_Click" CssClass="btn btn-secondary" style="width: 100%; font-weight: 700; background: rgba(15, 23, 42, 0.6); border-color: rgba(255, 255, 255, 0.15);" />
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Quick Demo Login Presets -->
+        <div>
+          <span class="preset-title">⚡ Developer Quick Login</span>
+          <div class="preset-grid">
+            <asp:Button ID="btnDemoLearner" runat="server" Text="🚘 Candidate" OnClick="btnDemoLearner_Click" CssClass="btn btn-secondary btn-sm" style="font-size: 0.8rem; padding: 0.5rem;" />
+            <asp:Button ID="btnDemoEducator" runat="server" Text="👨‍✈️ Educator" OnClick="btnDemoEducator_Click" CssClass="btn btn-secondary btn-sm" style="font-size: 0.8rem; padding: 0.5rem;" />
+            <asp:Button ID="btnDemoAdmin" runat="server" Text="👑 Admin" OnClick="btnDemoAdmin_Click" CssClass="btn btn-secondary btn-sm" style="font-size: 0.8rem; padding: 0.5rem;" />
+          </div>
+        </div>
       </div>
 
-      <div style="text-align: center; margin-top: 1.25rem;">
-        <span style="color: var(--text-secondary); font-size: 0.88rem;">Don't have a candidate account? </span>
-        <a href="Register.aspx" style="color: var(--primary); font-weight: 700; text-decoration: none; font-size: 0.88rem;">Create One Here</a>
-      </div>
+      <!-- Forgot Password Form (Initially Hidden) -->
+      <div id="forgotFields" style="display: none;">
+        <div style="margin-bottom: 1.5rem;">
+          <h3 style="color: white; margin: 0 0 0.5rem 0; font-size: 1.25rem; font-weight: 700;">Reset Password</h3>
+          <p style="color: var(--text-secondary); font-size: 0.88rem; margin: 0; line-height: 1.4;">Enter your email address below. If an account is found, we will send you a temporary password to log in.</p>
+        </div>
 
-      <div style="margin-top: 1rem;">
-        <asp:Button ID="btnContinueGuest" runat="server" Text="🔍 Continue as Guest (Limited Access)" OnClick="btnContinueGuest_Click" CssClass="btn btn-secondary" style="width: 100%; font-weight: 700; background: rgba(15, 23, 42, 0.6); border-color: rgba(255, 255, 255, 0.15);" />
-      </div>
+        <div id="resetAlert" style="display: none; border-radius: var(--radius-sm); margin-bottom: 1.25rem; padding: 0.85rem 1rem; font-size: 0.9rem; font-weight: 600;">
+          <span id="resetAlertText"></span>
+        </div>
 
-      <div class="divider"></div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="txtResetEmail" class="form-input" placeholder="candidate@example.com" />
+        </div>
 
-      <!-- Quick Demo Login Presets -->
-      <div>
-        <span class="preset-title">⚡ Developer Quick Login</span>
-        <div class="preset-grid">
-          <asp:Button ID="btnDemoLearner" runat="server" Text="🚘 Candidate" OnClick="btnDemoLearner_Click" CssClass="btn btn-secondary btn-sm" style="font-size: 0.8rem; padding: 0.5rem;" />
-          <asp:Button ID="btnDemoEducator" runat="server" Text="👨‍✈️ Educator" OnClick="btnDemoEducator_Click" CssClass="btn btn-secondary btn-sm" style="font-size: 0.8rem; padding: 0.5rem;" />
-          <asp:Button ID="btnDemoAdmin" runat="server" Text="👑 Admin" OnClick="btnDemoAdmin_Click" CssClass="btn btn-secondary btn-sm" style="font-size: 0.8rem; padding: 0.5rem;" />
+        <button type="button" id="btnResetSubmit" onclick="handleForgotPasswordSubmit()" class="btn btn-primary btn-auth-submit" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+          <span>Send Recovery Email ✉️</span>
+        </button>
+
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <a href="javascript:void(0)" onclick="toggleForgotPassword(false)" style="color: var(--text-secondary); font-weight: 700; text-decoration: none; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='var(--text-secondary)'">
+            <span>← Back to Sign In</span>
+          </a>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- EmailJS Integration and Client Script Handles -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function() {
+      emailjs.init({
+        publicKey: "7f6GWPVgA3ok7tUsF",
+      });
+    })();
+
+    function toggleForgotPassword(show) {
+      const loginFields = document.getElementById('loginFields');
+      const forgotFields = document.getElementById('forgotFields');
+      const errorPanel = document.querySelector('[id$="pnlError"]');
+      
+      if (errorPanel) {
+        errorPanel.style.display = 'none';
+      }
+
+      if (show) {
+        loginFields.style.display = 'none';
+        forgotFields.style.display = 'block';
+        
+        const emailTxt = document.querySelector('input[id$="txtEmail"]');
+        if (emailTxt) {
+          document.getElementById('txtResetEmail').value = emailTxt.value;
+        }
+        clearAlert();
+      } else {
+        loginFields.style.display = 'block';
+        forgotFields.style.display = 'none';
+      }
+    }
+
+    function showAlert(message, isSuccess) {
+      const alertDiv = document.getElementById('resetAlert');
+      const alertText = document.getElementById('resetAlertText');
+      alertDiv.style.display = 'block';
+      alertText.innerText = (isSuccess ? '✅ ' : '⚠️ ') + message;
+      
+      if (isSuccess) {
+        alertDiv.style.border = '1px solid #10b981';
+        alertDiv.style.background = 'rgba(16, 185, 129, 0.15)';
+        alertDiv.style.color = '#10b981';
+      } else {
+        alertDiv.style.border = '1px solid #ef4444';
+        alertDiv.style.background = 'rgba(239, 68, 68, 0.15)';
+        alertDiv.style.color = '#ef4444';
+      }
+    }
+
+    function clearAlert() {
+      const alertDiv = document.getElementById('resetAlert');
+      alertDiv.style.display = 'none';
+    }
+
+    function handleForgotPasswordSubmit() {
+      const emailInput = document.getElementById('txtResetEmail');
+      const email = emailInput.value.trim();
+      const btn = document.getElementById('btnResetSubmit');
+      
+      if (!email) {
+        showAlert('Please enter your email address.', false);
+        return;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showAlert('Please enter a valid email address.', false);
+        return;
+      }
+
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner" style="display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,0.3); border-radius:50%; border-top-color:#fff; animation:spin 1s ease-in-out infinite; margin-right:6px;"></span> Sending...';
+
+      fetch('Login.aspx/ResetPassword', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify({ email: email })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        const result = data.d;
+        if (result && result.success) {
+          const serviceId = 'service_drivelingo';
+          const templateId = '7f6GWPVgA3ok7tUsF';
+          
+          const templateParams = {
+            to_email: result.email,
+            to_name: result.username,
+            temp_password: result.tempPassword,
+            message: 'Your temporary password is: ' + result.tempPassword
+          };
+
+          return emailjs.send(serviceId, templateId, templateParams)
+            .then(function(response) {
+              showAlert('A temporary password has been successfully sent to your email address.', true);
+              emailInput.value = '';
+              const emailTxt = document.querySelector('input[id$="txtEmail"]');
+              if (emailTxt) {
+                emailTxt.value = result.email;
+              }
+            }, function(error) {
+              console.error('EmailJS Error:', error);
+              showAlert('Failed to dispatch recovery email via EmailJS. Password updated in database, but email failed to send. Please contact support.', false);
+            });
+        } else {
+          showAlert(result ? result.message : 'An error occurred. Please try again.', false);
+        }
+      })
+      .catch(err => {
+        console.error('Fetch Error:', err);
+        showAlert('An error occurred while connecting to the server. Please try again.', false);
+      })
+      .finally(() => {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      });
+    }
+  </script>
+  
+  <style>
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </asp:Content>
