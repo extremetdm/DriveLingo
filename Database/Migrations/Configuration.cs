@@ -12,7 +12,7 @@ namespace DriveLingo.Database.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+            //AutomaticMigrationDataLossAllowed = true;
             MigrationsDirectory = @"Database\Migrations";
         }
 

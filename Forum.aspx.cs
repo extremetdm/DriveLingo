@@ -37,7 +37,7 @@ namespace DriveLingo
 
         private void BindForum()
         {
-            rptForum.DataSource = ForumService.GetForumThreads();
+            rptForum.DataSource = ForumService.GetForumThreads(CurrentUser.Id);
             rptForum.DataBind();
         }
 
@@ -122,17 +122,29 @@ namespace DriveLingo
         }
 
         private void handleUpvote(object source, RepeaterCommandEventArgs e)
-        {   //TODO CHANGE THIS
+        {
+            if (IsGuest)
+            {
+                ShowNotification("🔍 Guest Mode: Please register an account to like posts!");
+                return;
+            }
 
-            //string threadId = e.CommandArgument.ToString();
-            //var repo = AppStateRepository.GetCurrent();
-            //var thread = repo.Discussions.FirstOrDefault(d => d.Id == threadId);
-            //if (thread != null)
-            //{
-            //    thread.Upvotes++;
-            //    BindForum();
-            //}
-            BindForum();
+            int postId;
+            if (!int.TryParse(e.CommandArgument.ToString(), out postId))
+            {
+                ShowNotification("Invalid post.");
+                return;
+            }
+
+            var output = ForumService.ToggleLike(postId, CurrentUser.Id);
+            if (output.Success)
+            {
+                BindForum();
+            } else
+            {
+                ShowNotification(output.Message);
+            }
+
         }
 
         private void handleReply(object source, RepeaterCommandEventArgs e)

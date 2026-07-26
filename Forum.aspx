@@ -1,30 +1,27 @@
 <%@ Page Title="DriveLingo | Forum Discussions" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Forum.aspx.cs" Inherits="DriveLingo.Forum" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
-    <script type="text/javascript">
-        function toggleUpvote(btn) {
-            var statusSpan = btn.querySelector('.upvote-status');
-            var countSpan = btn.querySelector('.upvote-count');
-            var currentCount = parseInt(countSpan.innerText) || 0;
-            var isUpvoted = btn.classList.contains('is-upvoted');
-
-            if (isUpvoted) {
-                btn.classList.remove('is-upvoted');
-                statusSpan.innerText = 'Upvote';
-                countSpan.innerText = Math.max(0, currentCount - 1);
-                btn.style.background = 'rgba(234, 179, 8, 0.1)';
-                btn.style.color = 'var(--warning)';
-                btn.style.borderColor = 'var(--warning)';
-            } else {
-                btn.classList.add('is-upvoted');
-                statusSpan.innerText = 'Upvoted';
-                countSpan.innerText = currentCount + 1;
-                btn.style.background = 'var(--warning)';
-                btn.style.color = '#0f172a';
-                btn.style.borderColor = 'var(--warning)';
-            }
-        }
-    </script>
+<style>
+.btn-upvote-ui {
+    background: rgba(234, 179, 8, 0.1);
+    border: 1px solid var(--warning);
+    color: var(--warning);
+    font-weight: 700;
+    border-radius: 20px;
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    transition: all 0.25s ease;
+}
+.btn-upvote-ui.is-upvoted {
+    background: var(--warning);
+    color: #0f172a;
+    border-color: var(--warning);
+}
+</style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -85,13 +82,19 @@
                             </div>
 
                             <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                <button type="button" class="btn-upvote-ui" onclick="toggleUpvote(this)" style="background: rgba(234, 179, 8, 0.1); border: 1px solid var(--warning); color: var(--warning); font-weight: 700; border-radius: 20px; padding: 0.4rem 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; transition: all 0.25s ease;">
+                                <asp:LinkButton ID="btnUpvote" runat="server" 
+                                    CommandName="Upvote" 
+                                    CommandArgument='<%# Eval("Id") %>' 
+                                    CssClass='<%# Convert.ToBoolean(Eval("IsLiked")) ? "btn-upvote-ui is-upvoted" : "btn-upvote-ui" %>'>
+    
                                     <span>👍</span>
-                                    <span class="upvote-status">Upvote</span>
-                                    (<span class="upvote-count"><%# Eval("Likes") %></span>)
-                                </button>
+                                    <asp:Label ID="lblUpvoteStatus" runat="server" Text='<%# Convert.ToBoolean(Eval("IsLiked")) ? "Liked" : "Like" %>' />
+                                    <asp:Label ID="lblUpvoteCount" runat="server" Text='<%# Eval("Likes") %>' />
+                                </asp:LinkButton>
+
                                 <asp:Button ID="btnDeleteThread" runat="server" Text="🗑️ Delete Thread" CommandName="DeleteThread" CommandArgument='<%# Eval("Id") %>' Visible='<%# IsAdmin %>' CssClass="btn btn-secondary btn-sm" OnClientClick="return confirm('Delete this question thread?');" style="border-color: var(--danger); color: var(--danger);" />
                             </div>
+
                         </div>
 
                         <!-- Thread Replies -->

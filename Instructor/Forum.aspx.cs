@@ -25,7 +25,7 @@ namespace DriveLingo.Instructor
 
         private void BindForumForModeration()
         {
-            rptForumModeration.DataSource = ForumService.GetForumThreads();
+            rptForumModeration.DataSource = ForumService.GetForumThreads(CurrentUser.Id);
             rptForumModeration.DataBind();
         }
 
@@ -81,7 +81,31 @@ namespace DriveLingo.Instructor
                 {
                     ShowNotification(output.Message);
                 }
+            } else if (e.CommandName == "Upvote")
+            {
+                handleUpvote(source, e);
             }
+        }
+
+        private void handleUpvote(object source, RepeaterCommandEventArgs e)
+        {
+            int postId;
+            if (!int.TryParse(e.CommandArgument.ToString(), out postId))
+            {
+                ShowNotification("Invalid post.");
+                return;
+            }
+
+            var output = ForumService.ToggleLike(postId, CurrentUser.Id);
+            if (output.Success)
+            {
+                BindForumForModeration();
+            }
+            else
+            {
+                ShowNotification(output.Message);
+            }
+
         }
 
         private void ShowNotification(string message)

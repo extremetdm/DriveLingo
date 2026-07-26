@@ -33,5 +33,21 @@ namespace DriveLingo.Database.Models
         public virtual ForumPost ReplyingPost { get; set; }
 
         public virtual ICollection<ForumPost> Replies { get; set; } = new HashSet<ForumPost>();
+        public virtual ICollection<ForumLikes> Likes { get; set; } = new HashSet<ForumLikes>();
+    }
+
+    public class ForumLikes
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public int UserId { get; set; }
+
+        public virtual User User { get; set; }
+
+        [Required]
+        public int PostId { get; set; }
+
+        public virtual ForumPost Post { get; set; }
     }
 }

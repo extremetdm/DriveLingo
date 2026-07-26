@@ -280,6 +280,10 @@
     <Compile Include="Database\Migrations\202607260334480_EditUser.Designer.cs">
       <DependentUpon>202607260334480_EditUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\Migrations\202607260846299_AddForumLikes.cs" />
+    <Compile Include="Database\Migrations\202607260846299_AddForumLikes.Designer.cs">
+      <DependentUpon>202607260846299_AddForumLikes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database\Models\Achievement.cs" />
     <Compile Include="Database\Seeders\QuizSeeder.cs" />
     <Compile Include="Default.aspx.cs">
@@ -491,6 +495,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202607260334480_EditUser.resx">
       <DependentUpon>202607260334480_EditUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607260846299_AddForumLikes.resx">
+      <DependentUpon>202607260846299_AddForumLikes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
