@@ -15,7 +15,6 @@ namespace DriveLingo
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            RequireAuth();
             if (!IsPostBack)
             {
                 BindDashboardData(CurrentUser);
@@ -32,9 +31,9 @@ namespace DriveLingo
 
         }
 
-        private void BindDashboardData(DriveLingo.Database.Models.User user)
+        private void BindDashboardData(User user)
         {
-            if (user == null || user.Role == DriveLingo.Database.Models.User.UserRole.Guest || user.Id == 9999)
+            if (CurrentUser == null)
             {
                 litPassRate.Text = "0%";
                 litLevel.Text = "1";
@@ -43,6 +42,7 @@ namespace DriveLingo
                 gvAttempts.DataBind();
                 return;
             }
+
             using (var db = new AppDbContext())
             {
                 var attempts = db.QuizAttempts.Where(a => a.UserId == user.Id)

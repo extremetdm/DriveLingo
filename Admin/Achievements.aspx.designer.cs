@@ -94,6 +94,15 @@ namespace DriveLingo.Admin {
         protected global::System.Web.UI.WebControls.TextBox txtTargetCount;
         
         /// <summary>
+        /// ddlMetricType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlMetricType;
+        
+        /// <summary>
         /// txtAchDesc control.
         /// </summary>
         /// <remarks>
@@ -103,7 +112,7 @@ namespace DriveLingo.Admin {
         protected global::System.Web.UI.WebControls.TextBox txtAchDesc;
         
         /// <summary>
-        /// btnAddAch" control.
+        /// btnAddAch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.

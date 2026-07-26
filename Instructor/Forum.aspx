@@ -22,7 +22,6 @@
           <div style="margin-bottom: 1.25rem; padding: 1.25rem; background: rgba(15,23,42,0.4); border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.05);">
             <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                 <!-- TODO CHANGE THIS -->
-              <span class="badge" style="background: rgba(99, 102, 241, 0.2); color: var(--primary);"><%# "what category bro" %></span>
               <span style="font-size: 0.85rem; color: var(--text-secondary);"><%# Eval("CreatedAt", "{0:g}") %></span>
             </div>
             <h4 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;"><%# Eval("Title") %></h4>

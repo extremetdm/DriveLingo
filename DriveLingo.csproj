@@ -128,7 +128,6 @@
     <Content Include="Admin\Lessons.aspx" />
     <Content Include="Admin\Modules.aspx" />
     <Content Include="Admin\Shop.aspx" />
-    <Content Include="Admin\Simulation.aspx" />
     <Content Include="Admin\Users.aspx" />
     <Content Include="App_Data\Database.mdf" />
     <Content Include="App_Data\Database_log.ldf">
@@ -232,13 +231,6 @@
     <Compile Include="Admin\Shop.aspx.designer.cs">
       <DependentUpon>Shop.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Simulation.aspx.cs">
-      <DependentUpon>Simulation.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Simulation.aspx.designer.cs">
-      <DependentUpon>Simulation.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Admin\Users.aspx.cs">
       <DependentUpon>Users.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -281,12 +273,16 @@
     <Compile Include="Database\Migrations\202607251350250_EditQuizToUseModule.Designer.cs">
       <DependentUpon>202607251350250_EditQuizToUseModule.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\Migrations\202607251626065_AddItemTypeAndEquip.cs" />
+    <Compile Include="Database\Migrations\202607251626065_AddItemTypeAndEquip.Designer.cs">
+      <DependentUpon>202607251626065_AddItemTypeAndEquip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\202607260334480_EditUser.cs" />
+    <Compile Include="Database\Migrations\202607260334480_EditUser.Designer.cs">
+      <DependentUpon>202607260334480_EditUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database\Models\Achievement.cs" />
-    <Compile Include="Database\Seeders\L.cs" />
-    <Compile Include="Models\ModuleItem.cs" />
     <Compile Include="Database\Seeders\QuizSeeder.cs" />
-    <Compile Include="Data\AppStateRepository.cs" />
-    <Compile Include="Data\SimulationQuestionBank.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -336,11 +332,6 @@
     <Compile Include="Lessons.aspx.designer.cs">
       <DependentUpon>Lessons.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Discussion.cs" />
-    <Compile Include="Models\Material.cs" />
-    <Compile Include="Models\Quiz.cs" />
-    <Compile Include="Models\StoreItem.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Database\Seeders\ShopItemSeeder.cs" />
     <Compile Include="Database\Migrations\202607191207126_AddUsersTable.cs" />
@@ -426,13 +417,6 @@
     <Compile Include="Shop.aspx.designer.cs">
       <DependentUpon>Shop.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Simulation.aspx.cs">
-      <DependentUpon>Simulation.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Simulation.aspx.designer.cs">
-      <DependentUpon>Simulation.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -501,6 +485,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202607251350250_EditQuizToUseModule.resx">
       <DependentUpon>202607251350250_EditQuizToUseModule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607251626065_AddItemTypeAndEquip.resx">
+      <DependentUpon>202607251626065_AddItemTypeAndEquip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202607260334480_EditUser.resx">
+      <DependentUpon>202607260334480_EditUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

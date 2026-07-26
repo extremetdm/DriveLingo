@@ -23,13 +23,13 @@ namespace DriveLingo.Database.Models
         public UserRole Role { get; set; }
 
         [StringLength(100)]
-        [Index(IsUnique = true)]
+        //[Index(IsUnique = true)]
         public string Username { get; set; }
 
         //[Required]
         [EmailAddress]
         [StringLength(256)]
-        [Index(IsUnique = true)]
+        //[Index(IsUnique = true)]
         public string Email { get; set; }
 
         //[Required]
@@ -71,10 +71,8 @@ namespace DriveLingo.Database.Models
                         return "👑";
                     case UserRole.Instructor:
                         return "👨‍✈️";
-                    case UserRole.Learner:
-                        return "🚗";
                     default:
-                        return string.Empty;
+                        return "🚗";
                 }
             }
         }

@@ -84,9 +84,11 @@
       </div>
 
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <%-- 
         <asp:Panel ID="pnlMatXpNotice" runat="server" CssClass="badge" style="background: rgba(245, 158, 11, 0.2); color: var(--warning); font-size: 0.95rem; padding: 0.6rem 1rem;">
           ⭐ <asp:Literal ID="litMatXpStatus" runat="server" Text="+15 XP Earned for completing this guide!" />
         </asp:Panel>
+          --%>
         <asp:HyperLink ID="hlMatPdf" runat="server" Target="_blank" CssClass="btn btn-primary" Visible="false">📄 Download Official PDF Manual</asp:HyperLink>
       </div>
     </asp:Panel>

@@ -34,7 +34,9 @@ namespace DriveLingo.Database.Seeders
                     Username = "learner",
                     Email = "learner@drivelingo.com",
                     Password = BCrypt.Net.BCrypt.HashPassword("learner"),
-                    RegisteredAt = DateTime.Now
+                    RegisteredAt = DateTime.Now,
+                    XP = 100,
+                    Points = 500
                 }
             );
         }

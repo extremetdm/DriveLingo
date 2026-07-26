@@ -3,6 +3,7 @@ using DriveLingo.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Principal;
 using System.Web;
@@ -92,10 +93,10 @@ namespace DriveLingo.Services
                     }
 
                     string[] roles = new[] { user.Role.ToString() };
-                    var identity = new GenericIdentity(user.Username);
+                    var identity = new GenericIdentity(user.Username ?? "Guest Candidate");
                     context.User = new GenericPrincipal(identity, roles);
 
-                    context.Items["CurrentUser"] = user;
+                    RefreshCurrentUser(context, db, user);
                 }
             }
             catch
@@ -104,12 +105,21 @@ namespace DriveLingo.Services
             }
         }
 
-        public static void RefreshCurrentUser(User user)
+        public static void RefreshCurrentUser(AppDbContext db, User user)
         {
             if (HttpContext.Current != null)
             {
-                HttpContext.Current.Items["CurrentUser"] = user;
+                RefreshCurrentUser(HttpContext.Current, db, user);
             }
+        }
+
+        public static void RefreshCurrentUser(HttpContext context, AppDbContext db, User user)
+        {
+            context.Items["CurrentUser"] = user;
+            context.Items["EquippedItems"] = user.ShopRedemptions
+                .Where(r => r.IsEquiped)
+                .Select(r => r.Item)
+                .ToList();
         }
 
         public static void Logout(HttpContext context)
@@ -142,7 +152,11 @@ namespace DriveLingo.Services
             {
                 db.Users.Add(guest);
                 db.SaveChanges();
+
+                IssueAuthCookie(guest, false);
+                RefreshCurrentUser(db, guest);
             }
+
             return guest;
         }
 

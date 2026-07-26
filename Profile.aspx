@@ -83,8 +83,8 @@
                         <div style="display: flex; align-items: center; gap: 0.75rem;">
                             <span style="font-size: 2rem;"><%# Eval("Icon") %></span>
                             <div>
-                                <strong style="display: block; font-size: 0.95rem;"><%# Eval("Title") %></strong>
-                                <span class="badge" style="background: rgba(255,255,255,0.1); font-size: 0.72rem;"><%# Eval("Category") %></span>
+                                <strong style="display: block; font-size: 0.95rem;"><%# Eval("Name") %></strong>
+                                <span class="badge" style="background: rgba(255,255,255,0.1); font-size: 0.72rem;"><%# Eval("Type") %></span>
                             </div>
                         </div>
 
