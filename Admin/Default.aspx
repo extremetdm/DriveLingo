@@ -1,4 +1,4 @@
-﻿<%@ Page Title="DriveLingo | System Administration" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="DriveLingo.Admin.Dashboard" %>
+<%@ Page Title="DriveLingo | System Administration" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="DriveLingo.Admin.Dashboard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
@@ -15,7 +15,6 @@
         <h1 style="font-family: var(--font-heading); margin-bottom: 0.25rem;">👑 System Administration & Dashboard</h1>
         <p style="color: var(--text-secondary); margin: 0;">Monitor global databases, manage privileges, audit materials, and run system maintenance.</p>
       </div>
-      <asp:Button ID="btnResetState" runat="server" Text="🔄 Reset App State & Demo Data" OnClick="btnResetState_Click" CssClass="btn btn-secondary btn-sm" OnClientClick="return confirm('Reset all users, quizzes, and attempts to initial mock state?');" />
     </div>
 
     <!-- Metrics Grid -->

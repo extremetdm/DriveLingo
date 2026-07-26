@@ -1,4 +1,4 @@
-﻿using DriveLingo.Database;
+using DriveLingo.Database;
 using DriveLingo.UI;
 using System;
 using System.Collections.Generic;
@@ -32,13 +32,6 @@ namespace DriveLingo.Admin
                     .ToString();
                 litTotalQuestions.Text = db.Questions.Count().ToString();
             }
-        }
-
-        // wtf is this
-        protected void btnResetState_Click(object sender, EventArgs e)
-        {
-            BindMetrics();
-            ShowNotification("Application state and demo data successfully re-seeded.");
         }
 
         private void ShowNotification(string message)
