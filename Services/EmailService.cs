@@ -21,13 +21,11 @@ namespace DriveLingo.Services
         {
             try
             {
-                // 1. Construct payload object matching EmailJS REST API format
                 var payload = new
                 {
                     service_id = serviceId,
                     template_id = templateId,
                     user_id = userId,
-                    //accessToken = accessToken, // Required for non-browser/server-side API calls
                     template_params = new
                     {
                         email = toEmail,
@@ -35,16 +33,13 @@ namespace DriveLingo.Services
                     }
                 };
 
-                // 2. Serialize to JSON string using Newtonsoft.Json (.NET 4.0 compatible)
                 string jsonPayload = JsonConvert.SerializeObject(payload);
 
-                // 3. Make HTTP POST using WebClient (.NET 4.0 standard)
                 using (var client = new WebClient())
                 {
                     client.Headers[HttpRequestHeader.ContentType] = "application/json";
                     client.Encoding = Encoding.UTF8;
 
-                    // Send request
                     string response = client.UploadString(emailJsApiUrl, "POST", jsonPayload);
 
                     System.Diagnostics.Debug.WriteLine($"Password reset email sent successfully to {toEmail}. Response: {response}");
