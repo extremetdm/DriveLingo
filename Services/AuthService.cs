@@ -185,28 +185,28 @@ namespace DriveLingo.Services
                     return ServiceStatusOutput.error("Email has been taken.");
                 }
 
-                User guest = null;
+                User newUser = null;
 
                 if (guestUserId != null)
                 {
-                    guest = db.Users.Find(guestUserId);
+                    newUser = db.Users.Find(guestUserId);
                 }
 
-                if (guest == null)
+                if (newUser == null)
                 {
-                    guest = new User();
-                    db.Users.Add(guest);
+                    newUser = new User();
+                    db.Users.Add(newUser);
                 }
 
-                guest.Role = User.UserRole.Learner;
-                guest.Username = username;
-                guest.Password = BCrypt.Net.BCrypt.HashPassword(password);
-                guest.Email = email;
-                guest.RegisteredAt = DateTime.Now;
+                newUser.Role = User.UserRole.Learner;
+                newUser.Username = username;
+                newUser.Password = BCrypt.Net.BCrypt.HashPassword(password);
+                newUser.Email = email;
+                newUser.RegisteredAt = DateTime.Now;
 
                 db.SaveChanges();
 
-                IssueAuthCookie(guest);
+                IssueAuthCookie(newUser);
                 
                 return ServiceStatusOutput.success("Register Successful");
             }
