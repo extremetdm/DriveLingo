@@ -30,30 +30,36 @@
                         <asp:TextBox ID="txtAchTitle" runat="server" CssClass="form-control" placeholder="Theory Master" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 3fr 2fr; gap: 0.75rem;">
                         <div>
                             <label style="display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.85rem;">Icon Emoji</label>
                             <asp:TextBox ID="txtAchIcon" runat="server" Text="🏆" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white; text-align: center;" />
                         </div>
                         <div>
                             <label style="display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.85rem;">XP Bonus</label>
-                            <asp:TextBox ID="txtAchXp" runat="server" Text="100" TextMode="Number" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+                            <asp:TextBox ID="txtAchXp" runat="server" Text="100" TextMode="Number" min="0" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+                        </div>
+                        <div>
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.85rem;">Point Bonus</label>
+                            <asp:TextBox ID="txtAchPts" runat="server" Text="100" TextMode="Number" min="0" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 0.75rem;">
+                        <div>
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.85rem;">Milestone Metric Type</label>
+                            <asp:DropDownList ID="ddlMetricType" runat="server" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;">
+                                <asp:ListItem Value="CompleteQuizzes" Text="📝 Quizzes Answered" />
+                                <asp:ListItem Value="ReadLessons" Text="📖 Study Guides Read" />
+                                <asp:ListItem Value="RedeemItems" Text="Shop Redemptions" />
+                                <asp:ListItem Value="CompletePerfectQuizzes" Text="💯 Flawless 100% Scores" />
+                                <asp:ListItem Value="PostInForum" Text="Post in Forum" />
+                            </asp:DropDownList>
                         </div>
                         <div>
                             <label style="display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.85rem;">Target Count</label>
                             <asp:TextBox ID="txtTargetCount" runat="server" Text="5" TextMode="Number" CssClass="form-control" placeholder="5" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
                         </div>
-                    </div>
-
-                    <div>
-                        <label style="display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.85rem;">Milestone Metric Type</label>
-                        <asp:DropDownList ID="ddlMetricType" runat="server" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;">
-                            <asp:ListItem Value="CompleteQuizzes" Text="📝 Quizzes Answered" />
-                            <asp:ListItem Value="ReadLessons" Text="📖 Study Guides Read" />
-                            <asp:ListItem Value="RedeemItems" Text="Shop Redemptions" />
-                            <asp:ListItem Value="CompletePerfectQuizzes" Text="💯 Flawless 100% Scores" />
-                            <asp:ListItem Value="PostInForum" Text="Post in Forum" />
-                        </asp:DropDownList>
                     </div>
 
                     <div>
@@ -78,6 +84,7 @@
                         <asp:BoundField DataField="Task" HeaderText="Metric Type" ItemStyle-Width="110px" />
                         <asp:BoundField DataField="Target" HeaderText="Target" ItemStyle-Width="60px" ItemStyle-HorizontalAlign="Center" />
                         <asp:BoundField DataField="Xp" HeaderText="XP Bonus" ItemStyle-Width="80px" ItemStyle-HorizontalAlign="Center" />
+                        <asp:BoundField DataField="Points" HeaderText="Points Bonus" ItemStyle-Width="80px" ItemStyle-HorizontalAlign="Center" />
                         <asp:TemplateField HeaderText="Actions" ItemStyle-Width="140px" ItemStyle-HorizontalAlign="Right">
                             <ItemTemplate>
                                 <asp:Button ID="btnEditAch" runat="server" Text="✏️ Edit" CommandName="EditAchievement" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-secondary btn-sm" />

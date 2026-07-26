@@ -75,8 +75,8 @@
                         <!-- Status Badge -->
                         <div style="text-align: center; margin-top: 0.5rem;">
                             <%# Eval("CompletedAt") != null
-                                ? "<span class='badge' style='background: rgba(16, 185, 129, 0.2); color: var(--success); font-weight: 700;'>🏆 Unlocked (+ " + Eval("Xp") + " XP)</span>" 
-                                : "<span class='badge' style='background: rgba(255, 255, 255, 0.1); color: var(--text-secondary);'>🔒 Locked (" + Eval("Xp") + " XP Reward)</span>" %>
+                                ? "<span class='badge' style='background: rgba(16, 185, 129, 0.2); color: var(--success); font-weight: 700;'>🏆 Unlocked (+ " + ShowRewards((int)Eval("Xp"), (int)Eval("Points")) + ")</span>" 
+                                : "<span class='badge' style='background: rgba(255, 255, 255, 0.1); color: var(--text-secondary);'>🔒 Locked (" + ShowRewards((int)Eval("Xp"), (int)Eval("Points")) + " Reward)</span>" %>
                         </div>
                     </div>
                 </div>

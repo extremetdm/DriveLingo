@@ -61,6 +61,12 @@ namespace DriveLingo.Admin
                 return;
             }
 
+            int points;
+            if (!int.TryParse(txtAchPts.Text.Trim(), out points))
+            {
+                ShowNotification("Please enter point bonus.");
+                return;
+            }
 
             int target;
             if (!int.TryParse(txtTargetCount.Text.Trim(), out target))
@@ -94,7 +100,7 @@ namespace DriveLingo.Admin
                 achievement.Icon = icon;
                 achievement.Description = description;
                 achievement.Xp = xp;
-                achievement.Points = 0; // TODO CHANGE THESE maybe
+                achievement.Points = points;
                 achievement.Target = target;
                 achievement.Task = task;
 
@@ -124,6 +130,7 @@ namespace DriveLingo.Admin
             txtAchTitle.Text = "";
             txtAchIcon.Text = "🏆";
             txtAchXp.Text = "100";
+            txtAchPts.Text = "100";
             txtTargetCount.Text = "5";
             ddlMetricType.SelectedValue = "quiz_count";
             txtAchDesc.Text = "";
@@ -161,8 +168,9 @@ namespace DriveLingo.Admin
                 txtAchTitle.Text = achievement.Name;
                 txtAchIcon.Text = achievement.Icon;
                 txtAchXp.Text = achievement.Xp.ToString();
+                txtAchPts.Text = achievement.Points.ToString();
                 txtAchDesc.Text = achievement.Description;
-                
+
                 txtTargetCount.Text = achievement.Target.ToString();
 
                 if (ddlMetricType.Items.FindByValue(achievement.Task.ToString()) != null)
