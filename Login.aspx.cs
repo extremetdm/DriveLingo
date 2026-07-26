@@ -1,6 +1,8 @@
-using DriveLingo.Services;
+﻿using DriveLingo.Services;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Web.Hosting;
 using System.Web.Services;
 using System.Web.UI;
 
@@ -80,22 +82,54 @@ namespace DriveLingo
             litErrorMsg.Text = message;
         }
 
-        [WebMethod]
-        public static object ResetPassword(string email)
+        private void ShowAlert(string message, bool isSuccess)
         {
-            if (string.IsNullOrWhiteSpace(email))
+            loginFields.Style["display"] = "none";
+            forgotFields.Style["display"] = "block";
+            resetAlert.Visible = true;
+            resetAlertText.Text = (isSuccess ? "✅ " : "⚠️ ") + message;
+
+            if (isSuccess)
             {
-                return new { success = false, message = "Please enter an email address." };
+                resetAlert.Style["border"] = "1px solid #10b981";
+                resetAlert.Style["background"] = "rgba(16, 185, 129, 0.15)";
+                resetAlert.Style["color"] = "#10b981";
+            }
+            else
+            {
+                resetAlert.Style["border"] = "1px solid #ef4444";
+                resetAlert.Style["background"] = "rgba(239, 68, 68, 0.15)";
+                resetAlert.Style["color"] = "#ef4444";
+            }
+        }
+
+        protected void btnResetSubmit_Click(object sender, EventArgs e)
+        {
+            string email = txtResetEmail.Text.Trim();
+
+            // 1. Validation
+            if (string.IsNullOrEmpty(email))
+            {
+                ShowAlert("Please enter your email address.", false);
+                return;
             }
 
-            try
+            Regex emailRegex = new Regex(@"^[^\s@]+@[^\s@]+\.[^\s@]+$");
+            if (!emailRegex.IsMatch(email))
             {
+                ShowAlert("Please enter a valid email address.", false);
+                return;
+            }
+
+            //try
+            //{
                 using (var db = new Database.AppDbContext())
                 {
-                    var user = db.Users.FirstOrDefault(u => u.Email.Equals(email.Trim(), StringComparison.OrdinalIgnoreCase));
+                    var user = db.Users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
                     if (user == null)
                     {
-                        return new { success = false, message = "No account found with this email address." };
+                        ShowAlert("No account found with this email address.", false);
+                        return;
                     }
 
                     // Generate temporary password
@@ -103,22 +137,22 @@ namespace DriveLingo
 
                     // Update user's password using BCrypt
                     user.Password = BCrypt.Net.BCrypt.HashPassword(tempPassword);
+                    if (!EmailService.SendPasswordResetEmail(email, tempPassword))
+                    {
+                        ShowAlert("An error occurred. Please try again.", false);
+                        return;
+                    }
                     db.SaveChanges();
 
-                    return new
-                    {
-                        success = true,
-                        username = user.Username,
-                        email = user.Email,
-                        tempPassword = tempPassword
-                    };
+                    ShowAlert("A temporary password has been successfully sent to your email address.", true);
                 }
-            }
-            catch (Exception ex)
-            {
-                return new { success = false, message = "An error occurred: " + ex.Message };
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    ShowAlert("An error occurred while connecting to the server. Please try again.", false);
+            //}
         }
+
 
         private static string GenerateRandomPassword(int length)
         {
