@@ -36,8 +36,8 @@ namespace DriveLingo
                 divAppContainer.Attributes["class"] = "app-layout";
                 appSidebar.Visible = true;
                 topHeader.Visible = true;
-                phUserFooter.Visible = true;
-                phGuestFooter.Visible = false;
+                phUserFooter.Visible = !isGuestMode;
+                phGuestFooter.Visible = isGuestMode;
 
                 var role = isGuestMode? User.UserRole.Guest: currentUser.Role;
                 string username = isGuestMode? "Guest Candidate": currentUser.Username;
