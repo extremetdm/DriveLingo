@@ -137,39 +137,5 @@
         </div>
     </div>
 
-    <!-- SECTION: ROLE PORTALS QUICK LAUNCHERS -->
-    <div style="margin-bottom: 2rem;">
-        <h2 style="font-family: var(--font-heading); text-align: center; font-size: 1.8rem; margin-bottom: 1.5rem;">
-            🚀 Portal Access Shortcuts
-        </h2>
 
-        <div class="grid-3-col">
-            <div class="glass-card" style="text-align: center;">
-                <span style="font-size: 3rem; display: block; margin-bottom: 0.75rem;">🚘</span>
-                <h3 style="font-family: var(--font-heading); margin-bottom: 0.5rem;">Candidate Practice</h3>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">
-                    Take practice tests, unlock achievements, earn XP & points, and redeem custom avatar cosmetics.
-                </p>
-                <asp:Button ID="btnQuickLearner" runat="server" Text="Log in as Candidate" OnClick="btnQuickLearner_Click" CssClass="btn btn-primary" style="width: 100%; font-weight: 700;" />
-            </div>
-
-            <div class="glass-card" style="text-align: center;">
-                <span style="font-size: 3rem; display: block; margin-bottom: 0.75rem;">👨‍✈️</span>
-                <h3 style="font-family: var(--font-heading); margin-bottom: 0.5rem;">Educator Hub</h3>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">
-                    Create practice quizzes under curriculum modules, author question banks, and answer candidate questions.
-                </p>
-                <asp:Button ID="btnQuickEducator" runat="server" Text="Log in as Educator" OnClick="btnQuickEducator_Click" CssClass="btn btn-secondary" style="width: 100%; font-weight: 700;" />
-            </div>
-
-            <div class="glass-card" style="text-align: center;">
-                <span style="font-size: 3rem; display: block; margin-bottom: 0.75rem;">👑</span>
-                <h3 style="font-family: var(--font-heading); margin-bottom: 0.5rem;">Admin Operations</h3>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">
-                    Manage curriculum modules dynamically, configure points per question rates, and oversee platform users.
-                </p>
-                <asp:Button ID="btnQuickAdmin" runat="server" Text="Log in as Admin" OnClick="btnQuickAdmin_Click" CssClass="btn btn-secondary" style="width: 100%; font-weight: 700;" />
-            </div>
-        </div>
-    </div>
 </asp:Content>

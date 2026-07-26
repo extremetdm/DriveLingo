@@ -150,17 +150,7 @@
           <asp:Button ID="btnContinueGuest" runat="server" Text="🔍 Continue as Guest (Limited Access)" OnClick="btnContinueGuest_Click" CssClass="btn btn-secondary" style="width: 100%; font-weight: 700; background: rgba(15, 23, 42, 0.6); border-color: rgba(255, 255, 255, 0.15);" />
         </div>
 
-        <div class="divider"></div>
 
-        <!-- Quick Demo Login Presets -->
-        <div>
-          <span class="preset-title">⚡ Developer Quick Login</span>
-          <div class="preset-grid">
-            <asp:Button ID="btnDemoLearner" runat="server" Text="🚘 Candidate" OnClick="btnDemoLearner_Click" CssClass="btn btn-secondary btn-sm" style="font-size: 0.8rem; padding: 0.5rem;" />
-            <asp:Button ID="btnDemoEducator" runat="server" Text="👨‍✈️ Educator" OnClick="btnDemoEducator_Click" CssClass="btn btn-secondary btn-sm" style="font-size: 0.8rem; padding: 0.5rem;" />
-            <asp:Button ID="btnDemoAdmin" runat="server" Text="👑 Admin" OnClick="btnDemoAdmin_Click" CssClass="btn btn-secondary btn-sm" style="font-size: 0.8rem; padding: 0.5rem;" />
-          </div>
-        </div>
       </asp:Panel>
 
       <!-- Forgot Password Form (Initially Hidden) -->
