@@ -146,7 +146,6 @@
     <Content Include="Lessons.aspx" />
     <Content Include="Quizzes.aspx" />
     <Content Include="Shop.aspx" />
-    <Content Include="Simulation.aspx" />
     <Content Include="uploads\animal_crossing.svg" />
     <Content Include="uploads\bicycle_crossing.svg" />
     <Content Include="uploads\bus_stop.svg" />
