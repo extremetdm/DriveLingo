@@ -37,6 +37,46 @@ namespace DriveLingo.Database.Seeders
                     RegisteredAt = DateTime.Now,
                     XP = 100,
                     Points = 500
+                },
+                new User
+                {
+                    Role = User.UserRole.Learner,
+                    Username = "Vincent",
+                    Email = "vincent@drivelingo.com",
+                    Password = BCrypt.Net.BCrypt.HashPassword("Vincent123"),
+                    RegisteredAt = DateTime.Now,
+                    XP = 100,
+                    Points = 500
+                },
+                new User
+                {
+                Role = User.UserRole.Learner,
+                    Username = "Jaywen",
+                    Email = "jaywen@drivelingo.com",
+                    Password = BCrypt.Net.BCrypt.HashPassword("Jaywen123"),
+                    RegisteredAt = DateTime.Now,
+                    XP = 100,
+                    Points = 500
+                },
+                new User
+                {
+                Role = User.UserRole.Learner,
+                    Username = "ZiHeng",
+                    Email = "ziheng@drivelingo.com",
+                    Password = BCrypt.Net.BCrypt.HashPassword("Ziheng123"),
+                    RegisteredAt = DateTime.Now,
+                    XP = 100,
+                    Points = 500
+                },
+                new User
+                {
+                Role = User.UserRole.Learner,
+                    Username = "DaoMian",
+                    Email = "daomian@drivelingo.com",
+                    Password = BCrypt.Net.BCrypt.HashPassword("Daomian123"),
+                    RegisteredAt = DateTime.Now,
+                    XP = 100,
+                    Points = 500
                 }
             );
         }
