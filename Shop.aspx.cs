@@ -1,8 +1,12 @@
 using DriveLingo.Data;
+using DriveLingo.Database;
+using DriveLingo.Database.Models;
 using DriveLingo.Models;
+using DriveLingo.Services;
 using DriveLingo.UI;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -12,16 +16,18 @@ namespace DriveLingo
 {
     public partial class Shop : AuthPage
     {
-        public class ShopItemViewModel
+        struct ShopAvailableItem
         {
-            public string Id { get; set; }
-            public string Title { get; set; }
-            public string Description { get; set; }
-            public int Price { get; set; }
+            public int Id { get; set; }
             public string Icon { get; set; }
-            public string Category { get; set; }
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public string Type { get; set; }
+            public int Cost { get; set; }
             public bool Owned { get; set; }
+
         }
+
 
         private string ActiveCategory
         {
@@ -31,8 +37,6 @@ namespace DriveLingo
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            RequireAuth();
-
             if (!IsPostBack)
             {
                 BindStore();
@@ -41,29 +45,35 @@ namespace DriveLingo
 
         private void BindStore()
         {
-            var state = AppStateRepository.GetCurrent();
-            var user = Session["CurrentUser"] as User ?? state.Users.FirstOrDefault(u => u.Role == "learner") ?? new User();
-
-            var query = state.StoreItems.AsEnumerable();
-
-            if (ActiveCategory != "ALL")
+            using (var db = new AppDbContext())
             {
-                query = query.Where(i => i.Category.Equals(ActiveCategory, StringComparison.OrdinalIgnoreCase));
+                var query = db.ShopItems
+                    .Include(i => i.Redemptions);
+
+                if (ActiveCategory != "ALL")
+                {
+                    ShopItem.ItemType type;
+                    if (Enum.TryParse(ActiveCategory, out type))
+                    {
+                        query = query.Where(i => i.Type == type);
+                    }
+                }
+
+                rptStore.DataSource = query
+                    .ToList()
+                    .Select(i => new ShopAvailableItem
+                    {
+                        Id = i.Id,
+                        Icon = i.Icon,
+                        Name = i.Name,
+                        Description = i.Description,
+                        Cost = i.Cost,
+                        Type = i.Type.ToString(),
+                        Owned = i.Redemptions.Any(r => r.UserId == CurrentUser?.Id)
+                    })
+                    .ToList();
+                rptStore.DataBind();
             }
-
-            var list = query.Select(i => new ShopItemViewModel
-            {
-                Id = i.Id,
-                Title = i.Title,
-                Description = i.Description,
-                Price = i.Price,
-                Icon = i.Icon,
-                Category = i.Category,
-                Owned = user.Inventory != null && user.Inventory.Contains(i.Id)
-            }).ToList();
-
-            rptStore.DataSource = list;
-            rptStore.DataBind();
         }
 
         protected void btnCategoryFilter_Click(object sender, EventArgs e)
@@ -79,6 +89,7 @@ namespace DriveLingo
             BindStore();
         }
 
+
         protected void rptStore_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             if (e.CommandName == "BuyItem")
@@ -89,42 +100,20 @@ namespace DriveLingo
                     return;
                 }
 
-                var state = AppStateRepository.GetCurrent();
-                var user = Session["CurrentUser"] as User;
-                if (user == null)
+                int itemId;
+                if (!int.TryParse(e.CommandArgument.ToString(), out itemId))
                 {
-                    string email = CurrentUser != null ? CurrentUser.Email : "";
-                    user = state.Users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase))
-                        ?? state.Users.FirstOrDefault(u => u.Role == "learner")
-                        ?? new User { Id = "usr_learner", Name = "Candidate", Role = "learner", Points = 500 };
-                    Session["CurrentUser"] = user;
-                }
-
-                string itemId = e.CommandArgument.ToString();
-                var item = state.StoreItems.FirstOrDefault(i => i.Id == itemId);
-
-                if (item == null) return;
-
-                if (user.Points < item.Price)
-                {
-                    ShowNotification("❌ Insufficient Points! You need " + item.Price + " Pts, but only have " + user.Points + " Pts.");
+                    ShowNotification("Invalid Item.");
                     return;
                 }
 
-                user.Points -= item.Price;
-                if (user.Inventory == null) user.Inventory = new List<string>();
-                if (!user.Inventory.Contains(item.Id))
-                {
-                    user.Inventory.Add(item.Id);
-                }
+                var output = ShopService.HandleRedeem(CurrentUser.Id, itemId);
+                ShowNotification(output.Message);
 
-                Session["CurrentUser"] = user;
-                ShowNotification("🎉 Successfully redeemed " + item.Title + "! Visit your Profile to equip it.");
-
-                BindStore();
-                if (Master is SiteMaster masterPage)
+                if (output.Success)
                 {
-                    masterPage.UpdateUserHeaderAndNavigation();
+                    BindStore();
+                    ((SiteMaster)Master).UpdateUserHeaderAndNavigation();
                 }
             }
         }

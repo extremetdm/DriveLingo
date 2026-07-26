@@ -11,39 +11,18 @@ namespace DriveLingo.UI
         /// <summary>
         /// Retrieves the current authenticated or session User.
         /// </summary>
+        /// 
         protected Database.Models.User CurrentUser
         {
             get
             {
-                var dbUser = HttpContext.Current?.Items["CurrentUser"] as Database.Models.User;
-                if (dbUser != null) return dbUser;
-
-                var sessionUser = Session?["CurrentUser"] as DriveLingo.Models.User;
-                if (sessionUser != null)
-                {
-                    var role = Database.Models.User.UserRole.Learner;
-                    if (sessionUser.Role == "admin") role = Database.Models.User.UserRole.Admin;
-                    else if (sessionUser.Role == "educator" || sessionUser.Role == "instructor") role = Database.Models.User.UserRole.Instructor;
-                    else if (sessionUser.Role == "guest") role = Database.Models.User.UserRole.Guest;
-
-                    return new Database.Models.User
-                    {
-                        Id = 9999,
-                        Username = sessionUser.Name,
-                        Email = sessionUser.Email,
-                        Role = role,
-                        Points = sessionUser.Points,
-                        XP = sessionUser.XP
-                    };
-                }
-
-                return null;
+                return HttpContext.Current?.Items["CurrentUser"] as Database.Models.User;
             }
         }
 
-        protected bool IsGuest => (Session?["IsGuestMode"] != null && (bool)Session["IsGuestMode"]) || (CurrentUser != null && CurrentUser.Role == Database.Models.User.UserRole.Guest);
+        protected bool IsGuest => (CurrentUser == null || CurrentUser.Role == Database.Models.User.UserRole.Guest);
 
-        protected bool IsLoggedIn => CurrentUser != null;
+        protected bool IsLoggedIn => !IsGuest;
 
         protected void RequireAuth()
         {
@@ -52,18 +31,19 @@ namespace DriveLingo.UI
 
         protected void RequireAuth(Database.Models.User.UserRole? role)
         {
+            if (!IsLoggedIn)
+            {
+                Response.Redirect("~/Login.aspx", true);
+                return;
+            }
+
             if (role == Database.Models.User.UserRole.Admin || role == Database.Models.User.UserRole.Instructor)
             {
-                if (IsGuest || CurrentUser == null || CurrentUser.Role != role)
+                if (CurrentUser.Role != role)
                 {
                     Response.Redirect("~/Login.aspx", true);
                     return;
                 }
-            }
-
-            if (!IsLoggedIn)
-            {
-                Response.Redirect("~/Login.aspx", true);
             }
         }
     }
