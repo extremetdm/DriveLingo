@@ -169,9 +169,14 @@
     <Content Include="uploads\no_stopping.svg" />
     <Content Include="uploads\prohibition_sign_colour.svg" />
     <Content Include="uploads\rear_view_mirror.svg" />
+    <Content Include="uploads\road sign.svg" />
+    <Content Include="uploads\Road_safety.svg" />
+    <Content Include="uploads\road_sign.svg" />
     <Content Include="uploads\roundabout_entry.svg" />
+    <Content Include="uploads\Rules.svg" />
     <Content Include="uploads\school_area.svg" />
     <Content Include="uploads\seat_belt.svg" />
+    <Content Include="uploads\signs.svg" />
     <Content Include="uploads\sign_20eeac0d.jpg" />
     <Content Include="uploads\slope_parking.svg" />
     <Content Include="uploads\speed_limit_110.svg" />
@@ -281,6 +286,8 @@
       <DependentUpon>202607260334480_EditUser.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Models\Achievement.cs" />
+    <Compile Include="Database\Seeders\Achievement.cs" />
+    <Compile Include="Database\Seeders\LearningMaterial.cs" />
     <Compile Include="Database\Seeders\QuizSeeder.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -438,6 +445,9 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Site.Master" />
+    <Content Include="uploads\pdf\Malaysia Road Sign.pdf" />
+    <Content Include="uploads\pdf\Rules.pdf" />
+    <Content Include="uploads\pdf\Road_Safety.pdf" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
