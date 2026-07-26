@@ -133,7 +133,10 @@
             <label style="margin-bottom: 0;">Password</label>
             <a href="javascript:void(0)" onclick="toggleForgotPassword(true)" style="color: var(--primary); font-size: 0.82rem; text-decoration: none; font-weight: 600; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='var(--primary)'">Forgot Password?</a>
           </div>
-          <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-input" placeholder="••••••••" />
+          <div class="password-input-wrapper">
+            <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-input" placeholder="••••••••" />
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility(this)" title="Show Password">👁️</button>
+          </div>
         </div>
 
         <asp:Button ID="btnLoginSubmit" runat="server" Text="Sign In to Portal 🚀" OnClick="btnLoginSubmit_Click" CssClass="btn btn-primary btn-auth-submit" />

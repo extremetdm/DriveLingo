@@ -1,4 +1,4 @@
-﻿<%@ Page Title="DriveLingo | Candidate Registration" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Register.aspx.cs" Inherits="DriveLingo.Register" %>
+<%@ Page Title="DriveLingo | Candidate Registration" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Register.aspx.cs" Inherits="DriveLingo.Register" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
@@ -119,7 +119,10 @@
 
         <div class="form-group">
           <label>Password</label>
-          <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-input" placeholder="••••••••" />
+          <div class="password-input-wrapper">
+            <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-input" placeholder="••••••••" />
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility(this)" title="Show Password">👁️</button>
+          </div>
         </div>
 
 
