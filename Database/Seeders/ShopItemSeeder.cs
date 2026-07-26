@@ -16,9 +16,11 @@ namespace DriveLingo.Database.Seeders
                 new ShopItem
                 {
                     Id = 1,
-                    Icon = "✨", // change to img
+                    Icon = "✨",
                     Name = "Diamond",
                     Description = "Shiny",
+                    Type = ShopItem.ItemType.Border,
+                    ColorHex = "Blue",
                     Cost = 100
                 },
                 new ShopItem
@@ -27,6 +29,7 @@ namespace DriveLingo.Database.Seeders
                     Icon = "🏎️",
                     Name = "Racing Driver Avatar",
                     Description = "A racing driver themed profile image.",
+                    Type = ShopItem.ItemType.Icon,
                     Cost = 500
                 },
                 new ShopItem
@@ -35,6 +38,7 @@ namespace DriveLingo.Database.Seeders
                     Icon = "🌃",
                     Name = "Night Driver Avatar",
                     Description = "A neon night driving themed profile image.",
+                    Type = ShopItem.ItemType.Icon,
                     Cost = 600
                 },
                 new ShopItem
@@ -43,6 +47,7 @@ namespace DriveLingo.Database.Seeders
                     Icon = "🏆",
                     Name = "Champion Driver Avatar",
                     Description = "A premium champion driver profile image.",
+                    Type = ShopItem.ItemType.Icon,
                     Cost = 1000
                 },
                 new ShopItem
@@ -51,6 +56,8 @@ namespace DriveLingo.Database.Seeders
                     Icon = "⭕",
                     Name = "Basic Silver Border",
                     Description = "A simple silver profile border.",
+                    Type = ShopItem.ItemType.Border,
+                    ColorHex = "Silver",
                     Cost = 100
                 },
                 new ShopItem
@@ -59,6 +66,8 @@ namespace DriveLingo.Database.Seeders
                     Icon = "🌟",
                     Name = "Golden Border",
                     Description = "A premium golden profile border.",
+                    Type = ShopItem.ItemType.Border,
+                    ColorHex = "Gold",
                     Cost = 500
                 }
             );

@@ -36,7 +36,7 @@ namespace DriveLingo.Database.Seeders
                     Password = BCrypt.Net.BCrypt.HashPassword("learner"),
                     RegisteredAt = DateTime.Now,
                     XP = 100,
-                    Points = 500
+                    Points = 500000
                 },
                 new User
                 {
