@@ -1,6 +1,27 @@
-﻿<%@ Page Title="DriveLingo | Forum Discussions" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Forum.aspx.cs" Inherits="DriveLingo.Instructor.Forum" %>
+<%@ Page Title="DriveLingo | Forum Discussions" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Forum.aspx.cs" Inherits="DriveLingo.Instructor.Forum" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
+<style>
+.btn-upvote-ui {
+    background: rgba(234, 179, 8, 0.1);
+    border: 1px solid var(--warning);
+    color: var(--warning);
+    font-weight: 700;
+    border-radius: 20px;
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    transition: all 0.25s ease;
+}
+.btn-upvote-ui.is-upvoted {
+    background: var(--warning);
+    color: #0f172a;
+    border-color: var(--warning);
+}
+</style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -20,11 +41,21 @@
       <asp:Repeater ID="rptForumModeration" runat="server" OnItemCommand="rptForumModeration_ItemCommand" OnItemDataBound="rptForumModeration_ItemDataBound">
         <ItemTemplate>
           <div style="margin-bottom: 1.25rem; padding: 1.25rem; background: rgba(15,23,42,0.4); border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.05);">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                <!-- TODO CHANGE THIS -->
-              <span style="font-size: 0.85rem; color: var(--text-secondary);"><%# Eval("CreatedAt", "{0:g}") %></span>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <div>
+                <h4 style="margin: 0 0 0.25rem 0; font-size: 1.1rem;"><%# Eval("Title") %></h4>
+                <span style="font-size: 0.85rem; color: var(--text-secondary);"><%# Eval("CreatedAt", "{0:g}") %></span>
+              </div>
+              <asp:LinkButton ID="btnUpvote" runat="server" 
+                CommandName="Upvote" 
+                CommandArgument='<%# Eval("Id") %>' 
+                CssClass='<%# Convert.ToBoolean(Eval("IsLiked")) ? "btn-upvote-ui is-upvoted" : "btn-upvote-ui" %>'>
+    
+                <span>👍</span>
+                <asp:Label ID="lblUpvoteStatus" runat="server" Text='<%# Convert.ToBoolean(Eval("IsLiked")) ? "Liked" : "Like" %>' />
+                <asp:Label ID="lblUpvoteCount" runat="server" Text='<%# Eval("Likes") %>' />
+              </asp:LinkButton>
             </div>
-            <h4 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;"><%# Eval("Title") %></h4>
             <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;"><%# Eval("Content") %></p>
 
             <!-- Thread Comments & Educator Answers -->

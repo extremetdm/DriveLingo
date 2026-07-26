@@ -1,4 +1,4 @@
-﻿<%@ Page Title="DriveLingo | User Management" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Users.aspx.cs" Inherits="DriveLingo.Admin.Users" %>
+<%@ Page Title="DriveLingo | User Management" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Users.aspx.cs" Inherits="DriveLingo.Admin.Users" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
@@ -35,7 +35,10 @@
 
           <div>
             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Password (leave blank when editing to keep unchanged)</label>
-            <asp:TextBox ID="txtNewUserPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="••••••••" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+            <div class="password-input-wrapper">
+              <asp:TextBox ID="txtNewUserPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="••••••••" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+              <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility(this)" title="Show Password">👁️</button>
+            </div>
           </div>
 
           <div>

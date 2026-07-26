@@ -1,6 +1,27 @@
 <%@ Page Title="DriveLingo | Forum Discussions" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Forum.aspx.cs" Inherits="DriveLingo.Forum" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
+<style>
+.btn-upvote-ui {
+    background: rgba(234, 179, 8, 0.1);
+    border: 1px solid var(--warning);
+    color: var(--warning);
+    font-weight: 700;
+    border-radius: 20px;
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    transition: all 0.25s ease;
+}
+.btn-upvote-ui.is-upvoted {
+    background: var(--warning);
+    color: #0f172a;
+    border-color: var(--warning);
+}
+</style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -61,11 +82,19 @@
                             </div>
 
                             <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                <asp:LinkButton ID="btnUpvote" runat="server" CommandName="Upvote" CommandArgument='<%# Eval("Id") %>' style="color: var(--warning); font-weight: 700; text-decoration: none;">
-                                    👍 <%# Eval("Likes") %> Upvotes
+                                <asp:LinkButton ID="btnUpvote" runat="server" 
+                                    CommandName="Upvote" 
+                                    CommandArgument='<%# Eval("Id") %>' 
+                                    CssClass='<%# Convert.ToBoolean(Eval("IsLiked")) ? "btn-upvote-ui is-upvoted" : "btn-upvote-ui" %>'>
+    
+                                    <span>👍</span>
+                                    <asp:Label ID="lblUpvoteStatus" runat="server" Text='<%# Convert.ToBoolean(Eval("IsLiked")) ? "Liked" : "Like" %>' />
+                                    <asp:Label ID="lblUpvoteCount" runat="server" Text='<%# Eval("Likes") %>' />
                                 </asp:LinkButton>
+
                                 <asp:Button ID="btnDeleteThread" runat="server" Text="🗑️ Delete Thread" CommandName="DeleteThread" CommandArgument='<%# Eval("Id") %>' Visible='<%# IsAdmin %>' CssClass="btn btn-secondary btn-sm" OnClientClick="return confirm('Delete this question thread?');" style="border-color: var(--danger); color: var(--danger);" />
                             </div>
+
                         </div>
 
                         <!-- Thread Replies -->

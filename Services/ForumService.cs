@@ -21,16 +21,18 @@ namespace DriveLingo.Services
         public string AuthorAvatar { get; set; }
         public ICollection<ForumThread> Replies { get; set; }
         public int Likes { get; set; }
+        public bool IsLiked { get; set; }
     }
 
     public static class ForumService
     {
-        public static ICollection<ForumThread> GetForumThreads()
+        public static ICollection<ForumThread> GetForumThreads(int userId)
         {
             using (var db = new AppDbContext())
             {
                 return db.ForumPosts
                     .Include(p => p.User)
+                    .Include(p => p.Likes)
                     .Include(p => p.Replies.Select(r => r.User))
                     .Where(p => p.ReplyingPostId == null)
                     .OrderByDescending(p => p.CreatedAt)
@@ -52,7 +54,8 @@ namespace DriveLingo.Services
                                 Author = r.User,
                                 Likes = 0
                             }),
-                        Likes = 0 // TODO CHANGE THIS
+                        Likes = p.Likes.Count,
+                        IsLiked = p.Likes.Any(l => l.UserId == userId)
                     })
                     .ToList()
                     .Select(p => new ForumThread
@@ -75,7 +78,8 @@ namespace DriveLingo.Services
                             AuthorAvatar = r.Author.Avatar,
                             Likes = 0
                         }).ToList(),
-                        Likes = 0
+                        Likes = p.Likes,
+                        IsLiked = p.IsLiked
                     })
                     .ToList();
             }
@@ -158,6 +162,38 @@ namespace DriveLingo.Services
                 db.ForumPosts.Remove(post);
                 db.SaveChanges();
                 return ServiceStatusOutput.success("Post deleted successfully.");
+            }
+        }
+
+        public static ServiceStatusOutput ToggleLike(int postId, int userId)
+        {
+            using (var db = new AppDbContext())
+            {
+                var post = db.ForumPosts.Find(postId);
+                if (post == null)
+                    return ServiceStatusOutput.error("Invalid post identifier.");
+
+                var user = db.Users.Find(userId);
+                if (user == null)
+                    return ServiceStatusOutput.error("Invalid user.");
+
+                var like = db.ForumLikes.FirstOrDefault(l => l.UserId == userId && l.PostId == postId);
+                if (like == null)
+                {
+                    db.ForumLikes.Add(new ForumLikes
+                    {
+                        UserId = user.Id,
+                        PostId = postId,
+                    });
+                    db.SaveChanges();
+                    return ServiceStatusOutput.success("Post liked successfully.");
+                }
+                else
+                {
+                    db.ForumLikes.Remove(like);
+                    db.SaveChanges();
+                    return ServiceStatusOutput.success("Post unliked successfully.");
+                }
             }
         }
     }

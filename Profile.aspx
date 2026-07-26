@@ -58,7 +58,10 @@
 
                 <div>
                     <label style="display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.9rem;">New Password (leave blank to keep current)</label>
-                    <asp:TextBox ID="txtNewPassword" runat="server" TextMode="Password" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+                    <div class="password-input-wrapper">
+                        <asp:TextBox ID="txtNewPassword" runat="server" TextMode="Password" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+                        <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility(this)" title="Show Password">👁️</button>
+                    </div>
                 </div>
 
                 <asp:Button ID="btnSaveProfile" runat="server" Text="Save Profile Changes" OnClick="btnSaveProfile_Click" CssClass="btn btn-primary" style="padding: 0.85rem; font-weight: 700;" />
