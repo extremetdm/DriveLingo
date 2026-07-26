@@ -1,6 +1,30 @@
-﻿<%@ Page Title="DriveLingo | Forum Discussions" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Forum.aspx.cs" Inherits="DriveLingo.Instructor.Forum" %>
+<%@ Page Title="DriveLingo | Forum Discussions" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Forum.aspx.cs" Inherits="DriveLingo.Instructor.Forum" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
+    <script type="text/javascript">
+        function toggleUpvote(btn) {
+            var statusSpan = btn.querySelector('.upvote-status');
+            var countSpan = btn.querySelector('.upvote-count');
+            var currentCount = parseInt(countSpan.innerText) || 0;
+            var isUpvoted = btn.classList.contains('is-upvoted');
+
+            if (isUpvoted) {
+                btn.classList.remove('is-upvoted');
+                statusSpan.innerText = 'Upvote';
+                countSpan.innerText = Math.max(0, currentCount - 1);
+                btn.style.background = 'rgba(234, 179, 8, 0.1)';
+                btn.style.color = 'var(--warning)';
+                btn.style.borderColor = 'var(--warning)';
+            } else {
+                btn.classList.add('is-upvoted');
+                statusSpan.innerText = 'Upvoted';
+                countSpan.innerText = currentCount + 1;
+                btn.style.background = 'var(--warning)';
+                btn.style.color = '#0f172a';
+                btn.style.borderColor = 'var(--warning)';
+            }
+        }
+    </script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -20,11 +44,17 @@
       <asp:Repeater ID="rptForumModeration" runat="server" OnItemCommand="rptForumModeration_ItemCommand" OnItemDataBound="rptForumModeration_ItemDataBound">
         <ItemTemplate>
           <div style="margin-bottom: 1.25rem; padding: 1.25rem; background: rgba(15,23,42,0.4); border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.05);">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                <!-- TODO CHANGE THIS -->
-              <span style="font-size: 0.85rem; color: var(--text-secondary);"><%# Eval("CreatedAt", "{0:g}") %></span>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <div>
+                <h4 style="margin: 0 0 0.25rem 0; font-size: 1.1rem;"><%# Eval("Title") %></h4>
+                <span style="font-size: 0.85rem; color: var(--text-secondary);"><%# Eval("CreatedAt", "{0:g}") %></span>
+              </div>
+              <button type="button" class="btn-upvote-ui" onclick="toggleUpvote(this)" style="background: rgba(234, 179, 8, 0.1); border: 1px solid var(--warning); color: var(--warning); font-weight: 700; border-radius: 20px; padding: 0.35rem 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; transition: all 0.25s ease;">
+                <span>👍</span>
+                <span class="upvote-status">Upvote</span>
+                (<span class="upvote-count"><%# Eval("Likes") %></span>)
+              </button>
             </div>
-            <h4 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;"><%# Eval("Title") %></h4>
             <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;"><%# Eval("Content") %></p>
 
             <!-- Thread Comments & Educator Answers -->

@@ -1,6 +1,30 @@
 <%@ Page Title="DriveLingo | Forum Discussions" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Forum.aspx.cs" Inherits="DriveLingo.Forum" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
+    <script type="text/javascript">
+        function toggleUpvote(btn) {
+            var statusSpan = btn.querySelector('.upvote-status');
+            var countSpan = btn.querySelector('.upvote-count');
+            var currentCount = parseInt(countSpan.innerText) || 0;
+            var isUpvoted = btn.classList.contains('is-upvoted');
+
+            if (isUpvoted) {
+                btn.classList.remove('is-upvoted');
+                statusSpan.innerText = 'Upvote';
+                countSpan.innerText = Math.max(0, currentCount - 1);
+                btn.style.background = 'rgba(234, 179, 8, 0.1)';
+                btn.style.color = 'var(--warning)';
+                btn.style.borderColor = 'var(--warning)';
+            } else {
+                btn.classList.add('is-upvoted');
+                statusSpan.innerText = 'Upvoted';
+                countSpan.innerText = currentCount + 1;
+                btn.style.background = 'var(--warning)';
+                btn.style.color = '#0f172a';
+                btn.style.borderColor = 'var(--warning)';
+            }
+        }
+    </script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -61,9 +85,11 @@
                             </div>
 
                             <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                <asp:LinkButton ID="btnUpvote" runat="server" CommandName="Upvote" CommandArgument='<%# Eval("Id") %>' style="color: var(--warning); font-weight: 700; text-decoration: none;">
-                                    👍 <%# Eval("Likes") %> Upvotes
-                                </asp:LinkButton>
+                                <button type="button" class="btn-upvote-ui" onclick="toggleUpvote(this)" style="background: rgba(234, 179, 8, 0.1); border: 1px solid var(--warning); color: var(--warning); font-weight: 700; border-radius: 20px; padding: 0.4rem 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; transition: all 0.25s ease;">
+                                    <span>👍</span>
+                                    <span class="upvote-status">Upvote</span>
+                                    (<span class="upvote-count"><%# Eval("Likes") %></span>)
+                                </button>
                                 <asp:Button ID="btnDeleteThread" runat="server" Text="🗑️ Delete Thread" CommandName="DeleteThread" CommandArgument='<%# Eval("Id") %>' Visible='<%# IsAdmin %>' CssClass="btn btn-secondary btn-sm" OnClientClick="return confirm('Delete this question thread?');" style="border-color: var(--danger); color: var(--danger);" />
                             </div>
                         </div>
