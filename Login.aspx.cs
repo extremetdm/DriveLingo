@@ -26,7 +26,6 @@ namespace DriveLingo
 
             if (user != null)
             {
-                Session["CurrentUser"] = user;
                 RedirectUserByRole(user.Role);
             }
             else
@@ -37,21 +36,6 @@ namespace DriveLingo
 
         protected void btnContinueGuest_Click(object sender, EventArgs e)
         {
-            var guestUser = new DriveLingo.Models.User
-            {
-                Id = "usr_guest",
-                Email = "guest@drivelingo.com",
-                Name = "Guest Candidate",
-                Role = "guest",
-                Avatar = "🚗",
-                Points = 0,
-                Level = 1,
-                XP = 0,
-                JoinedDate = DateTime.Now.ToString("yyyy-MM-dd")
-            };
-
-            Session["CurrentUser"] = guestUser;
-            Session["IsGuestMode"] = true;
             Response.Redirect("~/Dashboard");
         }
 

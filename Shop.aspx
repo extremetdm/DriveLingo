@@ -68,13 +68,13 @@
             <ItemTemplate>
                 <div class="glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
-                        <span class='<%# GetCategoryBadgeClass(Eval("Category").ToString()) %>'>
-                            <%# Eval("Category") %>
+                        <span class='<%# GetCategoryBadgeClass(Eval("Type").ToString()) %>'>
+                            <%# Eval("Type") %>
                         </span>
                         <span style="font-size: 3.5rem; display: block; margin: 0.5rem 0;"><%# Eval("Icon") %></span>
-                        <h3 style="font-family: var(--font-heading); margin-bottom: 0.25rem;"><%# Eval("Title") %></h3>
+                        <h3 style="font-family: var(--font-heading); margin-bottom: 0.25rem;"><%# Eval("Name") %></h3>
                         <span class="badge" style="background: rgba(245, 158, 11, 0.2); color: var(--warning); margin-bottom: 0.75rem; display: inline-block;">
-                            🪙 <%# Eval("Price") %> Points
+                            🪙 <%# Eval("Cost") %> Points
                         </span>
                         <p style="color: var(--text-secondary); font-size: 0.88rem;"><%# Eval("Description") %></p>
                     </div>

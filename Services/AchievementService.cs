@@ -42,7 +42,7 @@ namespace DriveLingo.Services
                 user.Points += achievement.Points;
             }
 
-            AuthService.RefreshCurrentUser(user);
+            AuthService.RefreshCurrentUser(db, user);
 
             return ServiceStatusOutput.success("Successfully updated achievements.", newAchievements);
         }
@@ -83,18 +83,24 @@ namespace DriveLingo.Services
             }
         }
 
-        public static AchievementFetchOutput GetUserAchievements(int userId)
+        public static AchievementFetchOutput GetUserAchievements(int? userId)
         {
             using (var db = new AppDbContext())
             {
-                var user = db.Users.Find(userId);
-                if (user == null) return AchievementFetchOutput.error("User not found.");
+                IDictionary<Achievement.TaskType, int> progresses = new Dictionary<Achievement.TaskType, int>();
+                IDictionary<int, DateTime> completed = new Dictionary<int, DateTime>();
 
-                var progresses = user.AchievementProgress
-                    .ToDictionary(ap => ap.Task, ap => ap.Progress);
+                if (userId != null)
+                {
+                    var user = db.Users.Find(userId);
+                    if (user == null) return AchievementFetchOutput.error("User not found.");
 
-                var completed = user.Achievements
-                    .ToDictionary(ca => ca.AchievementId, ca => ca.CreatedAt);
+                    progresses = user.AchievementProgress
+                        .ToDictionary(ap => ap.Task, ap => ap.Progress);
+
+                    completed = user.Achievements
+                        .ToDictionary(ca => ca.AchievementId, ca => ca.CreatedAt);
+                }
 
                 var achievements = db.Achievements.ToList()
                     .Select(a =>

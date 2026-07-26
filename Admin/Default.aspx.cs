@@ -1,6 +1,4 @@
-﻿using DriveLingo.Data;
-using DriveLingo.Database;
-using DriveLingo.Models;
+﻿using DriveLingo.Database;
 using DriveLingo.UI;
 using System;
 using System.Collections.Generic;
@@ -25,8 +23,6 @@ namespace DriveLingo.Admin
 
         private void BindMetrics()
         {
-            var repo = AppStateRepository.GetCurrent();
-
             using (var db = new AppDbContext())
             {
                 litTotalUsers.Text = db.Users.Count().ToString();

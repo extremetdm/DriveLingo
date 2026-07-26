@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DriveLingo {
-    
-    
-    public partial class Shop {
-        
+namespace DriveLingo
+{
+
+
+    public partial class Shop
+    {
+
         /// <summary>
         /// pnlNotification control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace DriveLingo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlNotification;
-        
+
         /// <summary>
         /// litNotificationText control.
         /// </summary>
@@ -29,16 +31,7 @@ namespace DriveLingo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litNotificationText;
-        
-        /// <summary>
-        /// pnlStore control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlStore;
-        
+
         /// <summary>
         /// btnTabAll control.
         /// </summary>
@@ -47,7 +40,7 @@ namespace DriveLingo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnTabAll;
-        
+
         /// <summary>
         /// btnTabBorder control.
         /// </summary>
@@ -56,7 +49,7 @@ namespace DriveLingo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnTabBorder;
-        
+
         /// <summary>
         /// btnTabIcon control.
         /// </summary>
@@ -65,7 +58,7 @@ namespace DriveLingo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnTabIcon;
-        
+
         /// <summary>
         /// btnTabBadge control.
         /// </summary>
@@ -74,7 +67,7 @@ namespace DriveLingo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnTabBadge;
-        
+
         /// <summary>
         /// rptStore control.
         /// </summary>

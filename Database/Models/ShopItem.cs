@@ -8,6 +8,13 @@ namespace DriveLingo.Database.Models
 {
     public class ShopItem
     {
+        public enum ItemType
+        {
+            Border = 0,
+            Icon = 1,
+            Badge = 2
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -25,6 +32,11 @@ namespace DriveLingo.Database.Models
 
         [Required]
         public int Cost { get; set; }
+
+        [Required]
+        public ItemType Type { get; set; }
+
+        public string ColorHex { get; set; }
 
         public virtual ICollection<ShopRedemption> Redemptions { get; set; } = new HashSet<ShopRedemption>();
     }

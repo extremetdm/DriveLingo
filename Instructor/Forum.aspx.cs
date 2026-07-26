@@ -1,5 +1,4 @@
 using DriveLingo.Database.Models;
-using DriveLingo.Models;
 using DriveLingo.Services;
 using DriveLingo.UI;
 using System;
@@ -67,10 +66,10 @@ namespace DriveLingo.Instructor
             {
                 if (CurrentUser == null) return;
 
-                string postIdStr = e.CommandArgument.ToString();
+                int postId = Convert.ToInt32(e.CommandArgument.ToString());
                 TextBox txtReply = (TextBox)e.Item.FindControl("txtEducatorReply");
 
-                var output = ForumService.AddReply(CurrentUser.Id, postIdStr, txtReply.Text);
+                var output = ForumService.AddReply(CurrentUser.Id, postId, txtReply.Text);
 
                 if (output.Success)
                 {

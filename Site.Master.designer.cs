@@ -114,6 +114,15 @@ namespace DriveLingo
         protected global::System.Web.UI.WebControls.Literal litUserName;
 
         /// <summary>
+        /// litUserEquippedBadge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litUserEquippedBadge;
+
+        /// <summary>
         /// litUserRole control.
         /// </summary>
         /// <remarks>
@@ -193,15 +202,6 @@ namespace DriveLingo
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litHeaderPoints;
-
-        /// <summary>
-        /// litUserEquippedBadge control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litUserEquippedBadge;
 
         /// <summary>
         /// pnlGuestBanner control.

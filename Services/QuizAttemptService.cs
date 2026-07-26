@@ -117,7 +117,7 @@ namespace DriveLingo.Services
 
                 db.SaveChanges();
 
-                AuthService.RefreshCurrentUser(user);
+                AuthService.RefreshCurrentUser(db, user);
 
                 return new QuizAttemptResults
                 {

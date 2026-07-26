@@ -1,8 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
-using DriveLingo.Data;
 using DriveLingo.Database.Models;
 using DriveLingo.Services;
 
@@ -20,47 +20,47 @@ namespace DriveLingo
 
         public void UpdateUserHeaderAndNavigation()
         {
-            var dbUser = Context.Items["CurrentUser"] as User;
-            var sessionUser = Session["CurrentUser"] as DriveLingo.Models.User;
+            var currentUser = Context.Items["CurrentUser"] as User;
             string currentPage = Page.AppRelativeVirtualPath.ToLower();
 
             bool isLandingPage = currentPage.Equals("~/default.aspx", StringComparison.OrdinalIgnoreCase) || currentPage.Equals("~/", StringComparison.OrdinalIgnoreCase) || currentPage.Equals("~/default", StringComparison.OrdinalIgnoreCase);
             bool isAuthPage = currentPage.EndsWith("login.aspx") || currentPage.EndsWith("register.aspx");
             bool hideSidebar = isLandingPage || isAuthPage;
-            bool isGuestMode = (Session["IsGuestMode"] != null && (bool)Session["IsGuestMode"]) || (sessionUser != null && sessionUser.Role == "guest");
 
+            bool isGuestMode = currentUser == null || currentUser.Role == User.UserRole.Guest;
             pnlGuestBanner.Visible = isGuestMode && !hideSidebar;
 
-            if ((dbUser != null || sessionUser != null) && !hideSidebar)
+            if (!hideSidebar)
             {
                 divAppContainer.Attributes["class"] = "app-layout";
                 appSidebar.Visible = true;
                 topHeader.Visible = true;
-                phUserFooter.Visible = true;
-                phGuestFooter.Visible = false;
+                phUserFooter.Visible = !isGuestMode;
+                phGuestFooter.Visible = isGuestMode;
 
-                string roleStr = dbUser != null ? dbUser.Role.ToString().ToLower() : (sessionUser != null ? sessionUser.Role.ToLower() : "learner");
-                string username = dbUser != null ? dbUser.Username : (sessionUser != null ? sessionUser.Name : "Guest Candidate");
-                int points = dbUser != null ? dbUser.Points : (sessionUser != null ? sessionUser.Points : 0);
-                int level = dbUser != null ? dbUser.CurrentLevel : (sessionUser != null ? sessionUser.Level : 1);
-                int xpProgress = dbUser != null ? dbUser.XpProgress : (sessionUser != null ? sessionUser.XP : 0);
-                int xpRequired = dbUser != null ? dbUser.NextLevelXpRequired : 200;
+                var role = isGuestMode? User.UserRole.Guest: currentUser.Role;
+                string username = isGuestMode? "Guest Candidate": currentUser.Username;
+                int points = currentUser?.Points ?? 0;
+                int level = currentUser?.CurrentLevel ?? 0;
+                int xpProgress = currentUser?.XpProgress ?? 0;
+                int xpRequired = currentUser?.NextLevelXpRequired ?? LevelingService.CalculateRequiredXP(1);
 
-                string equippedBorder = sessionUser != null ? sessionUser.EquippedBorder : "";
-                string equippedIcon = sessionUser != null ? sessionUser.EquippedIcon : "";
-                string equippedBadge = sessionUser != null ? sessionUser.EquippedBadge : "";
+                var equippedItems = Context.Items["EquippedItems"] as List<ShopItem>;
+
+                var equippedBorder = equippedItems?.FirstOrDefault(i => i.Type == ShopItem.ItemType.Border);
+                var equippedIcon = equippedItems?.FirstOrDefault(i => i.Type == ShopItem.ItemType.Icon);
+                var equippedBadge = equippedItems?.FirstOrDefault(i => i.Type == ShopItem.ItemType.Badge);
 
                 string roleSymbol;
-                switch (roleStr)
+                switch (role)
                 {
-                    case "admin":
+                    case User.UserRole.Admin:
                         roleSymbol = "👑 ";
                         break;
-                    case "instructor":
-                    case "educator":
+                    case User.UserRole.Instructor:
                         roleSymbol = "👨‍✈️ ";
                         break;
-                    case "guest":
+                    case User.UserRole.Guest:
                         roleSymbol = "🔍 ";
                         break;
                     default:
@@ -68,36 +68,16 @@ namespace DriveLingo
                         break;
                 }
 
-                // Avatar Display: Equipped custom icon or fixed role default
-                string avatarIcon = "🚗";
-                if (!string.IsNullOrEmpty(equippedIcon))
-                {
-                    avatarIcon = equippedIcon;
-                }
-                else if (roleStr == "admin")
-                {
-                    avatarIcon = "👑";
-                }
-                else if (roleStr == "instructor" || roleStr == "educator")
-                {
-                    avatarIcon = "👨‍✈️";
-                }
-                else
-                {
-                    avatarIcon = "🚗"; // Default Learner Icon
-                }
+                string avatarIcon = equippedIcon?.Icon ?? currentUser?.Avatar ?? "🚗";
 
                 litAvatar.Text = avatarIcon;
                 litUserName.Text = username;
-                litUserRole.Text = "Role: " + roleSymbol + roleStr.ToUpper();
+                litUserRole.Text = "Role: " + roleSymbol + role.ToString().ToUpper();
 
                 // Display Equipped Badge Icon directly behind username (e.g. "Alex Hero 🏆")
-                if (!string.IsNullOrEmpty(equippedBadge))
+                if (equippedBadge != null)
                 {
-                    var badgeItem = AppStateRepository.GetCurrent().StoreItems.FirstOrDefault(i => i.Category == "Badge" && (i.Title == equippedBadge || i.Id == equippedBadge || i.Icon == equippedBadge));
-                    string badgeIcon = badgeItem != null ? badgeItem.Icon : equippedBadge;
-
-                    litUserEquippedBadge.Text = " <span title='" + equippedBadge + "' style='font-size: 1.1rem; vertical-align: middle;'>" + badgeIcon + "</span>";
+                    litUserEquippedBadge.Text = " <span title='" + equippedBadge.Name + "' style='font-size: 1.1rem; vertical-align: middle;'>" + equippedBadge.Icon + "</span>";
                 }
                 else
                 {
@@ -105,18 +85,10 @@ namespace DriveLingo
                 }
 
                 // Apply equipped cosmetic border glow frame with Admin's defined color
-                string borderColor = sessionUser != null ? sessionUser.EquippedBorderColor : "";
-                if (string.IsNullOrEmpty(borderColor) && !string.IsNullOrEmpty(equippedBorder))
-                {
-                    var borderItem = AppStateRepository.GetCurrent().StoreItems.FirstOrDefault(i => i.Category == "Border" && (i.Title == equippedBorder || i.Id == equippedBorder));
-                    if (borderItem != null && !string.IsNullOrEmpty(borderItem.ColorHex))
-                    {
-                        borderColor = borderItem.ColorHex;
-                    }
-                }
 
-                if (!string.IsNullOrEmpty(borderColor))
+                if (equippedBorder != null)
                 {
+                    var borderColor = equippedBorder.ColorHex;
                     divSidebarAvatar.Style["box-shadow"] = "0 0 15px " + borderColor + ", 0 0 25px " + borderColor;
                     divSidebarAvatar.Style["border"] = "2px solid " + borderColor;
                 }
@@ -127,13 +99,13 @@ namespace DriveLingo
                 }
 
                 // Show learner XP stats
-                if (roleStr == "learner" || roleStr == "guest")
+                if (role == User.UserRole.Learner || role == User.UserRole.Guest)
                 {
                     phLearnerBadges.Visible = true;
                     litHeaderLevel.Text = level.ToString();
                     litHeaderPoints.Text = points.ToString();
 
-                    int percent = (int)Math.Round((double)xpProgress / (xpRequired > 0 ? xpRequired : 200) * 100);
+                    int percent = (int)Math.Round((double)xpProgress / xpRequired * 100);
                     if (percent > 100) percent = 100;
                     litHeaderXpText.Text = xpProgress + " / " + xpRequired + " XP";
                     divHeaderXpBar.Style["width"] = percent + "%";
@@ -144,9 +116,9 @@ namespace DriveLingo
                 }
 
                 // Navigation Visibility
-                phLearnerNav.Visible = (roleStr == "learner" || roleStr == "guest");
-                phEducatorNav.Visible = (roleStr == "instructor" || roleStr == "educator");
-                phAdminNav.Visible = (roleStr == "admin");
+                phLearnerNav.Visible = role == User.UserRole.Guest || role == User.UserRole.Learner;
+                phEducatorNav.Visible = role == User.UserRole.Instructor;
+                phAdminNav.Visible = role == User.UserRole.Admin;
             }
             else
             {
@@ -165,7 +137,6 @@ namespace DriveLingo
 
         protected void btnSignOut_Click(object sender, EventArgs e)
         {
-            Session.Clear();
             AuthService.Logout(Context);
             Response.Redirect("~/Login.aspx");
         }
