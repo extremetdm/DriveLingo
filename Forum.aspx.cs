@@ -37,7 +37,7 @@ namespace DriveLingo
 
         private void BindForum()
         {
-            rptForum.DataSource = ForumService.GetForumThreads(CurrentUser.Id);
+            rptForum.DataSource = ForumService.GetForumThreads(CurrentUser?.Id);
             rptForum.DataBind();
         }
 

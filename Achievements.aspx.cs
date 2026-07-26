@@ -37,5 +37,21 @@ namespace DriveLingo
             pnlNotification.Visible = true;
             litNotificationText.Text = "✅ " + message;
         }
+
+        protected string ShowRewards(int xp, int points)
+        {
+            if (xp > 0 && points > 0)
+            {
+                return $"{xp} XP & {points} Points";
+            }
+            else if (xp > 0)
+            {
+                return $"{xp} XP";
+            }
+            else
+            {
+                return $"{points} Points";
+            }
+        }
     }
 }

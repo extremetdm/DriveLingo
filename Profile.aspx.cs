@@ -139,8 +139,6 @@ namespace DriveLingo
             //string avatar = ddlAvatar.SelectedValue;
             //user.Avatar = avatar;
 
-            //TODO ALLOW EDIT EMAIL & REMOVE AVATAR
-
             string username = txtName.Text.Trim();
             if (string.IsNullOrEmpty(username))
             {

@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DriveLingo.Admin {
-    
-    
-    public partial class Achievements {
-        
+namespace DriveLingo.Admin
+{
+
+
+    public partial class Achievements
+    {
+
         /// <summary>
         /// pnlNotification control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlNotification;
-        
+
         /// <summary>
         /// litNotificationText control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litNotificationText;
-        
+
         /// <summary>
         /// pnlAchievements control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlAchievements;
-        
+
         /// <summary>
         /// hfEditingAchId control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hfEditingAchId;
-        
+
         /// <summary>
         /// litAchFormTitle control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litAchFormTitle;
-        
+
         /// <summary>
         /// txtAchTitle control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAchTitle;
-        
+
         /// <summary>
         /// txtAchIcon control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAchIcon;
-        
+
         /// <summary>
         /// txtAchXp control.
         /// </summary>
@@ -83,16 +85,16 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAchXp;
-        
+
         /// <summary>
-        /// txtTargetCount control.
+        /// txtAchPts control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTargetCount;
-        
+        protected global::System.Web.UI.WebControls.TextBox txtAchPts;
+
         /// <summary>
         /// ddlMetricType control.
         /// </summary>
@@ -101,7 +103,16 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlMetricType;
-        
+
+        /// <summary>
+        /// txtTargetCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTargetCount;
+
         /// <summary>
         /// txtAchDesc control.
         /// </summary>
@@ -110,7 +121,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAchDesc;
-        
+
         /// <summary>
         /// btnAddAch control.
         /// </summary>
@@ -119,7 +130,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAddAch;
-        
+
         /// <summary>
         /// btnCancelAchEdit control.
         /// </summary>
@@ -128,7 +139,7 @@ namespace DriveLingo.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCancelAchEdit;
-        
+
         /// <summary>
         /// gvAchievements control.
         /// </summary>

@@ -26,7 +26,7 @@ namespace DriveLingo.Services
 
     public static class ForumService
     {
-        public static ICollection<ForumThread> GetForumThreads(int userId)
+        public static ICollection<ForumThread> GetForumThreads(int? userId)
         {
             using (var db = new AppDbContext())
             {
