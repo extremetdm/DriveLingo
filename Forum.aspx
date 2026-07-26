@@ -16,7 +16,7 @@
                 <h2 style="font-family: var(--font-heading); margin-bottom: 0.25rem;">💬 Candidate Community Q&A</h2>
                 <p style="color: var(--text-secondary); margin: 0;">Ask questions about JPJ rules and get answers from fellow candidates and JPJ Educators.</p>
             </div>
-            <asp:Button ID="btnToggleNewQuestion" runat="server" Text="➕ Ask a Question" OnClick="btnToggleNewQuestion_Click" CssClass="btn btn-primary" />
+            <asp:Button ID="btnToggleNewQuestion" runat="server" Text="➕ Ask a Question" OnClick="btnToggleNewQuestion_Click" CssClass="btn btn-primary"/>
         </div>
 
         <!-- New Question Form -->
@@ -24,11 +24,13 @@
             <h3 style="font-family: var(--font-heading); margin-bottom: 1rem;">Post New Question to Community</h3>
             <div style="display: flex; flex-direction: column; gap: 1rem;">
                 <asp:TextBox ID="txtForumTitle" runat="server" CssClass="form-control" placeholder="Question Title (e.g. Speed limit on highways)" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+                <%--
                 <asp:DropDownList ID="ddlForumCategory" runat="server" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;">
                     <asp:ListItem Value="Rules & Safety">Rules & Safety</asp:ListItem>
                     <asp:ListItem Value="Road Signs">Road Signs</asp:ListItem>
                     <asp:ListItem Value="Vehicle Checks">Vehicle Checks</asp:ListItem>
                 </asp:DropDownList>
+                --%>
                 <asp:TextBox ID="txtForumContent" runat="server" TextMode="MultiLine" Rows="4" CssClass="form-control" placeholder="Detailed description of your question..." style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
                 <asp:Button ID="btnPostQuestion" runat="server" Text="Post Question" OnClick="btnPostQuestion_Click" CssClass="btn btn-primary" style="align-self: flex-end;" />
             </div>
@@ -41,7 +43,9 @@
                     <div class="glass-card">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
                             <div>
+                                <%-- 
                                 <span class="badge" style="background: rgba(99, 102, 241, 0.2); color: var(--primary); margin-bottom: 0.5rem; display: inline-block;">Rules & Safety</span>
+                                --%>
                                 <h3 style="font-family: var(--font-heading); margin: 0;"><%# Eval("Title") %></h3>
                             </div>
                             <span style="font-size: 0.85rem; color: var(--text-secondary);"><%# Eval("CreatedAt", "{0:g}") %></span>

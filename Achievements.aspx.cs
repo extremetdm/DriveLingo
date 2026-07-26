@@ -16,8 +16,6 @@ namespace DriveLingo
         
         protected void Page_Load(object sender, EventArgs e)
         {
-            RequireAuth();
-
             if (!IsPostBack)
             {
                 BindAchievements();
@@ -26,7 +24,7 @@ namespace DriveLingo
 
         private void BindAchievements()
         {
-            var output = AchievementService.GetUserAchievements(CurrentUser.Id);
+            var output = AchievementService.GetUserAchievements(CurrentUser?.Id);
             rptAchievements.DataSource = output.Achievements;
             rptAchievements.DataBind();
         }

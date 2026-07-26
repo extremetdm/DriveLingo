@@ -17,8 +17,6 @@ namespace DriveLingo
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            RequireAuth();
-
             if (!IsPostBack)
             {
                 BindQuizzes();
@@ -41,23 +39,26 @@ namespace DriveLingo
         {
             using (var db = new AppDbContext())
             {
+                int? userId = CurrentUser?.Id;
 
-                rptQuizzes.DataSource = db.Quizzes
+                var quizzes = db.Quizzes
                     .Select(q => new
                     {
                         q.Id,
                         Module = q.Module.Name,
                         q.Title,
                         QuestionCount = q.Questions.Count,
-                        HasPassed = q.Attempts.Any(a => a.UserId == CurrentUser.Id && a.Passed)
+                        HasPassed = q.Attempts.Any(a => (a.UserId == userId) && a.Passed)
                     })
-                    .ToList()
+                    .ToList();
+
+                rptQuizzes.DataSource = quizzes
                     .Select(q => new QuizDetails
                     {
                         Id = q.Id,
                         Module = q.Module,
                         Title = q.Title,
-                        Points = 100, // todo CHANGE THIS
+                        Points = PointService.CalculateForQuiz(q.QuestionCount),
                         TotalQuestions = q.QuestionCount,
                         Passed = q.HasPassed
                     })
@@ -156,6 +157,11 @@ namespace DriveLingo
                 }
 
                 answers.Add(questionId, choiceId);
+            }
+
+            if (CurrentUser == null)
+            {
+                AuthService.CreateGuest();
             }
 
             var output = QuizAttemptService.SubmitAttempt(CurrentUser.Id, quiz.Id, answers);

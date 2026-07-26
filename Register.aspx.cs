@@ -4,10 +4,11 @@ using System.Web.UI;
 using DriveLingo.Data;
 using DriveLingo.Models;
 using DriveLingo.Services;
+using DriveLingo.UI;
 
 namespace DriveLingo
 {
-    public partial class Register : Page
+    public partial class Register : AuthPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -25,7 +26,7 @@ namespace DriveLingo
                 return;
             }
 
-            var output = AuthService.Register(name, password, email);
+            var output = AuthService.Register(name, password, email, CurrentUser?.Id);
 
             if (!output.Success)
             {

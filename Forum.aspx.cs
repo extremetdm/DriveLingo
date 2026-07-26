@@ -27,15 +27,13 @@ namespace DriveLingo
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            RequireAuth();
+            btnToggleNewQuestion.Visible = !IsGuest;
 
             if (!IsPostBack)
             {
                 BindForum();
             }
         }
-
-
 
         private void BindForum()
         {
@@ -77,13 +75,17 @@ namespace DriveLingo
 
         protected void btnToggleNewQuestion_Click(object sender, EventArgs e)
         {
+            if (IsGuest)
+            {
+                ShowNotification("🔍 Guest Mode: Please register an account to make a post!");
+                return;
+            }
+
             pnlNewQuestionForm.Visible = !pnlNewQuestionForm.Visible;
         }
 
         protected void btnPostQuestion_Click(object sender, EventArgs e)
         {
-            if (CurrentUser == null) return;
-
             string title = txtForumTitle.Text.Trim();
             string content = txtForumContent.Text.Trim();
 
@@ -135,11 +137,16 @@ namespace DriveLingo
 
         private void handleReply(object source, RepeaterCommandEventArgs e)
         {
-            if (CurrentUser == null) return;
+            if (IsGuest)
+            {
+                ShowNotification("🔍 Guest Mode: Please register an account to reply to posts!");
+                return;
+            }
 
             int postId;
             if (!int.TryParse(e.CommandArgument.ToString(), out postId))
             {
+                ShowNotification("Invalid post.");
                 return;
             }
 

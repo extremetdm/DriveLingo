@@ -17,8 +17,6 @@ namespace DriveLingo
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            RequireAuth();
-
             if (!IsPostBack)
             {
                 BindMaterials();
@@ -74,7 +72,6 @@ namespace DriveLingo
             {
                 LearningMaterial mat = (LearningMaterial)e.Item.DataItem;
                 PlaceHolder phReadBadge = (PlaceHolder)e.Item.FindControl("phReadBadge");
-                User currentUser = Session["CurrentUser"] as User;
 
                 if (phReadBadge != null)
                 {
@@ -96,7 +93,7 @@ namespace DriveLingo
             using (var db = new AppDbContext())
             {
                 var lesson = db.Lessons.Find(lessonId);
-                if (lesson != null && CurrentUser != null)
+                if (lesson != null)
                 {
                     //if (currentUser.ReadMaterials == null)
                     //{
@@ -128,7 +125,7 @@ namespace DriveLingo
                     //else
                     //{
                         ShowNotification("Viewing study guide: " + lesson.Title);
-                        litMatXpStatus.Text = "✔ Guide Completed (XP bonus already claimed)";
+                    //litMatXpStatus.Text = "✔ Guide Completed (XP bonus already claimed)";
                     //}
 
                     // Populate expanded detail view

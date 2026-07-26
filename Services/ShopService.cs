@@ -45,7 +45,7 @@ namespace DriveLingo.Services
 
                 db.SaveChanges();
 
-                AuthService.RefreshCurrentUser(user);
+                AuthService.RefreshCurrentUser(db, user);
 
                 return ServiceStatusOutput.success("Successfully redeemed item.", output.UnlockedAchievements);
             }

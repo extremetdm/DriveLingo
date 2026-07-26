@@ -132,24 +132,6 @@ namespace DriveLingo
         protected global::System.Web.UI.WebControls.Literal litMatContent;
 
         /// <summary>
-        /// pnlMatXpNotice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlMatXpNotice;
-
-        /// <summary>
-        /// litMatXpStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litMatXpStatus;
-
-        /// <summary>
         /// hlMatPdf control.
         /// </summary>
         /// <remarks>
