@@ -1,6 +1,7 @@
 using DriveLingo.Services;
 using System;
 using System.Linq;
+using System.Web.Services;
 using System.Web.UI;
 
 namespace DriveLingo
@@ -77,6 +78,58 @@ namespace DriveLingo
         {
             pnlError.Visible = true;
             litErrorMsg.Text = message;
+        }
+
+        [WebMethod]
+        public static object ResetPassword(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return new { success = false, message = "Please enter an email address." };
+            }
+
+            try
+            {
+                using (var db = new Database.AppDbContext())
+                {
+                    var user = db.Users.FirstOrDefault(u => u.Email.Equals(email.Trim(), StringComparison.OrdinalIgnoreCase));
+                    if (user == null)
+                    {
+                        return new { success = false, message = "No account found with this email address." };
+                    }
+
+                    // Generate temporary password
+                    string tempPassword = GenerateRandomPassword(8);
+
+                    // Update user's password using BCrypt
+                    user.Password = BCrypt.Net.BCrypt.HashPassword(tempPassword);
+                    db.SaveChanges();
+
+                    return new
+                    {
+                        success = true,
+                        username = user.Username,
+                        email = user.Email,
+                        tempPassword = tempPassword
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new { success = false, message = "An error occurred: " + ex.Message };
+            }
+        }
+
+        private static string GenerateRandomPassword(int length)
+        {
+            const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            System.Text.StringBuilder res = new System.Text.StringBuilder();
+            Random rnd = new Random();
+            while (0 < length--)
+            {
+                res.Append(validChars[rnd.Next(validChars.Length)]);
+            }
+            return res.ToString();
         }
     }
 }
