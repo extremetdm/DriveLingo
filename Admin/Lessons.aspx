@@ -27,12 +27,18 @@
             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Material Title</label>
             <asp:TextBox ID="txtMatTitle" runat="server" CssClass="form-control" placeholder="Malaysian Speed Limits" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
           </div>
-          <div>
-            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Category</label>
-            <asp:DropDownList ID="ddlMatCategory" runat="server" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;">
-              
-            </asp:DropDownList>
-          </div>
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
+              <div>
+                  <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Category</label>
+                  <asp:DropDownList ID="ddlMatCategory" runat="server" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;">
+                  </asp:DropDownList>
+                </div>
+              <div>
+                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.85rem;">Estimated Read Time</label>
+                <asp:TextBox ID="txtEstimatedTime" runat="server" TextMode="Number" min="0" Placeholder="Time in minutes" CssClass="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
+              </div>
+            </div>
+          
           <div>
             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">🚦 Attach Road Sign Image (File Upload or Image Link)</label>
             <asp:FileUpload ID="fileMaterialImage" runat="server" CssClass="form-control" style="width: 100%; padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white; margin-bottom: 0.5rem;" />
