@@ -130,6 +130,10 @@
     <Content Include="Admin\Shop.aspx" />
     <Content Include="Admin\Simulation.aspx" />
     <Content Include="Admin\Users.aspx" />
+    <Content Include="App_Data\Database.mdf" />
+    <Content Include="App_Data\Database_log.ldf">
+      <DependentUpon>Database.mdf</DependentUpon>
+    </Content>
     <Content Include="css\styles.css" />
     <Content Include="Dashboard.aspx" />
     <Content Include="Default.aspx" />
@@ -139,15 +143,47 @@
     <Content Include="Instructor\Forum.aspx" />
     <Content Include="Instructor\LearnerPerformance.aspx" />
     <Content Include="Instructor\Quizzes.aspx" />
+    <Content Include="uploads\ishihara_test_02.png" />
     <Content Include="Lessons.aspx" />
     <Content Include="Quizzes.aspx" />
     <Content Include="Shop.aspx" />
     <Content Include="Simulation.aspx" />
+    <Content Include="uploads\animal_crossing.svg" />
+    <Content Include="uploads\bicycle_crossing.svg" />
+    <Content Include="uploads\bus_stop.svg" />
+    <Content Include="uploads\chevron.svg" />
+    <Content Include="uploads\color_test_green_light.svg" />
+    <Content Include="uploads\color_test_red_light.svg" />
+    <Content Include="uploads\color_test_yellow_light.svg" />
+    <Content Include="uploads\crossroad.svg" />
+    <Content Include="uploads\divided_highway.svg" />
+    <Content Include="uploads\double_bend.svg" />
+    <Content Include="uploads\double_line.svg" />
     <Content Include="uploads\expressway_sign.svg" />
+    <Content Include="uploads\ishihara_test_01.png" />
+    <Content Include="uploads\ishihara_test_03.png" />
+    <Content Include="uploads\junction.svg" />
+    <Content Include="uploads\lane_ends.svg" />
+    <Content Include="uploads\left_curve.svg" />
+    <Content Include="uploads\low_clearance.svg" />
     <Content Include="uploads\no_entry.svg" />
+    <Content Include="uploads\no_parking.svg" />
+    <Content Include="uploads\no_stopping.svg" />
+    <Content Include="uploads\prohibition_sign_colour.svg" />
+    <Content Include="uploads\rear_view_mirror.svg" />
+    <Content Include="uploads\roundabout_entry.svg" />
+    <Content Include="uploads\school_area.svg" />
+    <Content Include="uploads\seat_belt.svg" />
     <Content Include="uploads\sign_20eeac0d.jpg" />
+    <Content Include="uploads\slope_parking.svg" />
     <Content Include="uploads\speed_limit_110.svg" />
+    <Content Include="uploads\traffic_signal_ahead.svg" />
+    <Content Include="uploads\tunnel.svg" />
+    <Content Include="uploads\two_way_traffic.svg" />
+    <Content Include="uploads\t_junction.svg" />
     <Content Include="uploads\warning_curve.svg" />
+    <Content Include="uploads\warning_sign_colour.svg" />
+    <Content Include="uploads\y_junction.svg" />
     <Content Include="Web.config" />
     <Content Include="Register.aspx" />
     <Content Include="Profile.aspx" />
@@ -246,6 +282,7 @@
       <DependentUpon>202607251350250_EditQuizToUseModule.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Models\Achievement.cs" />
+    <Compile Include="Database\Seeders\L.cs" />
     <Compile Include="Models\ModuleItem.cs" />
     <Compile Include="Database\Seeders\QuizSeeder.cs" />
     <Compile Include="Data\AppStateRepository.cs" />
@@ -414,9 +451,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Site.Master" />

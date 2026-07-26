@@ -40,7 +40,7 @@ packages/
 node_modules/
 
 # Ignore uploads
-uploads/
+
 
 ## ==========================================
 ## Operating System / Generic Files
