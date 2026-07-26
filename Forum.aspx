@@ -57,10 +57,10 @@
                             </div>
 
                             <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                <asp:LinkButton ID="btnUpvote" runat="server" CommandName="Upvote" CommandArgument='<%# Eval("StringId") %>' style="color: var(--warning); font-weight: 700; text-decoration: none;">
+                                <asp:LinkButton ID="btnUpvote" runat="server" CommandName="Upvote" CommandArgument='<%# Eval("Id") %>' style="color: var(--warning); font-weight: 700; text-decoration: none;">
                                     👍 <%# Eval("Likes") %> Upvotes
                                 </asp:LinkButton>
-                                <asp:Button ID="btnDeleteThread" runat="server" Text="🗑️ Delete Thread" CommandName="DeleteThread" CommandArgument='<%# Eval("StringId") %>' Visible='<%# IsAdmin %>' CssClass="btn btn-secondary btn-sm" OnClientClick="return confirm('Delete this question thread?');" style="border-color: var(--danger); color: var(--danger);" />
+                                <asp:Button ID="btnDeleteThread" runat="server" Text="🗑️ Delete Thread" CommandName="DeleteThread" CommandArgument='<%# Eval("Id") %>' Visible='<%# IsAdmin %>' CssClass="btn btn-secondary btn-sm" OnClientClick="return confirm('Delete this question thread?');" style="border-color: var(--danger); color: var(--danger);" />
                             </div>
                         </div>
 
@@ -82,7 +82,7 @@
                                             </div>
                                             <p style="margin: 0; font-size: 0.9rem; line-height: 1.4;"><%# Eval("Content") %></p>
                                         </div>
-                                        <asp:Button ID="btnDeleteReply1" runat="server" Text="🗑️ Delete" CommandName="DeleteReply" CommandArgument='<%# Eval("StringId") %>' Visible='<%# IsAdmin %>' CssClass="btn btn-secondary btn-sm" OnClientClick="return confirm('Delete this comment?');" style="margin-left: 0.5rem; border-color: var(--danger); color: var(--danger); padding: 0.2rem 0.5rem; font-size: 0.75rem;" />
+                                        <asp:Button ID="btnDeleteReply1" runat="server" Text="🗑️ Delete" CommandName="DeleteReply" CommandArgument='<%# Eval("Id") %>' Visible='<%# IsAdmin %>' CssClass="btn btn-secondary btn-sm" OnClientClick="return confirm('Delete this comment?');" style="margin-left: 0.5rem; border-color: var(--danger); color: var(--danger); padding: 0.2rem 0.5rem; font-size: 0.75rem;" />
                                     </div>
                                 </asp:PlaceHolder>
 
@@ -98,7 +98,7 @@
                                             </div>
                                             <p style="margin: 0; font-size: 0.9rem; line-height: 1.4;"><%# Eval("Content") %></p>
                                         </div>
-                                        <asp:Button ID="btnDeleteReply2" runat="server" Text="🗑️ Delete" CommandName="DeleteReply" CommandArgument='<%# Eval("StringId") %>' Visible='<%# IsAdmin %>' CssClass="btn btn-secondary btn-sm" OnClientClick="return confirm('Delete this comment?');" style="margin-left: 0.5rem; border-color: var(--danger); color: var(--danger); padding: 0.2rem 0.5rem; font-size: 0.75rem;" />
+                                        <asp:Button ID="btnDeleteReply2" runat="server" Text="🗑️ Delete" CommandName="DeleteReply" CommandArgument='<%# Eval("Id") %>' Visible='<%# IsAdmin %>' CssClass="btn btn-secondary btn-sm" OnClientClick="return confirm('Delete this comment?');" style="margin-left: 0.5rem; border-color: var(--danger); color: var(--danger); padding: 0.2rem 0.5rem; font-size: 0.75rem;" />
                                     </div>
                                 </asp:PlaceHolder>
                             </ItemTemplate>
@@ -110,7 +110,7 @@
                         <!-- Candidate Comment Reply Box -->
                         <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
                             <asp:TextBox ID="txtCandidateReply" runat="server" CssClass="form-control" placeholder="Write a comment under this thread..." style="flex: 1; padding: 0.5rem; font-size: 0.85rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.6); color: white;" />
-                            <asp:Button ID="btnPostReply" runat="server" Text="Reply" CommandName="ReplyThread" CommandArgument='<%# Eval("StringId") %>' CssClass="btn btn-secondary btn-sm" />
+                            <asp:Button ID="btnPostReply" runat="server" Text="Reply" CommandName="ReplyThread" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-secondary btn-sm" />
                         </div>
                     </div>
                 </ItemTemplate>

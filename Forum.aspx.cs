@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static DriveLingo.Database.Models.User;
 
 namespace DriveLingo
 {
@@ -18,9 +19,9 @@ namespace DriveLingo
         {
             get
             {
-                var sessionUser = Session["CurrentUser"] as DriveLingo.Models.User;
-                if (sessionUser != null && sessionUser.Role == "admin") return true;
-                return CurrentUser != null && CurrentUser.Role == DriveLingo.Database.Models.User.UserRole.Admin;
+                var sessionUser = CurrentUser;
+                return CurrentUser != null
+                    && CurrentUser.Role == UserRole.Admin;
             }
         }
 
@@ -34,6 +35,8 @@ namespace DriveLingo
             }
         }
 
+
+
         private void BindForum()
         {
             rptForum.DataSource = ForumService.GetForumThreads();
@@ -42,7 +45,8 @@ namespace DriveLingo
 
         protected void rptForum_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Item.ItemType != ListItemType.Item && e.Item.ItemType != ListItemType.AlternatingItem)
+            if (e.Item.ItemType != ListItemType.Item
+                && e.Item.ItemType != ListItemType.AlternatingItem)
                 return;
 
             var thread = (ForumThread)e.Item.DataItem;
@@ -64,7 +68,7 @@ namespace DriveLingo
                 PlaceHolder phEducatorReply = (PlaceHolder)e.Item.FindControl("phEducatorReply");
                 PlaceHolder phStandardReply = (PlaceHolder)e.Item.FindControl("phStandardReply");
 
-                bool isEducatorAnswer = reply.AuthorRole == DriveLingo.Database.Models.User.UserRole.Instructor;
+                bool isEducatorAnswer = reply.AuthorRole == UserRole.Instructor;
 
                 phEducatorReply.Visible = isEducatorAnswer;
                 phStandardReply.Visible = !isEducatorAnswer;
@@ -103,7 +107,7 @@ namespace DriveLingo
         {
             if (e.CommandName == "Upvote")
             {
-                BindForum();
+                handleUpvote(source, e);
             }
             else if (e.CommandName == "ReplyThread")
             {
@@ -111,32 +115,38 @@ namespace DriveLingo
             }
             else if (e.CommandName == "DeleteThread")
             {
-                string threadId = e.CommandArgument.ToString();
-                var output = ForumService.DeletePost(threadId);
-                ShowNotification(output.Message);
-                BindForum();
+                handleDelete(source, e);
             }
         }
 
-        protected void rptReplies_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            if (e.CommandName == "DeleteReply")
-            {
-                string replyId = e.CommandArgument.ToString();
-                var output = ForumService.DeletePost(replyId);
-                ShowNotification(output.Message);
-                BindForum();
-            }
+        private void handleUpvote(object source, RepeaterCommandEventArgs e)
+        {   //TODO CHANGE THIS
+
+            //string threadId = e.CommandArgument.ToString();
+            //var repo = AppStateRepository.GetCurrent();
+            //var thread = repo.Discussions.FirstOrDefault(d => d.Id == threadId);
+            //if (thread != null)
+            //{
+            //    thread.Upvotes++;
+            //    BindForum();
+            //}
+            BindForum();
         }
 
         private void handleReply(object source, RepeaterCommandEventArgs e)
         {
             if (CurrentUser == null) return;
 
-            string threadIdStr = e.CommandArgument.ToString();
+            int postId;
+            if (!int.TryParse(e.CommandArgument.ToString(), out postId))
+            {
+                return;
+            }
+
+
             TextBox txtCandidateReply = (TextBox)e.Item.FindControl("txtCandidateReply");
 
-            var output = ForumService.AddReply(CurrentUser.Id, threadIdStr, txtCandidateReply.Text);
+            var output = ForumService.AddReply(CurrentUser.Id, postId, txtCandidateReply.Text);
 
             if (output.Success)
             {
@@ -147,6 +157,28 @@ namespace DriveLingo
             else
             {
                 ShowNotification(output.Message);
+            }
+        }
+
+        private void handleDelete(object source, RepeaterCommandEventArgs e)
+        {
+            int postId;
+            if (!int.TryParse(e.CommandArgument.ToString(), out postId))
+            {
+                return;
+            }
+
+            var output = ForumService.DeletePost(postId);
+            ShowNotification(output.Message);
+            if (output.Success) BindForum();
+        }
+
+
+        protected void rptReplies_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "DeleteReply")
+            {
+                handleDelete(source, e);
             }
         }
 
