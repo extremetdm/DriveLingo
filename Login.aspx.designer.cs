@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DriveLingo {
-    
-    
-    public partial class Login {
-        
+namespace DriveLingo
+{
+
+
+    public partial class Login
+    {
+
         /// <summary>
         /// pnlError control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace DriveLingo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlError;
-        
+
         /// <summary>
         /// litErrorMsg control.
         /// </summary>
@@ -29,7 +31,16 @@ namespace DriveLingo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litErrorMsg;
-        
+
+        /// <summary>
+        /// loginFields control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel loginFields;
+
         /// <summary>
         /// txtEmail control.
         /// </summary>
@@ -38,7 +49,7 @@ namespace DriveLingo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEmail;
-        
+
         /// <summary>
         /// txtPassword control.
         /// </summary>
@@ -47,7 +58,7 @@ namespace DriveLingo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPassword;
-        
+
         /// <summary>
         /// btnLoginSubmit control.
         /// </summary>
@@ -56,7 +67,7 @@ namespace DriveLingo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnLoginSubmit;
-        
+
         /// <summary>
         /// btnContinueGuest control.
         /// </summary>
@@ -65,7 +76,7 @@ namespace DriveLingo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnContinueGuest;
-        
+
         /// <summary>
         /// btnDemoLearner control.
         /// </summary>
@@ -74,7 +85,7 @@ namespace DriveLingo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnDemoLearner;
-        
+
         /// <summary>
         /// btnDemoEducator control.
         /// </summary>
@@ -83,7 +94,7 @@ namespace DriveLingo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnDemoEducator;
-        
+
         /// <summary>
         /// btnDemoAdmin control.
         /// </summary>
@@ -92,5 +103,59 @@ namespace DriveLingo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnDemoAdmin;
+
+        /// <summary>
+        /// forgotFields control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel forgotFields;
+
+        /// <summary>
+        /// resetAlert control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel resetAlert;
+
+        /// <summary>
+        /// resetAlertText control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label resetAlertText;
+
+        /// <summary>
+        /// lblResetEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblResetEmail;
+
+        /// <summary>
+        /// txtResetEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtResetEmail;
+
+        /// <summary>
+        /// btnResetSubmit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnResetSubmit;
     }
 }
