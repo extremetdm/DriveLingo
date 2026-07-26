@@ -51,5 +51,15 @@ namespace DriveLingo.Services
 
             return Math.Max(0, xp - xpAtStartOfLevel);
         }
+
+        public static int CalculateXpForLessons(int estimatedTime)
+        {
+            return 10 * estimatedTime;
+        }
+
+        public static int CalculateXpForQuiz(int attemptedQuestions, int correctAnswers)
+        {
+            return 10 * attemptedQuestions + 10 * correctAnswers;
+        }
     }
 }

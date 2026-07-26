@@ -49,7 +49,7 @@ namespace DriveLingo.Database.Models
         public virtual ICollection<QuizAttempt> QuizAttempts { get; set; } = new HashSet<QuizAttempt> { };
         public virtual ICollection<CompletedAchievement> Achievements { get; set; } = new HashSet<CompletedAchievement> { };
         public virtual ICollection<AchievementProgress> AchievementProgress { get; set; } = new HashSet<AchievementProgress> { };
-
+        public virtual ICollection<CompletedLesson> CompletedLessons { get; set; } = new HashSet<CompletedLesson> { };
 
 
         [NotMapped]

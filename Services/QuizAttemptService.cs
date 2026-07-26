@@ -76,7 +76,7 @@ namespace DriveLingo.Services
 
                 // TODO MAKE ADJUSTABLE
                 var passed = percentage > 70;
-                int xp = 10 * attempted + 10 * score;
+                int xp = LevelingService.CalculateXpForQuiz(attempted, score);
                 int points = 0;
                 if (passed)
                 {
