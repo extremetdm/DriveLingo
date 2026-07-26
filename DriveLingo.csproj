@@ -294,7 +294,7 @@
       <DependentUpon>202607261237537_AddCompletedLessons.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Models\Achievement.cs" />
-    <Compile Include="Database\Seeders\Achievement.cs" />
+    <Compile Include="Database\Seeders\AchievementSeeder.cs" />
     <Compile Include="Database\Seeders\LearningMaterial.cs" />
     <Compile Include="Database\Seeders\QuizSeeder.cs" />
     <Compile Include="Default.aspx.cs">
